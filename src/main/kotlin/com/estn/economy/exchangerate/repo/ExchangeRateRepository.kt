@@ -1,5 +1,6 @@
-package com.estn.economy.exchangerate
+package com.estn.economy.exchangerate.repo
 
+import com.estn.economy.exchangerate.repo.ExchangeRate
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

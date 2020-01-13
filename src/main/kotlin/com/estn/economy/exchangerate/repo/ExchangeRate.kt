@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate
+package com.estn.economy.exchangerate.repo
 
 import java.util.*
 import javax.persistence.Column

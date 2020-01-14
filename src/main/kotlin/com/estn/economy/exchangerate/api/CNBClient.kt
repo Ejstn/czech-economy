@@ -2,6 +2,7 @@ package com.estn.economy.exchangerate.api
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
@@ -18,12 +19,12 @@ class CNBClient(restTemplateBuilder: RestTemplateBuilder) {
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
 
-    fun fetchExchangeRate() : ExchangeRateRootDto {
+    fun fetchExchangeRate(): ExchangeRateRootDto = fetchExchangeRateEntity().body!!
+
+    fun fetchExchangeRateEntity(): ResponseEntity<ExchangeRateRootDto> {
         val entity = restTemplate.getForEntity(BASE_URL, ExchangeRateRootDto::class.java)
-
-        LOGGER.info(entity.toString())
-
-        return entity.body!!
+        LOGGER.info("fetching exchange rates, http: ${entity.statusCodeValue}")
+        return entity
     }
 
 }

@@ -1,5 +1,7 @@
 package com.estn.economy.exchangerate
 
+import com.estn.economy.exchangerate.api.CNBClient
+import com.estn.economy.exchangerate.api.ExchangeRateDto
 import org.springframework.stereotype.Service
 
 /**

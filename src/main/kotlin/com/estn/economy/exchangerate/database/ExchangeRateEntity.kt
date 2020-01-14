@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate.repo
+package com.estn.economy.exchangerate.database
 
 import java.util.*
 import javax.persistence.Column
@@ -10,7 +10,7 @@ import javax.persistence.Id
  * Written by estn on 13.01.2020.
  */
 @Entity(name = "echange_rate")
-data class ExchangeRate(
+data class ExchangeRateEntity(
         @Id @GeneratedValue
         var id: Int = 0,
         @Column(name = "date") var date: Date = Date(),

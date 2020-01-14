@@ -1,6 +1,6 @@
 package com.estn.economy
 
-import com.estn.economy.exchangerate.CNBClient
+import com.estn.economy.exchangerate.api.CNBClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationReadyEvent

@@ -1,6 +1,7 @@
-package com.estn.economy.exchangerate
+package com.estn.economy.exchangerate.api
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
@@ -13,51 +14,51 @@ import java.util.*
 class ExchangeRateDto {
 
     @JacksonXmlProperty(isAttribute = true, localName = "banka")
-    var bankName: String = ""
+    lateinit var bankName: String
     @JsonFormat
     (shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @JacksonXmlProperty(isAttribute = true, localName = "datum")
-    var date: Date = Date()
+    lateinit var date: Date
     @JacksonXmlProperty(isAttribute = true, localName = "poradi")
     var order: Int = 0
-    @JacksonXmlProperty(isAttribute = false, localName = "tabulka")
-    var exchangeRatesTable: ExchangeRateTable = ExchangeRateTable()
+    @JacksonXmlProperty(localName = "tabulka")
+    lateinit var exchangeRatesTable: ExchangeRateTable
 
     override fun toString(): String {
         return "ExchangeRateDto(bankName='$bankName', date=$date, order=$order, exchangeRatesTable=$exchangeRatesTable)"
     }
 
-
 }
 
 class ExchangeRateTable {
     @JacksonXmlProperty(isAttribute = true, localName = "typ")
-    var type: String = ""
-    @JacksonXmlElementWrapper(localName = "radek", useWrapping = true)
-    var rates: Array<CurrencyExchangeRate> = arrayOf()
+    lateinit var type: String
+
+    @JacksonXmlProperty(localName = "radek")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    lateinit var rates: Collection<CurrencyExchangeRate>
 
     override fun toString(): String {
-        return "ExchangeRateTable(type='$type', rates=${rates.contentToString()})"
+        return "ExchangeRateTable(type='$type', rates=${rates})"
     }
-
 
 }
 
 class CurrencyExchangeRate {
     @JacksonXmlProperty(isAttribute = true, localName = "kod")
-    var currencyCode: String = ""
+    lateinit var currencyCode: String
     @JacksonXmlProperty(isAttribute = true, localName = "mena")
-    var currencyName: String = ""
+    lateinit var currencyName: String
     @JacksonXmlProperty(isAttribute = true, localName = "mnozstvi")
     var amount: Int = 0
+    @JsonDeserialize(using = WeirdCNBStringToDoubleDeserializer::class)
     @JacksonXmlProperty(isAttribute = true, localName = "kurz")
-    var rate: Float = 0f
+    var rate: Double = 0.0
     @JacksonXmlProperty(isAttribute = true, localName = "zeme")
-    var country: String = ""
+    lateinit var country: String
 
     override fun toString(): String {
         return "CurrencyExchangeRate(currencyCode='$currencyCode', currencyName='$currencyName', amount=$amount, rate=$rate, country='$country')"
     }
-
 
 }

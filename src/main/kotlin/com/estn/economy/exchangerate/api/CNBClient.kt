@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate
+package com.estn.economy.exchangerate.api
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder

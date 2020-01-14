@@ -16,13 +16,18 @@ class ExchangeRateService(private val cnbClient: CNBClient,
                           private val exchangeRepository: ExchangeRateRepository) {
 
     fun fetchExchangeRates(): Collection<ExchangeRate> {
-        val exchangeRates = cnbClient.fetchExchangeRate().toDomain()
-
-        exchangeRepository.saveAll(exchangeRates.map { it.toEntity() })
-
-        return exchangeRepository.findAllRatesFromLastDay().map {
+        val latestRates = exchangeRepository.findAllRatesFromLastDay()
+        latestRates.ifEmpty {
+            synchroniseExchangeRates()
+        }
+        return latestRates.map {
             it.toDomain()
         }
+    }
+
+    fun synchroniseExchangeRates() {
+        val exchangeRates = cnbClient.fetchExchangeRate().toDomain()
+        exchangeRepository.saveAll(exchangeRates.map { it.toEntity() })
     }
 
 }

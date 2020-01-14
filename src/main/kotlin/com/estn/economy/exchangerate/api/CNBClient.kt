@@ -18,8 +18,8 @@ class CNBClient(restTemplateBuilder: RestTemplateBuilder) {
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
 
-    fun fetchExchangeRate() : ExchangeRateDto {
-        val entity = restTemplate.getForEntity(BASE_URL, ExchangeRateDto::class.java)
+    fun fetchExchangeRate() : ExchangeRateRootDto {
+        val entity = restTemplate.getForEntity(BASE_URL, ExchangeRateRootDto::class.java)
 
         LOGGER.info(entity.toString())
 

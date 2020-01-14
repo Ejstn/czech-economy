@@ -1,6 +1,6 @@
 package com.estn.economy
 
-import com.estn.economy.exchangerate.api.ExchangeRateDto
+import com.estn.economy.exchangerate.api.ExchangeRateRootDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -27,12 +27,12 @@ class CNBApiXmlDeserializationTest {
     fun testDeserialization() {
         // given
         // when
-        val resultExchangeRate = xmlMapper.readValue<ExchangeRateDto>(input)
+        val resultExchangeRate = xmlMapper.readValue<ExchangeRateRootDto>(input)
         // then
 
         assertThat(resultExchangeRate.bankName).isEqualTo("CNB")
 
-        val rates = resultExchangeRate.exchangeRatesTable.rates
+        val rates = resultExchangeRate.exchangeRatesTableDto.rates
         assertThat(rates).isNotEmpty
         assertThat(rates).hasSize(1)
 

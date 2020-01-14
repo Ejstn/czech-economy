@@ -12,11 +12,11 @@ import javax.persistence.Id
 @Entity(name = "echange_rate")
 data class ExchangeRateEntity(
         @Id @GeneratedValue
-        var id: Int = 0,
+        var id: Int? = null,
         @Column(name = "date") var date: Date = Date(),
         @Column(name = "currency_code") var currencyCode: String = "",
         @Column(name = "currency_name") var currencyName: String = "",
         @Column(name = "amount") var amount: Int = 0,
-        @Column(name = "exchange_rate") var exchangeRate: Float = 0f,
+        @Column(name = "exchange_rate") var exchangeRate: Double = 0.0,
         @Column(name = "country") var country: String = ""
 )

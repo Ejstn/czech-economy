@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate.api
 
+import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
@@ -11,7 +12,7 @@ import java.util.*
  * Written by estn on 13.01.2020.
  */
 @JacksonXmlRootElement(localName = "kurzy")
-class ExchangeRateDto {
+class ExchangeRateRootDto {
 
     @JacksonXmlProperty(isAttribute = true, localName = "banka")
     lateinit var bankName: String
@@ -22,21 +23,28 @@ class ExchangeRateDto {
     @JacksonXmlProperty(isAttribute = true, localName = "poradi")
     var order: Int = 0
     @JacksonXmlProperty(localName = "tabulka")
-    lateinit var exchangeRatesTable: ExchangeRateTable
+    lateinit var exchangeRatesTableDto: ExchangeRateTableDto
 
     override fun toString(): String {
-        return "ExchangeRateDto(bankName='$bankName', date=$date, order=$order, exchangeRatesTable=$exchangeRatesTable)"
+        return "ExchangeRateDto(bankName='$bankName', date=$date, order=$order, exchangeRatesTable=$exchangeRatesTableDto)"
     }
 
 }
 
-class ExchangeRateTable {
+fun ExchangeRateRootDto.toDomain(): Collection<ExchangeRate> {
+    val date = this.date
+    return this.exchangeRatesTableDto.rates.map {
+        it.toDomain(date)
+    }
+}
+
+class ExchangeRateTableDto {
     @JacksonXmlProperty(isAttribute = true, localName = "typ")
     lateinit var type: String
 
     @JacksonXmlProperty(localName = "radek")
     @JacksonXmlElementWrapper(useWrapping = false)
-    lateinit var rates: Collection<CurrencyExchangeRate>
+    lateinit var rates: Collection<ExchangeRateDto>
 
     override fun toString(): String {
         return "ExchangeRateTable(type='$type', rates=${rates})"
@@ -44,7 +52,7 @@ class ExchangeRateTable {
 
 }
 
-class CurrencyExchangeRate {
+class ExchangeRateDto {
     @JacksonXmlProperty(isAttribute = true, localName = "kod")
     lateinit var currencyCode: String
     @JacksonXmlProperty(isAttribute = true, localName = "mena")
@@ -61,4 +69,9 @@ class CurrencyExchangeRate {
         return "CurrencyExchangeRate(currencyCode='$currencyCode', currencyName='$currencyName', amount=$amount, rate=$rate, country='$country')"
     }
 
+}
+
+fun ExchangeRateDto.toDomain(date: Date): ExchangeRate {
+    return ExchangeRate(date = date, currencyCode = this.currencyCode, currencyName = this.currencyName
+            , amount = this.amount, country = this.country, exchangeRate = this.rate)
 }

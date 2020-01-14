@@ -6,8 +6,7 @@ import java.util.*
  * Written by estn on 13.01.2020.
  */
 data class ExchangeRate(
-        var id: Int? = null,
-        var date: Date = Date(),
+        var date: Date,
         var currencyCode: String,
         var currencyName: String,
         var amount: Int,

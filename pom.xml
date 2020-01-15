@@ -88,6 +88,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- frontend -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>bulma</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.RestController
  * Written by Martin Soukup on 14.1.2020.
  */
 @Controller
-class EconomyController(private val exchangeService: ExchangeRateService) {
+class EconomyController(private val exchangeService: ExchangeRateService,
+                        private val dateFormatter: DateFormatter) {
 
     @GetMapping
     fun getExchangeRates(model: Model): String {
-        model.addAttribute("exchangerates", exchangeService.fetchExchangeRates())
+        val exchangeRates = exchangeService.fetchExchangeRates()
+        model.addAttribute("exchangerates", exchangeRates)
+
+        val formattedDate = dateFormatter.formatDate(exchangeRates.first().date)
+        model.addAttribute("date", formattedDate)
+
         return "index"
     }
 

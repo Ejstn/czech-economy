@@ -3,18 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Ekonomika ČR</title>
+    <link data-th-href="@{/webjars/bulma/0.8.0/css/bulma.css}" rel="stylesheet">
 </head>
+
 <body>
 
-<h2>Denní kurzy</h2>
-
-<section data-th-each="entry : ${exchangerates}" class="section">
-    <div class="container">
-        <h4>[[${entry.date}]] [[${entry.currencyCode}]] [[${entry.currencyName}]]
-            [[${entry.amount}]] [[${entry.exchangeRate}]]</h4>
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Denní kurzy [[${date}]]</h1>
+        </div>
     </div>
 </section>
 
+<table class="table is-hoverable is-fullwidth">
+    <thead>
+    <th>Kód měny</th>
+    <th>Název měny</th>
+    <th>Množsví</th>
+    <th>Kurz</th>
+    </thead>
+    <tbody>
+    <tr data-th-each="entry : ${exchangerates}">
+        <td>[[${entry.currencyCode}]]</td>
+        <td>[[${entry.currencyName}]]</td>
+        <td>[[${entry.amount}]]</td>
+        <td>[[${entry.exchangeRate}]]</td>
+    </tr>
+
+    </tbody>
+</table>
 
 </body>
 </html>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ExchangeRateRepository : JpaRepository<ExchangeRateEntity, ExchangeRateKey> {
 
-    @Query(value = "SELECT * FROM exchange_rate WHERE date = (SELECT MAX(date) FROM exchange_rate)",
+    @Query(value = "SELECT * FROM exchange_rate WHERE date = (SELECT MAX(date) FROM exchange_rate) ORDER BY country",
             nativeQuery = true)
     fun findAllRatesFromLastDay(): Collection<ExchangeRateEntity>
 

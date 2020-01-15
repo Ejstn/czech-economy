@@ -13,7 +13,7 @@ class CNBHealthIndicator(private val client: CNBClient) : HealthIndicator {
     override fun health(): Health {
         return try {
             val timestamp = System.currentTimeMillis()
-            val fetchedEntity = client.fetchExchangeRateEntity()
+            val fetchedEntity = client.fetchLatestExchangeRatesEntity()
 
             val requestTime = System.currentTimeMillis() - timestamp
 

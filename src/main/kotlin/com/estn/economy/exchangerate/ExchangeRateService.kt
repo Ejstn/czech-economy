@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate
 
+import com.estn.economy.core.DateFactory
 import com.estn.economy.exchangerate.api.CNBClient
 import com.estn.economy.exchangerate.api.toDomain
 import com.estn.economy.exchangerate.database.ExchangeRateRepository
@@ -7,15 +8,18 @@ import com.estn.economy.exchangerate.database.toDomain
 import com.estn.economy.exchangerate.database.toEntity
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import org.springframework.stereotype.Service
+import kotlin.streams.toList
 
 /**
  * Written by estn on 13.01.2020.
  */
 @Service
 class ExchangeRateService(private val cnbClient: CNBClient,
-                          private val exchangeRepository: ExchangeRateRepository) {
+                          private val exchangeRepository: ExchangeRateRepository,
+                          private val configuration: ExchangeRateConfiguration,
+                          private val dateFactory: DateFactory) {
 
-    fun fetchExchangeRates(): Collection<ExchangeRate> {
+    fun fetchLatestExchangeRates(): Collection<ExchangeRate> {
         val latestRates = exchangeRepository.findAllRatesFromLastDay()
         latestRates.ifEmpty {
             synchroniseExchangeRates()
@@ -26,8 +30,19 @@ class ExchangeRateService(private val cnbClient: CNBClient,
     }
 
     fun synchroniseExchangeRates() {
-        val exchangeRates = cnbClient.fetchExchangeRate().toDomain()
-        exchangeRepository.saveAll(exchangeRates.map { it.toEntity() })
+        val exchangeRates = dateFactory.generateDaysGoingBackIncludingToday(configuration.batchSyncSize)
+                .parallelStream()
+                .map {
+                    cnbClient.fetchExchangeRateForDay(it)
+                }
+                .map {
+                    it.body!!.toDomain()
+                }
+                .flatMap { it.stream() }
+                .map { it.toEntity() }
+                .toList()
+
+        exchangeRepository.saveAll(exchangeRates)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.estn.economy
 
+import com.estn.economy.core.DateFormatter
 import com.estn.economy.exchangerate.ExchangeRateService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,10 +17,10 @@ class EconomyController(private val exchangeService: ExchangeRateService,
 
     @GetMapping
     fun getExchangeRates(model: Model): String {
-        val exchangeRates = exchangeService.fetchExchangeRates()
+        val exchangeRates = exchangeService.fetchLatestExchangeRates()
         model.addAttribute("exchangerates", exchangeRates)
 
-        val formattedDate = dateFormatter.formatDate(exchangeRates.first().date)
+        val formattedDate = dateFormatter.formatDateForFrontEnd(exchangeRates.first().date)
         model.addAttribute("date", formattedDate)
 
         return "index"
@@ -32,6 +33,6 @@ class EconomyController(private val exchangeService: ExchangeRateService,
 class EconomyRestController(private val exchangeService: ExchangeRateService) {
 
     @GetMapping
-    fun getExchangeRatesApi() = exchangeService.fetchExchangeRates()
+    fun getExchangeRatesApi() = exchangeService.fetchLatestExchangeRates()
 
 }

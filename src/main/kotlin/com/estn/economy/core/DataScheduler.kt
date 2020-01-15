@@ -1,4 +1,4 @@
-package com.estn.economy
+package com.estn.economy.core
 
 import com.estn.economy.exchangerate.ExchangeRateService
 import org.springframework.scheduling.annotation.Scheduled

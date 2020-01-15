@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ekonomika ČR</title>
+</head>
+<body>
+
+<h2>Denní kurzy</h2>
+
+<section data-th-each="entry : ${exchangerates}" class="section">
+    <div class="container">
+        <h4>[[${entry.date}]] [[${entry.currencyCode}]] [[${entry.currencyName}]]
+            [[${entry.amount}]] [[${entry.exchangeRate}]]</h4>
+    </div>
+</section>
+
+
+</body>
+</html>

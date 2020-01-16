@@ -16,13 +16,15 @@ class EconomyController(private val exchangeService: ExchangeRateService,
                         private val dateFormatter: DateFormatter) {
 
     @GetMapping
-    fun getExchangeRates(model: Model): String {
+    fun getDashboard(model: Model): String {
         val exchangeRates = exchangeService.fetchLatestExchangeRates()
-        model.addAttribute("exchangerates", exchangeRates)
-
         val formattedDate = dateFormatter.formatDateForFrontEnd(exchangeRates.first().date)
-        model.addAttribute("date", formattedDate)
 
+        val dashboard = EconomyDashboard(
+                exchangeRatesDate = formattedDate,
+                exchangeRates = exchangeRates)
+
+        model.addAttribute("dashboard", dashboard)
         return "index"
     }
 
@@ -32,7 +34,9 @@ class EconomyController(private val exchangeService: ExchangeRateService,
 @RequestMapping("/api")
 class EconomyRestController(private val exchangeService: ExchangeRateService) {
 
-    @GetMapping
-    fun getExchangeRatesApi() = exchangeService.fetchLatestExchangeRates()
+    @GetMapping("/exchangerate")
+    fun getExchangeRatesApi(): ExchangeRatesResponse {
+        return ExchangeRatesResponse(exchangeService.fetchLatestExchangeRates())
+    }
 
 }

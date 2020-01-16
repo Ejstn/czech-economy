@@ -14,7 +14,7 @@
 <section class="hero is-dark is-bold">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title is-3"><i class="fas fa-coins">&nbsp;</i> Denní kurzy, [[${date}]]</h1>
+            <h1 class="title is-3"><i class="fas fa-coins">&nbsp;</i> Denní kurzy, [[${dashboard.exchangeRatesDate}]]</h1>
         </div>
     </div>
 </section>
@@ -31,7 +31,7 @@
             <th>Kurz</th>
             </thead>
             <tbody>
-            <tr data-th-each="entry : ${exchangerates}">
+            <tr data-th-each="entry : ${dashboard.exchangeRates}">
                 <td>[[${entry.country}]]</td>
                 <td>[[${entry.currencyName}]]</td>
                 <td>[[${entry.currencyCode}]]</td>

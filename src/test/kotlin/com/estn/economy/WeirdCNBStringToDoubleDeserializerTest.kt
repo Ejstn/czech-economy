@@ -3,19 +3,22 @@ package com.estn.economy
 import com.estn.economy.exchangerate.api.WeirdCNBStringToDoubleDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.json.JsonTest
 
 
 /**
  * Written by Martin Soukup on 14.1.2020.
  */
 @Suppress("MemberVisibilityCanBePrivate")
+@JsonTest
 class WeirdCNBStringToDoubleDeserializerTest {
 
-    val mapper: ObjectMapper = JsonMapper()
+    @Autowired
+    lateinit var mapper: ObjectMapper
 
     @Test
     fun testStringToDoubleDeserialization() {

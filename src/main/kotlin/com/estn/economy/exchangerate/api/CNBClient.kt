@@ -21,7 +21,7 @@ class CNBClient(private val dateFormatter: DateFormatter,
     private val BASE_URL: String =
             "https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.xml"
 
-    private val DATE_QUERY_PAREM = "date"
+    private val DATE_QUERY_PARAM = "date"
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
 
@@ -31,7 +31,7 @@ class CNBClient(private val dateFormatter: DateFormatter,
         val formattedDate = dateFormatter.formatDateForCnbApi(date)
 
         val queryParam = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-                .queryParam(DATE_QUERY_PAREM, formattedDate)
+                .queryParam(DATE_QUERY_PARAM, formattedDate)
                 .build()
                 .toUri()
 

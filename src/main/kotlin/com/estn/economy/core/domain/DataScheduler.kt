@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 class DataScheduler(private val exchangeRateService: ExchangeRateService) {
 
-
     @Scheduled(fixedRateString = "\${synchronization.exchangerate.millis:60000}")
     fun synchroniseExchangeRates() = exchangeRateService.synchroniseExchangeRates()
-
 
 }

@@ -13,7 +13,7 @@ import javax.validation.constraints.Min
 class ExchangeRateConfiguration {
 
     @Min(1)
-    @Max(50000)
+    @Max(15000)
     var batchSyncSize: Int = 1
 
 }

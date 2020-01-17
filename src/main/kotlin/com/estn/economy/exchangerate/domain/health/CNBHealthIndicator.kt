@@ -25,8 +25,8 @@ class CNBHealthIndicator(private val client: CNBClient) : HealthIndicator {
             }
 
             health
-                    .status(fetchedEntity.statusCode.name)
                     .withDetail("request time", "${requestTime}ms")
+                    .withDetail("response http code", fetchedEntity.statusCode.value())
                     .build()
 
         } catch (e: Exception) {

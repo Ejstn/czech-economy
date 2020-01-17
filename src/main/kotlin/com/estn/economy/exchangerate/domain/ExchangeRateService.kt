@@ -7,7 +7,6 @@ import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toDomain
 import com.estn.economy.exchangerate.data.database.toEntity
 import org.springframework.stereotype.Service
-import kotlin.streams.toList
 
 /**
  * Written by estn on 13.01.2020.
@@ -29,20 +28,14 @@ class ExchangeRateService(private val cnbClient: CNBClient,
     }
 
     fun synchroniseExchangeRates() {
-        val exchangeRates = dateFactory
+        dateFactory
                 .generateDaysGoingBackIncludingToday(configuration.batchSyncSize - 1)
                 .parallelStream()
-                .map {
-                    cnbClient.fetchExchangeRateForDay(it)
-                }
-                .map {
-                    it.body!!.toDomain()
-                }
+                .map { cnbClient.fetchExchangeRateForDay(it) }
+                .map { it.body!!.toDomain() }
                 .flatMap { it.stream() }
                 .map { it.toEntity() }
-                .toList()
-
-        exchangeRepository.saveAll(exchangeRates)
+                .forEach { exchangeRepository.save(it) }
     }
 
 }

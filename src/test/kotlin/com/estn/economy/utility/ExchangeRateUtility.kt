@@ -1,6 +1,6 @@
 package com.estn.economy.utility
 
-import com.estn.economy.exchangerate.ExchangeRateService
+import com.estn.economy.exchangerate.domain.ExchangeRateService
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import org.mockito.BDDMockito.given
 import java.util.*

@@ -2,10 +2,11 @@ package com.estn.economy
 
 import com.estn.economy.core.DateFormatter
 import com.estn.economy.exchangerate.ExchangeRateService
+import com.estn.economy.utility.any
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockLatestRates
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
+import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.*
 
 /**
  * Written by estn on 16.01.2020.
@@ -38,8 +40,10 @@ class EconomyControllerTest {
         val expectedRates = listOf(exampleRate)
         val expectedDashboard = EconomyDashboard(date, expectedRates)
 
+        given(dateFormatter.formatDateForFrontEnd(any(Date::class.java)))
+                .willReturn(date)
+
         service.mockLatestRates(expectedRates)
-        `when`(dateFormatter.formatDateForFrontEnd(exampleRate.date)).thenReturn(date)
         // when
         // then
         mvc.perform(get("/"))
@@ -48,4 +52,6 @@ class EconomyControllerTest {
                     model().attribute("dashboard", expectedDashboard)
                 }
     }
+
+
 }

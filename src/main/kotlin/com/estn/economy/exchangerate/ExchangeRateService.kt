@@ -30,7 +30,8 @@ class ExchangeRateService(private val cnbClient: CNBClient,
     }
 
     fun synchroniseExchangeRates() {
-        val exchangeRates = dateFactory.generateDaysGoingBackIncludingToday(configuration.batchSyncSize)
+        val exchangeRates = dateFactory
+                .generateDaysGoingBackIncludingToday(configuration.batchSyncSize - 1)
                 .parallelStream()
                 .map {
                     cnbClient.fetchExchangeRateForDay(it)

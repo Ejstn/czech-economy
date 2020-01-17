@@ -21,6 +21,15 @@ class DateFactoryTest {
     }
 
     @Test
+    fun `factory generates 1 date if 0 days back is requested`() {
+        // given
+        // when
+        val result = factory.generateDaysGoingBackIncludingToday(0)
+        // then
+        assertThat(result.size).isEqualTo(1)
+    }
+
+    @Test
     fun `factory generates dates with correct offset - one day`() {
         // given
         // when

@@ -3,10 +3,7 @@ package com.estn.economy.exchangerate.database
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import java.io.Serializable
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.IdClass
+import javax.persistence.*
 
 /**
  * Written by estn on 13.01.2020.
@@ -14,7 +11,7 @@ import javax.persistence.IdClass
 @Entity(name = "exchange_rate")
 @IdClass(ExchangeRateKey::class)
 data class ExchangeRateEntity(
-        @Id var date: Date = Date(),
+        @Temporal(TemporalType.DATE) @Id var date: Date = Date(),
         @Id var currencyCode: String = "",
         @Column(name = "currency_name") var currencyName: String = "",
         @Column(name = "amount") var amount: Int = 0,

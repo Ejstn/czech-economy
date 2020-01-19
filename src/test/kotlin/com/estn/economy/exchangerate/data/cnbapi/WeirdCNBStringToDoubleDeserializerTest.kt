@@ -20,7 +20,7 @@ class WeirdCNBStringToDoubleDeserializerTest {
     lateinit var mapper: ObjectMapper
 
     @Test
-    fun testStringToDoubleDeserialization() {
+    fun `mapper deserializes string double to real double`() {
         // given
         val input = """{"number":"10,5"}"""
         // when

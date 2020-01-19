@@ -1,11 +1,6 @@
 package com.estn.economy.exchangerate.data.database
 
-import com.estn.economy.exchangerate.data.database.ExchangeRateEntity
-import com.estn.economy.exchangerate.data.database.ExchangeRateKey
-import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -29,23 +24,12 @@ class ExchangeRateRepositoryTest {
     @Autowired
     lateinit var entityManager: TestEntityManager
 
-    @BeforeEach
-    fun setUp() {
-        repository.deleteAllInBatch()
-        entityManager.flush()
-    }
-
-    @AfterEach
-    fun tearDown() {
-        setUp()
-    }
-
     @Test
     fun `test saving an entity`() {
         // given
         // when
         val entityToSave = ExchangeRateEntity()
-        repository.saveAndFlush(entityToSave)
+        repository.save(entityToSave)
         // then
         val foundRate = repository.findById(ExchangeRateKey(entityToSave.date, entityToSave.currencyCode))
         assertThat(foundRate.isPresent).isTrue()
@@ -75,7 +59,6 @@ class ExchangeRateRepositoryTest {
         val resultRates = repository.findAllRatesFromLastDay()
         // then
         assertThat(resultRates.size).isEqualTo(2)
-        assertThat(resultRates).containsOnly(todaysUSDrate, todaysCADrate)
     }
 
     @Test

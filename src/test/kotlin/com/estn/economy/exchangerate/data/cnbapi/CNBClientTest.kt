@@ -33,11 +33,10 @@ class CNBClientTest {
     lateinit var dateFormatter: DateFormatter
 
     @Test
-    fun fetchLatestExchangeRatesEntity() {
+    fun `client fetches and parses exchange rates for given day`() {
         // given
         val mockFormattedDate = "17.01.2020"
-        given(dateFormatter.formatDateForCnbApi(any(Date::class.java)))
-                .willReturn("17.01.2020")
+        given(dateFormatter.formatDateForCnbApi(any(Date::class.java))).willReturn(mockFormattedDate)
 
         mockCnbApi
                 .expect(requestTo("${BASE_URL}?date=${mockFormattedDate}"))
@@ -56,13 +55,11 @@ class CNBClientTest {
         assertThat(rates.size).isEqualTo(2)
 
         val firstRate = rates.first()
-
         assertThat(firstRate.currencyCode).isEqualTo("EUR")
         assertThat(firstRate.currencyName).isEqualTo("euro")
         assertThat(firstRate.amount).isEqualTo(1)
         assertThat(firstRate.rate).isEqualTo(25.265)
         assertThat(firstRate.country).isEqualTo("EMU")
-
     }
 
 }

@@ -4,6 +4,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.scheduling.annotation.EnableScheduling
+import java.util.*
+import javax.annotation.PostConstruct
+
+
+
 
 fun main(args: Array<String>) {
     runApplication<EconomyApplication>(*args)
@@ -12,4 +17,10 @@ fun main(args: Array<String>) {
 @ConfigurationPropertiesScan
 @EnableScheduling
 @SpringBootApplication
-class EconomyApplication
+class EconomyApplication {
+
+    @PostConstruct
+    fun init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+}

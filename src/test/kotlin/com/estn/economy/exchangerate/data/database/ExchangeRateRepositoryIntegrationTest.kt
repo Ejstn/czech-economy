@@ -19,6 +19,8 @@ class ExchangeRateRepositoryIntegrationTest {
     @Autowired
     lateinit var repository: ExchangeRateRepository
 
+
+
     @Test
     fun `saving same entity twice overwrites given record`() {
         // given
@@ -33,6 +35,18 @@ class ExchangeRateRepositoryIntegrationTest {
 
         repository.save(newUSD)
         assertThat(repository.findById(newUSD.key()).get().exchangeRate).isEqualTo(newUSD.exchangeRate)
+    }
+
+    @Test
+    fun `entity is saved with correct date`() {
+        // given
+        val today = LocalDate.of(2020,1,18)
+        val usdEntity = ExchangeRateEntity(date = today, currencyCode = "USD", exchangeRate = 22.5)
+        // when
+        val saved = repository.save(usdEntity)
+        assertThat(saved).isEqualTo(usdEntity)
+        // then
+        assertThat(repository.findById(usdEntity.key()).get()).isEqualTo(usdEntity)
 
     }
 }

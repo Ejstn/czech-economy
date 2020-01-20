@@ -34,15 +34,15 @@ class ExchangeRateService(private val cnbClient: CNBClient,
         }
     }
 
-    fun synchroniseCurrentRate() = executeSynchForDates(listOf(LocalDate.now()))
+    fun synchroniseCurrentRate() = executeSynchForDates(listOf(LocalDate.now(ZoneId.of("UTC"))))
 
     fun synchronizeAllExchangeRates() {
         val dates = exchangeRepository.findAllWeekdaysThatAreMissing(configuration.largeSyncStartingDate)
                 // todo convert date in jpa
                 .map {
-                    val format: DateFormat = SimpleDateFormat("yyy-MM-dd")
+                    val format: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val parse = format.parse(it)
-                    LocalDate.ofInstant(parse.toInstant(), ZoneId.systemDefault())
+                    LocalDate.ofInstant(parse.toInstant(), ZoneId.of("UTC"))
                 }
         executeSynchForDates(dates)
     }

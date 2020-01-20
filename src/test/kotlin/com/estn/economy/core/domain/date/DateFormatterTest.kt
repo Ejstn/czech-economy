@@ -15,8 +15,8 @@ import java.time.LocalDate
 @ExtendWith(MockitoExtension::class)
 class DateFormatterTest {
 
-    val frontEndFormat = "MM.dd.yyyy"
-    val cnbFormat = "MM/dd/yyyy"
+    val frontEndFormat = "d.M.yyyy"
+    val cnbFormat = "dd.MM.yyyy"
 
     @Mock
     lateinit var config: DateFormatConfiguration
@@ -37,7 +37,7 @@ class DateFormatterTest {
         // when
         val result = formatter.formatDateForFrontEnd(input)
         // then
-        assertThat(result).isEqualTo("01.17.2020")
+        assertThat(result).isEqualTo("17.1.2020")
     }
 
     @Test
@@ -47,6 +47,16 @@ class DateFormatterTest {
         // when
         val result = formatter.formatDateForCnbApi(input)
         // then
-        assertThat(result).isEqualTo("01/17/2020")
+        assertThat(result).isEqualTo("17.01.2020")
+    }
+
+    @Test
+    fun `2015-02-06 is formatted correctly for cnb api`() {
+        // given
+        val input = LocalDate.of(2015,2,6) // 6.2.2015
+        // when
+        val result = formatter.formatDateForCnbApi(input)
+        // then
+        assertThat(result).isEqualTo("06.02.2015")
     }
 }

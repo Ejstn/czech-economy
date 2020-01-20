@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 13.01.2020.
@@ -25,9 +25,9 @@ class CNBClient(private val dateFormatter: DateFormatter,
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
 
-    fun fetchLatestExchangeRatesEntity(): ResponseEntity<ExchangeRateRootDto> = fetchExchangeRateForDay(Date())
+    fun fetchLatestExchangeRatesEntity(): ResponseEntity<ExchangeRateRootDto> = fetchExchangeRateForDay(LocalDate.now())
 
-    fun fetchExchangeRateForDay(date: Date): ResponseEntity<ExchangeRateRootDto> {
+    fun fetchExchangeRateForDay(date: LocalDate): ResponseEntity<ExchangeRateRootDto> {
         val formattedDate = dateFormatter.formatDateForCnbApi(date)
 
         val queryParam = UriComponentsBuilder.fromHttpUrl(BASE_URL)

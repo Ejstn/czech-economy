@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 16.01.2020.
@@ -33,7 +33,7 @@ class DateFormatterTest {
     @Test
     fun `test frontend format configuration`() {
         // given
-        val input = Date(1579277051904) // 17.1.2020
+        val input = LocalDate.of(2020,1,17) // 17.1.2020
         // when
         val result = formatter.formatDateForFrontEnd(input)
         // then
@@ -43,7 +43,7 @@ class DateFormatterTest {
     @Test
     fun `test cnb format configuration`() {
         // given
-        val input = Date(1579277051904) // 17.1.2020
+        val input = LocalDate.of(2020,1,17) // 17.1.2020
         // when
         val result = formatter.formatDateForCnbApi(input)
         // then

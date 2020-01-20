@@ -1,8 +1,8 @@
 package com.estn.economy.core.domain.date
 
 import org.springframework.stereotype.Component
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * Written by estn on 15.01.2020.
@@ -10,11 +10,10 @@ import java.util.*
 @Component
 class DateFormatter(dateFormatConfiguration: DateFormatConfiguration) {
 
-    private val frontEndFormat = SimpleDateFormat(dateFormatConfiguration.frontEndExchangeRateDateFormat)
-    private val cnbApiFormat = SimpleDateFormat(dateFormatConfiguration.cnbExchangeRateApiDateFormat)
+    private val frontEndFormat = DateTimeFormatter.ofPattern(dateFormatConfiguration.frontEndExchangeRateDateFormat)
+    private val cnbApiFormat = DateTimeFormatter.ofPattern(dateFormatConfiguration.cnbExchangeRateApiDateFormat)
 
-    fun formatDateForFrontEnd(date: Date): String = frontEndFormat.format(date)
-
-    fun formatDateForCnbApi(date: Date): String = cnbApiFormat.format(date)
+    fun formatDateForFrontEnd(date: LocalDate): String = frontEndFormat.format(date)
+    fun formatDateForCnbApi(date: LocalDate): String = cnbApiFormat.format(date)
 
 }

@@ -7,8 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.ActiveProfiles
-import java.util.*
-import java.util.concurrent.TimeUnit
+import java.time.LocalDate
 
 /**
  * Written by estn on 17.01.2020.
@@ -24,6 +23,7 @@ class ExchangeRateRepositoryTest {
     @Autowired
     lateinit var entityManager: TestEntityManager
 
+
     @Test
     fun `test saving an entity`() {
         // given
@@ -31,7 +31,7 @@ class ExchangeRateRepositoryTest {
         val entityToSave = ExchangeRateEntity()
         repository.save(entityToSave)
         // then
-        val foundRate = repository.findById(ExchangeRateKey(entityToSave.date, entityToSave.currencyCode))
+        val foundRate = repository.findById(entityToSave.key())
         assertThat(foundRate.isPresent).isTrue()
         assertThat(foundRate.get()).isEqualTo(entityToSave)
     }
@@ -39,8 +39,10 @@ class ExchangeRateRepositoryTest {
     @Test
     fun `fetch all exchange rates for latest available day`() {
         // given
-        val today = Date()
-        val yesteday = Date(today.time - TimeUnit.DAYS.toMillis(1))
+        repository.deleteAll()
+
+        val today = LocalDate.now()
+        val yesteday = today.minusDays(1)
 
         // prepare db data
         val todaysUSDrate = ExchangeRateEntity(date = today, currencyCode = "USD", exchangeRate = 22.5)
@@ -64,17 +66,15 @@ class ExchangeRateRepositoryTest {
     @Test
     fun `saving same entity twice overwrites given record`() {
         // given
-        val today = Date()
+        val today = LocalDate.now()
         val oldUSD = ExchangeRateEntity(date = today, currencyCode = "USD", exchangeRate = 22.5)
         val newUSD = oldUSD.copy(exchangeRate = 25.5)
         // when
         repository.save(oldUSD)
-
         repository.save(newUSD)
-//        entityManager.flush()
         // then
-        val findAll = repository.findAll()
-        assertThat(findAll.size).isEqualTo(1)
-        assertThat(findAll.first().exchangeRate).isEqualTo(25.5)
+        val foundOptional = repository.findById(oldUSD.key())
+        assertThat(foundOptional).isPresent
+        assertThat(foundOptional.get()).isEqualTo(newUSD)
     }
 }

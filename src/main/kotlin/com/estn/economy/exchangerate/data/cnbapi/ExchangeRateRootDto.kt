@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 13.01.2020.
@@ -19,7 +19,7 @@ class ExchangeRateRootDto {
     @JsonFormat
     (shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @JacksonXmlProperty(isAttribute = true, localName = "datum")
-    lateinit var date: Date
+    lateinit var date: LocalDate
     @JacksonXmlProperty(isAttribute = true, localName = "poradi")
     var order: Int = 0
     @JacksonXmlProperty(localName = "tabulka")
@@ -71,7 +71,7 @@ class ExchangeRateDto {
 
 }
 
-fun ExchangeRateDto.toDomain(date: Date): ExchangeRate {
+fun ExchangeRateDto.toDomain(date: LocalDate): ExchangeRate {
     return ExchangeRate(date = date, currencyCode = this.currencyCode, currencyName = this.currencyName
             , amount = this.amount, country = this.country, exchangeRate = this.rate)
 }

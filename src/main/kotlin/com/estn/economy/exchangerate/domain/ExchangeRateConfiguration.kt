@@ -1,9 +1,9 @@
 package com.estn.economy.exchangerate.domain
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.validation.annotation.Validated
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
+import java.time.LocalDate
 
 /**
  * Written by ctn.
@@ -12,8 +12,7 @@ import javax.validation.constraints.Min
 @ConfigurationProperties(prefix = "exchangerate")
 class ExchangeRateConfiguration {
 
-    @Min(1)
-    @Max(15000)
-    var batchSyncSize: Int = 1
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    var largeSyncStartingDate: LocalDate = LocalDate.of(1991, 1,1)
 
 }

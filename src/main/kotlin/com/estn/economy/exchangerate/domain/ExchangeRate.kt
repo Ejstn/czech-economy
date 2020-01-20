@@ -1,12 +1,12 @@
 package com.estn.economy.exchangerate.domain
 
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 13.01.2020.
  */
 data class ExchangeRate(
-        var date: Date,
+        var date: LocalDate,
         var currencyCode: String,
         var currencyName: String,
         var amount: Int,

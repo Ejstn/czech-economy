@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 16.01.2020.
@@ -40,7 +40,7 @@ class EconomyControllerTest {
         val expectedRates = listOf(exampleRate)
         val expectedDashboard = EconomyController.EconomyDashboard(date, expectedRates)
 
-        given(dateFormatter.formatDateForFrontEnd(any(Date::class.java)))
+        given(dateFormatter.formatDateForFrontEnd(any(LocalDate::class.java)))
                 .willReturn(date)
 
         service.mockLatestRates(expectedRates)

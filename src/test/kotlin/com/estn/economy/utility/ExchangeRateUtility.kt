@@ -1,15 +1,15 @@
 package com.estn.economy.utility
 
-import com.estn.economy.exchangerate.domain.ExchangeRateService
 import com.estn.economy.exchangerate.domain.ExchangeRate
+import com.estn.economy.exchangerate.domain.ExchangeRateService
 import org.mockito.BDDMockito.given
-import java.util.*
+import java.time.LocalDate
 
 fun ExchangeRateService.mockLatestRates(rates: Collection<ExchangeRate>) {
     given(this.fetchLatestExchangeRates()).willReturn(rates)
 }
 
-val exampleRate = ExchangeRate(date = Date(),
+val exampleRate = ExchangeRate(date = LocalDate.now(),
         currencyCode = "USD",
         currencyName = "dolar",
         amount = 1,

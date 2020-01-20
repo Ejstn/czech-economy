@@ -13,7 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 17.01.2020.
@@ -36,7 +36,7 @@ class CNBClientTest {
     fun `client fetches and parses exchange rates for given day`() {
         // given
         val mockFormattedDate = "17.01.2020"
-        given(dateFormatter.formatDateForCnbApi(any(Date::class.java))).willReturn(mockFormattedDate)
+        given(dateFormatter.formatDateForCnbApi(any(LocalDate::class.java))).willReturn(mockFormattedDate)
 
         mockCnbApi
                 .expect(requestTo("${BASE_URL}?date=${mockFormattedDate}"))
@@ -45,11 +45,12 @@ class CNBClientTest {
                 )
 
         // when
-        val resultEntity = client.fetchExchangeRateForDay(Date())
+        val resultEntity = client.fetchExchangeRateForDay(LocalDate.now())
         val rootDto: ExchangeRateRootDto = resultEntity.body!!
         // then
         assertThat(rootDto.bankName).isEqualTo("CNB")
         assertThat(rootDto.order).isEqualTo(7)
+        assertThat(rootDto.date).isEqualTo(LocalDate.of(2020,1,17))
         assertThat(rootDto.exchangeRatesTableDto.type).isEqualTo("XML_TYP_CNB_KURZY_DEVIZOVEHO_TRHU")
         val rates = rootDto.exchangeRatesTableDto.rates
         assertThat(rates.size).isEqualTo(2)

@@ -61,6 +61,7 @@ class ExchangeRateRepositoryTest {
         val resultRates = repository.findAllRatesFromLastDay()
         // then
         assertThat(resultRates.size).isEqualTo(2)
+        assertThat(resultRates).containsOnly(todaysCADrate, todaysUSDrate)
     }
 
     @Test

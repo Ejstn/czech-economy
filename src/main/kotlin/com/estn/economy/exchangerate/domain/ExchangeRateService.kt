@@ -7,10 +7,8 @@ import com.estn.economy.exchangerate.data.database.toDomain
 import com.estn.economy.exchangerate.data.database.toEntity
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 /**
@@ -34,15 +32,13 @@ class ExchangeRateService(private val cnbClient: CNBClient,
         }
     }
 
-    fun synchroniseCurrentRate() = executeSynchForDates(listOf(LocalDate.now(ZoneId.of("UTC"))))
+    fun synchroniseCurrentRate() = executeSynchForDates(listOf(LocalDate.now()))
 
     fun synchronizeAllExchangeRates() {
         val dates = exchangeRepository.findAllWeekdaysThatAreMissing(configuration.largeSyncStartingDate)
                 // todo convert date in jpa
                 .map {
-                    val format: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-                    val parse = format.parse(it)
-                    LocalDate.ofInstant(parse.toInstant(), ZoneId.of("UTC"))
+                    LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 }
         executeSynchForDates(dates)
     }

@@ -30,5 +30,8 @@ interface ExchangeRateRepository : JpaRepository<ExchangeRateEntity, ExchangeRat
             nativeQuery = true)
     fun findAllWeekdaysThatAreMissing(startingDate: LocalDate): Collection<String>
 
+    fun findFirstByOrderByDate(): ExchangeRateEntity
+
+
 
 }

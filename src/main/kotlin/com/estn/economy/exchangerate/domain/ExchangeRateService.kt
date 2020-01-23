@@ -32,6 +32,11 @@ class ExchangeRateService(private val cnbClient: CNBClient,
         }
     }
 
+    fun fetchExchangeRatesForCurrency(currencyCode: String): List<ExchangeRate> {
+        return exchangeRepository.findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode)
+                .map { it.toDomain() }
+    }
+
     fun synchroniseCurrentRate() = executeSynchForDates(listOf(LocalDate.now()))
 
     fun synchronizeAllExchangeRates() {

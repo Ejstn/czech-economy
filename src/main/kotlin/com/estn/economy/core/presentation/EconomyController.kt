@@ -6,6 +6,7 @@ import com.estn.economy.exchangerate.domain.ExchangeRateService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 
 /**
  * Written by Martin Soukup on 14.1.2020.
@@ -29,5 +30,14 @@ class EconomyController(private val exchangeService: ExchangeRateService,
 
     data class EconomyDashboard(val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>)
+
+    @GetMapping("/{currencyCode}")
+    fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model) : String {
+        val ratesList = exchangeService.fetchExchangeRatesForCurrency(currencyCode)
+
+        model.addAttribute("rates", ratesList)
+
+        return "chart"
+    }
 
 }

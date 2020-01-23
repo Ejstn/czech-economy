@@ -32,6 +32,7 @@ interface ExchangeRateRepository : JpaRepository<ExchangeRateEntity, ExchangeRat
 
     fun findFirstByOrderByDate(): ExchangeRateEntity
 
+    fun findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode: String): List<ExchangeRateEntity>
 
 
 }

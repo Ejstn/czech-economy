@@ -29,6 +29,7 @@
             <th>Kód měny</th>
             <th>Množsví</th>
             <th>Kurz</th>
+            <th></th>
             </thead>
             <tbody>
             <tr data-th-each="entry : ${dashboard.exchangeRates}">
@@ -37,6 +38,7 @@
                 <td>[[${entry.currencyCode}]]</td>
                 <td>[[${entry.amount}]]</td>
                 <td>[[${entry.exchangeRate}]]</td>
+                <td><a data-th-href="${entry.currencyCode}">Více info</a></td>
             </tr>
 
             </tbody>

@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate.domain.health
+package com.estn.economy.exchangerate.presentation.health
 
 import com.estn.economy.exchangerate.data.cnbapi.CNBClient
 import org.springframework.boot.actuate.health.Health

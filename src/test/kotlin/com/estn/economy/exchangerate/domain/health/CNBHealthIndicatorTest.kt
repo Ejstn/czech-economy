@@ -2,6 +2,7 @@ package com.estn.economy.exchangerate.domain.health
 
 import com.estn.economy.exchangerate.data.cnbapi.CNBClient
 import com.estn.economy.exchangerate.data.cnbapi.ExchangeRateRootDto
+import com.estn.economy.exchangerate.presentation.health.CNBHealthIndicator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

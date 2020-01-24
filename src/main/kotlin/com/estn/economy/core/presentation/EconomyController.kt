@@ -32,10 +32,14 @@ class EconomyController(private val exchangeService: ExchangeRateService,
                                 val exchangeRates: Collection<ExchangeRate>)
 
     @GetMapping("/{currencyCode}")
-    fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model) : String {
+    fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model): String {
         val ratesList = exchangeService.fetchExchangeRatesForCurrency(currencyCode)
+        val resolvedCurrencyCode = ratesList.first().currencyCode
+        val currencyAmount = ratesList.first().amount
 
         model.addAttribute("rates", ratesList)
+        model.addAttribute("currencyCode", resolvedCurrencyCode)
+        model.addAttribute("currencyAmount", currencyAmount)
 
         return "chart"
     }

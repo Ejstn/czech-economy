@@ -1,6 +1,6 @@
 package com.estn.economy.core.presentation
 
-import com.estn.economy.exchangerate.domain.ExchangeRateService
+import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockLatestRates
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -29,13 +29,13 @@ class EconomyRestControllerTest {
     lateinit var mapper: ObjectMapper
 
     @MockBean
-    lateinit var service: ExchangeRateService
+    lateinit var useCaseFetch: FetchExchangeRateUseCase
 
     @Test
     fun `GET exchangerate returns rates from service`() {
         // given
         val mockRates = listOf(exampleRate)
-        service.mockLatestRates(mockRates)
+        useCaseFetch.mockLatestRates(mockRates)
 
         val expectedEntity = EconomyRestController.ExchangeRatesResponse(mockRates)
         val expectedJsonResponse = mapper.writeValueAsString(expectedEntity)

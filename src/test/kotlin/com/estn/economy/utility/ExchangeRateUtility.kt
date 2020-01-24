@@ -1,12 +1,12 @@
 package com.estn.economy.utility
 
 import com.estn.economy.exchangerate.domain.ExchangeRate
-import com.estn.economy.exchangerate.domain.ExchangeRateService
+import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.mockito.BDDMockito.given
 import java.time.LocalDate
 
-fun ExchangeRateService.mockLatestRates(rates: Collection<ExchangeRate>) {
-    given(this.fetchLatestExchangeRates()).willReturn(rates)
+fun FetchExchangeRateUseCase.mockLatestRates(rates: Collection<ExchangeRate>) {
+    given(this.fetchLatestRates()).willReturn(rates)
 }
 
 val exampleRate = ExchangeRate(date = LocalDate.now(),

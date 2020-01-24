@@ -1,7 +1,7 @@
 package com.estn.economy.core.presentation
 
 import com.estn.economy.core.domain.date.DateFormatter
-import com.estn.economy.exchangerate.domain.ExchangeRateService
+import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.any
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockLatestRates
@@ -27,7 +27,7 @@ class EconomyControllerTest {
     lateinit var mvc: MockMvc
 
     @MockBean
-    lateinit var service: ExchangeRateService
+    lateinit var useCaseFetch: FetchExchangeRateUseCase
 
     @MockBean
     lateinit var dateFormatter: DateFormatter
@@ -43,7 +43,7 @@ class EconomyControllerTest {
         given(dateFormatter.formatDateForFrontEnd(any(LocalDate::class.java)))
                 .willReturn(date)
 
-        service.mockLatestRates(expectedRates)
+        useCaseFetch.mockLatestRates(expectedRates)
         // when
         // then
         mvc.perform(get("/"))

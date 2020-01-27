@@ -23,13 +23,13 @@ jobs:
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql root password: password
+          mysql root password: 'password'
           # MYSQL_DATABASE - name for the default database that is created
-          mysql database: test-economy
+          mysql database: 'test-economy'
           # MYSQL_USER - create the specified user with superuser power for created database
-          mysql user: root
+          mysql user: 'root'
           # MYSQL_PASSWORD - specified superuser password which user is power for created database
-          mysql password: password
+          mysql password: 'password'
 
       - name: build
         run: ./mvnw clean && ./mvnw test

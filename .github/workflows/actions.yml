@@ -11,6 +11,6 @@ jobs:
         with:
           java-version: 11
       - name: add rights to mvnw
-        run: chmod +x mvnw
+        run: chmod +x ./mvnw
       - name: build
         run: ./mvnw clean && ./mvnw compile

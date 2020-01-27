@@ -10,7 +10,7 @@ jobs:
         uses: actions/setup-java@v1.3.0
         with:
           java-version: 11
-      - name: list current folder
-        run: ls -a
+      - name: add rights to mvnw
+        run: chmod +x mvnw
       - name: build
         run: ./mvnw clean && ./mvnw compile

@@ -1,3 +1,8 @@
 # czech-economy
 
-[![Build Status](https://travis-ci.org/Ejstn/czech-economy.svg?branch=master)](https://travis-ci.org/Ejstn/czech-economy)
+#### master branch:
+to be added
+
+#### dev branch:
+![CI](https://github.com/Ejstn/czech-economy/workflows/CI/badge.svg?branch=dev)
+

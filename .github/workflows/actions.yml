@@ -6,11 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout project's git repository
+        uses: actions/checkout@v2.0.0
+
       - name: setup jdk
         uses: actions/setup-java@v1.3.0
         with:
           java-version: 11
+
       - name: add rights to mvnw
         run: chmod +x ./mvnw
+
       - name: build
         run: ./mvnw clean && ./mvnw compile

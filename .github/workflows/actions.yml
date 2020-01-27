@@ -14,22 +14,19 @@ jobs:
         with:
           java-version: 11
 
-      - name: add rights to mvnw
-        run: chmod +x ./mvnw
-      
-      - name: Shutdown Ubuntu MySQL (SUDO)
-        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-      
-      - name: Setup MySQL
+      - name: shutdown ubuntu's mysql - in case its already running - advised by mysql-action
+        run: sudo service mysql stop
+
+      - name: setup mysql
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql root password: 'password'
-          # MYSQL_DATABASE - name for the default database that is created
           mysql database: 'test_economy'
-          # MYSQL_USER - create the specified user with superuser power for created database
           mysql user: 'root'
-          # MYSQL_PASSWORD - specified superuser password which user is power for created database
           mysql password: 'password'
 
-      - name: build
+      - name: add rights to mvnw
+        run: chmod +x ./mvnw
+
+      - name: unit test
         run: ./mvnw clean && ./mvnw test

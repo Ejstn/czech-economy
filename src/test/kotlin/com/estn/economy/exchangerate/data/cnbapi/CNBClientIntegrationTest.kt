@@ -35,7 +35,7 @@ class CNBClientIntegrationTest {
 
     @RepeatedTest(value = 10)
     @Test
-    fun `client fetches and parses exchange rates for given day 2`() {
+    fun `client fetches and parses exchange rates for another given day`() {
         // given
         // when
         val requestedDate = LocalDate.of(2020, 1, 20)

@@ -3,3 +3,7 @@ jdk: oraclejdk11
 
 script:
   ./mvnw clean && ./mvnw compile
+
+
+before_install:
+    - chmod +x mvnw

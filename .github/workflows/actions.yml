@@ -25,7 +25,7 @@ jobs:
         with:
           mysql root password: 'password'
           # MYSQL_DATABASE - name for the default database that is created
-          mysql database: 'test-economy'
+          mysql database: 'test_economy'
           # MYSQL_USER - create the specified user with superuser power for created database
           mysql user: 'root'
           # MYSQL_PASSWORD - specified superuser password which user is power for created database

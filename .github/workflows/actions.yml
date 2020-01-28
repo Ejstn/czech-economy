@@ -84,7 +84,7 @@ jobs:
         run: ls -a
 
       - name: add rights to mvnw
-        run: chmod +x ./mvnw
+        run: chmod +x mvnw
 
       - name: package and deploy
-        run: /.mvnw clean && /.mvnw package
+        run: mvnw clean

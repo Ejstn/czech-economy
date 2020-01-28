@@ -41,6 +41,9 @@ jobs:
       APPLICATION_CREDENTIALS: ${{secrets.google_application_service_key}}
 
     steps:
+      - name: checkout project's git repository
+        uses: actions/checkout@v2.0.0
+
       - name: set database name
         uses: christian-draeger/write-properties@1.0.0
         with:
@@ -71,6 +74,9 @@ jobs:
 
       - name: authenticate to google cloud
         uses: actions-hub/gcloud@master
+
+      - name: add rights to mvnw
+        run: chmod +x ./mvnw
 
       - name: package and deploy
         run: /.mvnw clean package appengine:deploy

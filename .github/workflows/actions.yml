@@ -80,6 +80,9 @@ jobs:
       - name: authenticate to google cloud
         uses: actions-hub/gcloud@master
 
+      - name: list current folder
+        run: ls -a
+
       - name: add rights to mvnw
         run: chmod +x ./mvnw
 

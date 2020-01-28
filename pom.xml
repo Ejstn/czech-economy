@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.3.61</kotlin.version>
+		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +41,15 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- google cloud -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
 		</dependency>
 
 		<!-- xml, json -->
@@ -126,6 +136,18 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
@@ -133,6 +155,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.0.0</version>
+				<configuration>
+					<deploy.version>GCLOUD_CONFIG</deploy.version>
+					<projectId>${env.PROJECT_ID}</projectId>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>

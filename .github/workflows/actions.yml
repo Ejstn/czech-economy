@@ -3,33 +3,33 @@ name: CI
 on: [push]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: setup jdk
-        uses: actions/setup-java@v1.3.0
-        with:
-          java-version: 11
-
-      - name: checkout project's git repository
-        uses: actions/checkout@v2.0.0
-
-      - name: shutdown ubuntu's mysql - in case its already running - advised by mysql-action
-        run: sudo service mysql stop
-
-      - name: setup mysql
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql root password: 'password'
-          mysql database: 'test_economy'
-          mysql user: 'root'
-          mysql password: 'password'
-
-      - name: add rights to mvnw
-        run: chmod +x ./mvnw
-
-      - name: unit test
-        run: ./mvnw clean && ./mvnw test
+#  test:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: setup jdk
+#        uses: actions/setup-java@v1.3.0
+#        with:
+#          java-version: 11
+#
+#      - name: checkout project's git repository
+#        uses: actions/checkout@v2.0.0
+#
+#      - name: shutdown ubuntu's mysql - in case its already running - advised by mysql-action
+#        run: sudo service mysql stop
+#
+#      - name: setup mysql
+#        uses: mirromutth/mysql-action@v1.1
+#        with:
+#          mysql root password: 'password'
+#          mysql database: 'test_economy'
+#          mysql user: 'root'
+#          mysql password: 'password'
+#
+#      - name: add rights to mvnw
+#        run: chmod +x ./mvnw
+#
+#      - name: unit test
+#        run: ./mvnw clean && ./mvnw test
 
   deploy:
 #    if: github.ref == 'refs/heads/master'

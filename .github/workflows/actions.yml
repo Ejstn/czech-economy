@@ -32,7 +32,7 @@ jobs:
         run: ./mvnw clean && ./mvnw test
 
   deploy:
-    if: github.ref == 'refs/heads/master'
+#    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: test
 
@@ -41,6 +41,11 @@ jobs:
       APPLICATION_CREDENTIALS: ${{secrets.google_application_service_key}}
 
     steps:
+      - name: setup jdk
+        uses: actions/setup-java@v1.3.0
+        with:
+          java-version: 11
+
       - name: checkout project's git repository
         uses: actions/checkout@v2.0.0
 

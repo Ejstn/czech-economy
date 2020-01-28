@@ -87,4 +87,4 @@ jobs:
         run: chmod +x mvnw
 
       - name: package and deploy
-        run:  ./mvnw clean package appengine:deploy
+        run:  ./mvnw clean -Dmaven.test.skip=true package appengine:deploy

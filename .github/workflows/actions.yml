@@ -86,8 +86,5 @@ jobs:
       - name: add rights to mvnw
         run: chmod +x mvnw
 
-      - name: reauth
-        run: gcloud auth activate-service-account --key-file=/tmp/account.json && gcloud config set project ${{secrets.google_cloud_project_id}}
-
       - name: package and deploy
         run:  ./mvnw clean -Dmaven.test.skip=true package appengine:deploy

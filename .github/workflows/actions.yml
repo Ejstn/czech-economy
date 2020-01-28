@@ -1,0 +1,76 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout project's git repository
+        uses: actions/checkout@v2.0.0
+
+      - name: setup jdk
+        uses: actions/setup-java@v1.3.0
+        with:
+          java-version: 11
+
+      - name: shutdown ubuntu's mysql - in case its already running - advised by mysql-action
+        run: sudo service mysql stop
+
+      - name: setup mysql
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: 'password'
+          mysql database: 'test_economy'
+          mysql user: 'root'
+          mysql password: 'password'
+
+      - name: add rights to mvnw
+        run: chmod +x ./mvnw
+
+      - name: unit test
+        run: ./mvnw clean && ./mvnw test
+
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: test
+
+    env:
+      PROJECT_ID: ${{secrets.google_cloud_project_id}}
+      APPLICATION_CREDENTIALS: ${{secrets.google_application_service_key}}
+
+    steps:
+      - name: set database name
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.cloud.gcp.sql.database-name'
+          value: ${{secrets.database_name}}
+
+      - name: set instance connection
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.cloud.gcp.sql.instance-connection-name'
+          value: ${{secrets.instance_connection_name}}
+
+      - name: set database user
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.username'
+          value: ${{secrets.database_user}}
+
+      - name: set database password
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.password'
+          value: ${{secrets.database_password}}
+
+      - name: authenticate to google cloud
+        uses: actions-hub/gcloud@master
+
+      - name: package and deploy
+        run: /.mvnw clean package appengine:deploy

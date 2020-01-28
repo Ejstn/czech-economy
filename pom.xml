@@ -162,7 +162,7 @@
 				<version>2.0.0</version>
 				<configuration>
 					<deploy.version>GCLOUD_CONFIG</deploy.version>
-					<projectId>${env.PROJECT_ID}</projectId>
+					<projectId>GCLOUD_CONFIG</projectId>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -34,7 +34,7 @@ jobs:
   deploy:
 #    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: test
+#    needs: test
 
     env:
       PROJECT_ID: ${{secrets.google_cloud_project_id}}

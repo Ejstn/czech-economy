@@ -13,7 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager
  * Written by estn on 22.01.2020.
  */
 @Configuration
-class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
+class WebSecurityConfiguration(private val config: UserDetailsConfiguration) : WebSecurityConfigurerAdapter() {
 
     private val passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 
@@ -23,7 +23,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
     fun userDetailsManager(): UserDetailsService {
         val user = User.builder()
                 .username("admin")
-                .password(passwordEncoder.encode("password"))
+                .password(passwordEncoder.encode(config.adminPassword))
                 .roles(ACTUATOR_ROLE)
                 .build()
 

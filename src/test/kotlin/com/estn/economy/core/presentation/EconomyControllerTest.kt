@@ -1,6 +1,7 @@
 package com.estn.economy.core.presentation
 
 import com.estn.economy.core.domain.date.DateFormatter
+import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.any
 import com.estn.economy.utility.exampleRate
@@ -12,8 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
 
 /**
@@ -50,6 +50,39 @@ class EconomyControllerTest {
                 .andExpect {
                     status().is2xxSuccessful
                     model().attribute("dashboard", expectedDashboard)
+                }
+    }
+
+    @Test
+    fun `GET kurzy USD returns model with usd currencies only`() {
+        // given
+        val currencyCode = "USD"
+        val expectedRates = listOf(ExchangeRate(LocalDate.now(), currencyCode, "dolar", 1, 22.5, "USA"))
+
+        given(useCaseFetch.fetchByCurrencyOrderByDate(currencyCode)).willReturn(expectedRates)
+        // when
+        // then
+        mvc.perform(get("/kurzy/${currencyCode}"))
+                .andExpect {
+                    status().is2xxSuccessful
+                    model().attribute("rates", expectedRates)
+                }
+    }
+
+    @Test
+    fun `GET kurzy UNKNOWN currency returns 404 model`() {
+        // given
+        val currencyCode = "UNKNOWN"
+
+        given(useCaseFetch.fetchByCurrencyOrderByDate(currencyCode)).willReturn(listOf())
+        // when
+        // then
+        mvc.perform(get("/kurzy/${currencyCode}"))
+                .andExpect {
+                    status().is4xxClientError
+                    model().attributeDoesNotExist("rates")
+                    model().attribute("status", 404)
+                    view().name("4xx")
                 }
     }
 

@@ -73,6 +73,20 @@ jobs:
           property: 'spring.datasource.password'
           value: ${{secrets.database_password}}
 
+      - name: set default user name
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.security.user.name'
+          value: ${{secrets.security_user_name}}
+
+      - name: set default user password
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.security.user.password'
+          value: ${{secrets.security_user_password}}
+
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '275.0.0'

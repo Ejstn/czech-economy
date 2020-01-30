@@ -61,7 +61,7 @@ jobs:
         with:
           path: './src/main/resources/application-prod.properties'
           property: 'spring.cloud.gcp.sql.instance-connection-name'
-          value: ${{secrets.instance_connection_name}}
+          value: ${{secrets.database_instance_connection_name}}
 
       - name: set database user
         uses: christian-draeger/write-properties@1.0.0
@@ -79,9 +79,6 @@ jobs:
 
       - name: authenticate to google cloud
         uses: actions-hub/gcloud@master
-
-      - name: list current folder
-        run: ls -a
 
       - name: add rights to mvnw
         run: chmod +x mvnw

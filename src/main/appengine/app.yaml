@@ -4,6 +4,7 @@ env_variables:
   SPRING_PROFILES_ACTIVE: "prod"
 
 handlers:
+  -url: .*
   secure: always
 
 instance_class: F2

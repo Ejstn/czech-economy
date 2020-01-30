@@ -39,7 +39,7 @@ class ExchangeRateRepositoryTest {
     @Test
     fun `fetch all exchange rates for latest available day`() {
         // given
-        repository.deleteAll()
+        repository.deleteAllInBatch()
 
         val today = LocalDate.now()
         val yesteday = today.minusDays(1)

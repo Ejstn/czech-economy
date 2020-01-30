@@ -81,7 +81,7 @@ jobs:
         run: chmod +x mvnw
 
       - name: package
-        run: ./mvnw clean package
+        run: ./mvnw clean -Dmaven.test.skip=true package
 
       - name: authenticate to google cloud
         uses: actions-hub/gcloud@master

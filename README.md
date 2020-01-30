@@ -1,7 +1,7 @@
 # czech-economy
 
 #### master branch:
-to be added
+![CI](https://github.com/Ejstn/czech-economy/workflows/CI/badge.svg?branch=master)
 
 #### dev branch:
 ![CI](https://github.com/Ejstn/czech-economy/workflows/CI/badge.svg?branch=dev)

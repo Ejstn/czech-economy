@@ -85,7 +85,8 @@ jobs:
 
       - name: authenticate to google cloud
         uses: actions-hub/gcloud@master
-        with: app deploy ./target/economy-0.0.1-SNAPSHOT.jar
+        with:
+          args: infoapp deploy ./target/economy-0.0.1-SNAPSHOT.jar
 
 #      - name: package and deploy
 #        run:  ./mvnw -Dmaven.test.skip=true package appengine:deploy -Dapp.deploy.project ${{secrets.google_cloud_project_id}}

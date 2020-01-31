@@ -9,5 +9,6 @@ env_variables:
   SPRING_PROFILES_ACTIVE: "prod"
 
 handlers:
-- url: /.*
+- url: .*
   secure: always
+  script: auto

@@ -1,6 +1,7 @@
 package com.estn.economy.exchangerate.domain
 
 import com.estn.economy.exchangerate.data.cnbapi.CNBClient
+import com.estn.economy.exchangerate.data.cnbapi.ExchangeRateRootDto
 import com.estn.economy.exchangerate.data.cnbapi.toDomain
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toEntity
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.streams.toList
 
 /**
  * Written by estn on 24.01.2020.
@@ -33,11 +36,22 @@ class SynchronizeExchangeRateUseCase(private val cnbClient: CNBClient,
     private fun executeSynchForDates(dates: Collection<LocalDate>) {
         dates
                 .parallelStream()
-                .map { cnbClient.fetchExchangeRateForDay(it) }
-                .map { it.body!!.toDomain() }
+                .map {
+                    try {
+                        Optional.ofNullable(cnbClient.fetchExchangeRateForDay(it).body)
+                    } catch (e: Exception) {
+                        Optional.empty<ExchangeRateRootDto>()
+                    }
+                }
+                .filter { it.isPresent }
+                .map { it.get() }
+                .map { it.toDomain() }
                 .flatMap { it.stream() }
                 .map { it.toEntity() }
-                .forEach { exchangeRepository.save(it) }
+                .toList()
+                .also {
+                    exchangeRepository.saveAll(it)
+                }
 
         LOGGER.info("Syncd a total of ${dates.size} exchange rates")
     }

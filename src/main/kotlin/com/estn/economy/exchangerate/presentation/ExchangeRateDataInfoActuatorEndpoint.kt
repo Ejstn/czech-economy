@@ -34,6 +34,4 @@ class ExchangeRateDataInfoActuatorEndpoint (private val repository: ExchangeRate
 
 data class ExchangeRateDataInfo(val totalRecords: Long,
                                 val daysWithMissingRates: Int,
-                                val oldestRecordDate: LocalDate
-
-                                )
+                                val oldestRecordDate: LocalDate)

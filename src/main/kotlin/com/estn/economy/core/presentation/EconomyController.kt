@@ -56,4 +56,8 @@ class EconomyController(private val fetchExchangeUseCase: FetchExchangeRateUseCa
     @ExceptionHandler(value = [NoSuchElementException::class])
     fun handle404() = "error/4xx"
 
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = [Exception::class])
+    fun handle500() = "error/5xx"
+
 }

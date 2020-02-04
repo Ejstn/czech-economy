@@ -66,7 +66,7 @@ class SynchronizeExchangeRateUseCaseTest {
         useCase.executeForToday()
         // then
         verify(cnbClient, times(1)).fetchExchangeRateForDay(LocalDate.now())
-        verify(repository, times(1)).save(expectedSaveEntity)
+        verify(repository, times(1)).saveAll(listOf(expectedSaveEntity))
     }
 
 

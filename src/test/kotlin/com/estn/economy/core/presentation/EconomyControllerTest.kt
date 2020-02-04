@@ -54,6 +54,21 @@ class EconomyControllerTest {
     }
 
     @Test
+    fun `GET that results in internal server error is handled`() {
+        // given
+        given(useCaseFetch.fetchLatestRates()).willThrow(RuntimeException("whoops"))
+        // when
+        // then
+        mvc.perform(get("/"))
+                .andExpect {
+                    status().is5xxServerError
+                    model().attributeDoesNotExist("dashboard")
+                    model().attribute("status", 500)
+                    view().name("5xx")
+                }
+    }
+
+    @Test
     fun `GET kurzy USD returns model with usd currencies only`() {
         // given
         val currencyCode = "USD"
@@ -85,6 +100,7 @@ class EconomyControllerTest {
                     view().name("4xx")
                 }
     }
+
 
 
 }

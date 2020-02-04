@@ -41,7 +41,7 @@ class EconomyRestControllerTest {
         val expectedJsonResponse = mapper.writeValueAsString(expectedEntity)
         // when
         // then
-        mvc.perform(get("/api/exchangerate")
+        mvc.perform(get("/api/v1/exchangerate")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect {
                     status().is2xxSuccessful

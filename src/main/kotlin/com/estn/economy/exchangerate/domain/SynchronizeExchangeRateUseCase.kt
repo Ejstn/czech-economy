@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.toList
 
 /**
@@ -34,6 +35,8 @@ class SynchronizeExchangeRateUseCase(private val cnbClient: CNBClient,
     }
 
     private fun executeSynchForDates(dates: Collection<LocalDate>) {
+        val syncStart = System.currentTimeMillis()
+        val count = AtomicInteger(0)
         dates
                 .parallelStream()
                 .map {
@@ -45,14 +48,15 @@ class SynchronizeExchangeRateUseCase(private val cnbClient: CNBClient,
                 }
                 .filter { it.isPresent }
                 .map { it.get() }
+                .peek { count.incrementAndGet() }
                 .map { it.toDomain() }
                 .flatMap { it.stream() }
                 .map { it.toEntity() }
                 .toList()
+                .also { exchangeRepository.saveAll(it) }
                 .also {
-                    exchangeRepository.saveAll(it)
+                    val executionTime = System.currentTimeMillis() - syncStart
+                    LOGGER.info("Syncd ${count}/${dates.size} exchange rate days in ${executionTime}ms")
                 }
-
-        LOGGER.info("Syncd a total of ${dates.size} exchange rates")
     }
 }

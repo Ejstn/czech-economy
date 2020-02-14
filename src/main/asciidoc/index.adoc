@@ -1,0 +1,64 @@
+= Ekonastenka api documentation
+
+== Introduction
+
+Ekonastenka provides developers with data through rest api
+
+=== General api behavior
+Base url
+
+    https://ekonastenka.cz/api/v1
+
+Reponse format
+
+api can return either xml or json, based on request's Accept header.
+
+
+    Accept: application/json
+
+
+    Accept: application/xml
+
+Default format is json
+
+HTTP methods
+
+.Methods overview
+|===
+|Method |Action
+
+|GET
+|Retrieves data
+
+|POST
+|Creates new data
+
+|PUT
+|Overwrites current data / creates new data
+
+|DELETE
+|Deletes data
+|===
+
+Common HTTP status code for all endpoints
+
+** 200 ok
+** 404 not found
+** 500 server error
+
+=== Provided data
+* czech crown exchange rate
+
+==== Czech crown exchange rate
+
+===== Retrieve exchange rate for current day
+
+Returns exchange rates for current day.
+Czech national bank publishes exchange rates every working day at 2:30 pm local time.
+If its holiday/weekend, exchange rates for last working day are returned.
+
+.request
+include::{snippets}/exchangeRate/http-request.adoc[]
+
+.response
+include::{snippets}/exchangeRate/http-response.adoc[]

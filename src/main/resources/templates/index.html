@@ -1,59 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Ekonomika ČR</title>
-    <link data-th-href="@{/webjars/bulma/0.8.0/css/bulma.css}" rel="stylesheet">
+    <link data-th-href="@{/styles.css}" rel="stylesheet">
     <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
+
 
 </head>
 
 <body>
 
-<section class="hero is-dark is-bold">
-    <div class="hero-body">
+<!-- header -->
+<div th:insert="fragments/header :: header"></div>
+
+<!-- content -->
+<div>
+    <section class="section">
         <div class="container">
-            <h1 class="title is-3"><i class="fas fa-coins">&nbsp;</i> Denní kurzy, [[${dashboard.exchangeRatesDate}]]</h1>
+            <table class="table is-hoverable is-fullwidth is-striped">
+
+                <thead class="title is-5">
+                <th>Země</th>
+                <th>Název měny</th>
+                <th>Kód měny</th>
+                <th>Množsví</th>
+                <th>Kurz</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr data-th-each="entry : ${dashboard.exchangeRates}">
+                    <td>[[${entry.country}]]</td>
+                    <td>[[${entry.currencyName}]]</td>
+                    <td>[[${entry.currencyCode}]]</td>
+                    <td>[[${entry.amount}]]</td>
+                    <td>[[${entry.exchangeRate}]]</td>
+                    <td><a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}">Více info</a></td>
+                </tr>
+
+                </tbody>
+
+                <tfoot class="title is-5">
+                <th>Země</th>
+                <th>Název měny</th>
+                <th>Kód měny</th>
+                <th>Množsví</th>
+                <th>Kurz</th>
+                </tfoot>
+
+            </table>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<section class="section">
-    <div class="container">
-        <table class="table is-hoverable is-fullwidth is-striped">
-
-            <thead class="title is-5">
-            <th>Země</th>
-            <th>Název měny</th>
-            <th>Kód měny</th>
-            <th>Množsví</th>
-            <th>Kurz</th>
-            <th></th>
-            </thead>
-            <tbody>
-            <tr data-th-each="entry : ${dashboard.exchangeRates}">
-                <td>[[${entry.country}]]</td>
-                <td>[[${entry.currencyName}]]</td>
-                <td>[[${entry.currencyCode}]]</td>
-                <td>[[${entry.amount}]]</td>
-                <td>[[${entry.exchangeRate}]]</td>
-                <td><a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}">Více info</a></td>
-            </tr>
-
-            </tbody>
-
-            <tfoot class="title is-5">
-            <th>Země</th>
-            <th>Název měny</th>
-            <th>Kód měny</th>
-            <th>Množsví</th>
-            <th>Kurz</th>
-            </tfoot>
-
-        </table>
-    </div>
-</section>
+<!-- footer -->
+<div th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>

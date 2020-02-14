@@ -1,131 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Ekonomika ČR</title>
 
-    <link data-th-href="@{/webjars/bulma/0.8.0/css/bulma.css}" rel="stylesheet">
+    <link data-th-href="@{/styles.css}" rel="stylesheet">
+
     <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
 
     <link rel="stylesheet" data-th-href="@{/webjars/highcharts/8.0.0/css/highcharts.css}"/>
 
     <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.0/highcharts.js}"></script>
-    <!--    <script type="text/javascript" data-th-src="@{/webjars/highcharts/modules/annotations.js}"></script>-->
 
 </head>
 
 <body>
 
-<section class="hero is-dark is-bold">
-    <div class="hero-body">
+<!-- header -->
+<div th:insert="fragments/header :: header"></div>
+
+<!-- content -->
+<div>
+
+    <section class="section">
         <div class="container">
-            <h1 class="title is-3"><i class="fas fa-coins">&nbsp;</i>Kurz [[${currencyCode}]]/CZK</h1>
+            <div class="container">
+                <div id="chart" style="height: 400px; min-width: 310px"></div>
+            </div>
         </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-        <div class="container">
-            <div id="chart" style="height: 400px; min-width: 310px"></div>
-        </div>
-    </div>
-</section>
+    </section>
 
 
-<script data-th-inline="javascript">
-    Highcharts.setOptions({
-        lang: {
-            downloadPDF: " Stáhnout obrázek PDF",
-            loading: "Načítám...",
-            printButtonTitle: "Tisk",
-            downloadPNG: "Stáhnout obrázek PNG",
-            downloadSVG: " Stáhnout obrázek SVG",
-            months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-            shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
-            weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-            rangeSelectorFrom: "Od",
-            exportButtonTitle: "Export",
-            rangeSelectorZoom: "Období",
-            downloadJPEG: " Stáhnout obrázek JPEG",
-            decimalPoint: ".",
-            rangeSelectorTo: "Do",
-            resetZoom: "Zrušit výběr",
-            resetZoomTitle: "Zrušit",
-            printChart: "Vytisknout graf",
-            thousandsSep: ""
-        }
-    });
+    <script data-th-inline="javascript">
+        Highcharts.setOptions({
+            lang: {
+                downloadPDF: " Stáhnout obrázek PDF",
+                loading: "Načítám...",
+                printButtonTitle: "Tisk",
+                downloadPNG: "Stáhnout obrázek PNG",
+                downloadSVG: " Stáhnout obrázek SVG",
+                months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
+                weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                rangeSelectorFrom: "Od",
+                exportButtonTitle: "Export",
+                rangeSelectorZoom: "Období",
+                downloadJPEG: " Stáhnout obrázek JPEG",
+                decimalPoint: ".",
+                rangeSelectorTo: "Do",
+                resetZoom: "Zrušit výběr",
+                resetZoomTitle: "Zrušit",
+                printChart: "Vytisknout graf",
+                thousandsSep: ""
+            }
+        });
 
-    var rates = /*[[${rates}]]*/ {};
-    var currencyCode =  /*[[${currencyCode}]]*/ {};
-    var czechCurrencyCode = "CZK";
-    var currencyAmount = /*[[${currencyAmount}]]*/ {};
-    var title = "Graf kurzu ".concat(currencyAmount.toString(), " ",currencyCode, "/", czechCurrencyCode);
-    var tooltipText = currencyCode.concat("/", czechCurrencyCode);
+        var rates = /*[[${rates}]]*/ {};
+        var currencyCode =  /*[[${currencyCode}]]*/ {};
+        var czechCurrencyCode = "CZK";
+        var currencyAmount = /*[[${currencyAmount}]]*/ {};
+        var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
+        var tooltipText = currencyCode.concat("/", czechCurrencyCode);
 
-    var formattedData = rates.map(function (rate) {
-        return [Date.parse(rate.date), rate.exchangeRate];
-    });
+        var formattedData = rates.map(function (rate) {
+            return [Date.parse(rate.date), rate.exchangeRate];
+        });
 
-    Highcharts.chart("chart", {
-        chart: {
-            zoomType: "x"
-        },
-        title: {
-            text: title
-        },
-        subtitle: {
-            text: document.ontouchstart === undefined ?
-                "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-        },
-        xAxis: {
-            type: "datetime"
-        },
-        yAxis: {
+        Highcharts.chart("chart", {
+            chart: {
+                zoomType: "x"
+            },
             title: {
-                text: "Kurz"
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            area: {
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
+                text: title
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+            },
+            xAxis: {
+                type: "datetime"
+            },
+            yAxis: {
+                title: {
+                    text: "Kurz"
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get("rgba")]
+                        ]
                     },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get("rgba")]
-                    ]
-                },
-                marker: {
-                    radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                    hover: {
-                        lineWidth: 1
-                    }
-                },
-                threshold: null
-            }
-        },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
 
-        series: [{
-            type: "area",
-            name: tooltipText,
-            data: formattedData
-        }]
-    });
+            series: [{
+                type: "area",
+                name: tooltipText,
+                data: formattedData
+            }]
+        });
 
-</script>
+    </script>
+
+</div>
+
+<!-- footer -->
+<div th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>

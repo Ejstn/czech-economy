@@ -6,9 +6,11 @@ import com.estn.economy.utility.mockLatestRates
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @WebMvcTest(controllers = [EconomyRestController::class])
+@AutoConfigureRestDocs(outputDir = "target/snippets", uriHost = "ekonastenka.cz", uriScheme = "https", uriPort = 443)
 class EconomyRestControllerTest {
 
     @Autowired
@@ -48,6 +51,8 @@ class EconomyRestControllerTest {
                     content().contentType(MediaType.APPLICATION_JSON)
                     content().json(expectedJsonResponse)
                 }
+                .andDo(document("exchangeRate"))
+
     }
 
 }

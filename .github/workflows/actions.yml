@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   test:
+    if: github.ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: setup jdk
@@ -31,11 +32,9 @@ jobs:
       - name: unit test
         run: ./mvnw clean && ./mvnw test
 
-  deploy:
+  test-and-deploy:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: test
-
     steps:
       - name: setup jdk
         uses: actions/setup-java@v1.3.0
@@ -94,11 +93,22 @@ jobs:
           service_account_key: ${{ secrets.google_application_service_key }}
       - run: gcloud config set project ${{secrets.google_cloud_project_id}}
 
+      - name: shutdown ubuntu's mysql - in case its already running - advised by mysql-action
+        run: sudo service mysql stop
+
+      - name: setup mysql
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: 'password'
+          mysql database: 'test_economy'
+          mysql user: 'root'
+          mysql password: 'password'
+
       - name: add rights to mvnw
         run: chmod +x mvnw
 
       - name: package
-        run: ./mvnw clean -Dmaven.test.skip=true package
+        run: ./mvnw clean package
 
       - name: deploy
         run: ./mvnw appengine:deploy

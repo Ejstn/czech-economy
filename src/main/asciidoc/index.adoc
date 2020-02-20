@@ -1,4 +1,7 @@
 = Ekonastenka api documentation
+:toc: left
+:toc-title: Table of contents
+:toclevels: 4
 
 == Introduction
 
@@ -46,12 +49,12 @@ Common HTTP status code for all endpoints
 ** 404 not found
 ** 500 server error
 
-=== Provided data
+= Provided data
 * czech crown exchange rate
 
-==== Czech crown exchange rate
+== Czech crown exchange rate
 
-===== Retrieve exchange rate for current day
+=== Retrieve exchange rate for current day
 
 Returns exchange rates for current day.
 Czech national bank publishes exchange rates every working day at 2:30 pm local time.

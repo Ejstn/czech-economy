@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service
 @Service
 class FetchGrossDomesticProductUseCase (private val repository: GrossDomesticProductRepository) {
 
-
     fun fetchYearyGdps() = repository.getAllGdpsSummedByYear()
 
 

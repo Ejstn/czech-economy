@@ -3,8 +3,11 @@ package com.estn.economy.core.presentation
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
+import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
+import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.utility.any
 import com.estn.economy.utility.exampleRate
+import com.estn.economy.utility.mockGDP
 import com.estn.economy.utility.mockLatestRates
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -30,20 +33,26 @@ class EconomyControllerTest {
     lateinit var useCaseFetch: FetchExchangeRateUseCase
 
     @MockBean
+    lateinit var gdpUseCase: FetchGrossDomesticProductUseCase
+
+    @MockBean
     lateinit var dateFormatter: DateFormatter
 
     val date = "15.1.2020"
+
+    val exampleGDP = listOf(GrossDomesticProductPerYear(year = 2015, millionsCrowns = 5644787))
 
     @Test
     fun `GET root route returns dashboard`() {
         // given
         val expectedRates = listOf(exampleRate)
-        val expectedDashboard = EconomyController.EconomyDashboard(date, expectedRates)
+        val expectedDashboard = EconomyController.EconomyDashboard(date, expectedRates, exampleGDP)
 
         given(dateFormatter.formatDateForFrontEnd(any(LocalDate::class.java)))
                 .willReturn(date)
 
         useCaseFetch.mockLatestRates(expectedRates)
+        gdpUseCase.mockGDP(exampleGDP)
         // when
         // then
         mvc.perform(get("/"))
@@ -100,7 +109,6 @@ class EconomyControllerTest {
                     view().name("4xx")
                 }
     }
-
 
 
 }

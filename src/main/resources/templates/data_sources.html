@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Ekonomika ČR</title>
+    <link data-th-href="@{/styles.css}" rel="stylesheet">
+    <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
+
+
+</head>
+
+<body>
+
+<!-- header -->
+<div th:insert="fragments/header :: header"></div>
+
+<!-- content -->
+<div>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h1 class="title is-4">Zdroje dat</h1>
+
+            <ul style="list-style: disc">
+                <li>
+                    Kurzy: <a
+                        href="https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/">ČNB</a>
+                </li>
+
+                <li>
+                    HDP: <a href="https://www.czso.cz/csu/czso/hdp_narodni_ucty">ČSÚ</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- footer -->
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>

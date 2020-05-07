@@ -7,6 +7,7 @@
     <link data-th-href="@{/styles.css}" rel="stylesheet">
     <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
 
+    <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
 
 </head>
 
@@ -17,8 +18,92 @@
 
 <!-- content -->
 <div>
+
+    <!-- gdp -->
+    <div class="container">
+
+        <h1 class="title is-4">Hrubý domácí produkt</h1>
+
+        <div id="chart" style="height: 500px; min-width: 310px"></div>
+
+        <script data-th-inline="javascript">
+
+            Highcharts.setOptions({
+                lang: {
+                    downloadPDF: " Stáhnout obrázek PDF",
+                    loading: "Načítám...",
+                    printButtonTitle: "Tisk",
+                    downloadPNG: "Stáhnout obrázek PNG",
+                    downloadSVG: " Stáhnout obrázek SVG",
+                    months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                    shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
+                    weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                    rangeSelectorFrom: "Od",
+                    exportButtonTitle: "Export",
+                    rangeSelectorZoom: "Období",
+                    downloadJPEG: " Stáhnout obrázek JPEG",
+                    decimalPoint: ".",
+                    rangeSelectorTo: "Do",
+                    resetZoom: "Zrušit výběr",
+                    resetZoomTitle: "Zrušit",
+                    printChart: "Vytisknout graf",
+                    thousandsSep: " "
+                }
+            });
+
+            var yearlyGdps = /*[[${dashboard.yearlyGDPs}]]*/ {};
+            var title = "Graf HDP v běžných cenách";
+            var tooltipText = "";
+
+            var formattedData = yearlyGdps.map(function (it) {
+                return [it.year, it.millionsCrowns];
+            });
+
+            Highcharts.chart("chart", {
+                chart: {
+                    zoomType: "x"
+                },
+                title: {
+                    text: title
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+                },
+                yAxis: {
+                    title: {
+                        text: "Miliony korun"
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                    }
+                },
+
+                series: [{
+                    type: "area",
+                    name: tooltipText,
+                    data: formattedData
+                }]
+            });
+
+        </script>
+
+    </div>
+
+    <!-- exchange rates -->
     <section class="section">
+
         <div class="container">
+
+            <h1 class="title is-4">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
+
             <table class="table is-hoverable is-fullwidth is-striped">
 
                 <thead class="title is-5">
@@ -51,6 +136,7 @@
 
             </table>
         </div>
+
     </section>
 </div>
 

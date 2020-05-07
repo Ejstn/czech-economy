@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" data-th-href="@{/webjars/highcharts/8.0.0/css/highcharts.css}"/>
 
-    <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.0/highcharts.js}"></script>
+    <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
 
 </head>
 
@@ -21,16 +21,9 @@
 <div th:insert="fragments/header :: header"></div>
 
 <!-- content -->
-<div>
+<div class="container">
 
-    <section class="section">
-        <div class="container">
-            <div class="container">
-                <div id="chart" style="height: 400px; min-width: 310px"></div>
-            </div>
-        </div>
-    </section>
-
+    <div id="chart" style="height: 500px; min-width: 310px"></div>
 
     <script data-th-inline="javascript">
         Highcharts.setOptions({
@@ -52,7 +45,7 @@
                 resetZoom: "Zrušit výběr",
                 resetZoomTitle: "Zrušit",
                 printChart: "Vytisknout graf",
-                thousandsSep: ""
+                thousandsSep: " "
             }
         });
 

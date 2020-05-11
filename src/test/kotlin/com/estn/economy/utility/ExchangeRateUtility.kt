@@ -1,5 +1,6 @@
 package com.estn.economy.utility
 
+import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
@@ -26,4 +27,8 @@ fun FetchGrossDomesticProductUseCase.mockGDP(gdps: List<GrossDomesticProductPerY
 
 fun FetchUnemploymentRateUseCase.mockUnemployment(unemployment: List<UnemploymentRatePerYearAvg>) {
     given(this.fetchAllUnempRatesAveragedByYear()).willReturn(unemployment)
+}
+
+fun ComposeDashboardUseCase.mockDashboard(dashboard: ComposeDashboardUseCase.EconomyDashboard) {
+    given(this.execute()).willReturn(dashboard)
 }

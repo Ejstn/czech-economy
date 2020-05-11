@@ -2,6 +2,7 @@ package com.estn.economy.grossdomesticproduct.data.database
 
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -20,10 +21,14 @@ class GrossDomesticProductRepositoryIntegrationTest {
     @Autowired
     lateinit var repository: GrossDomesticProductRepository
 
+    @BeforeEach
+    fun setUp() {
+        repository.deleteAllInBatch()
+    }
+
     @Test
     fun `test getting all yearly gdps`() {
         // given
-        repository.deleteAllInBatch()
 
         val firstQuater2016 = GrossDomesticProductEntity(quarter = 1, year = 2016, gdpMillionsCrowns = 5)
         val secondQuater2016 = GrossDomesticProductEntity(quarter = 2, year = 2016, gdpMillionsCrowns = 10)

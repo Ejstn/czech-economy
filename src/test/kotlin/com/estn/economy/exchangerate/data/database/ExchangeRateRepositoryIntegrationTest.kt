@@ -1,6 +1,7 @@
 package com.estn.economy.exchangerate.data.database
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -19,7 +20,10 @@ class ExchangeRateRepositoryIntegrationTest {
     @Autowired
     lateinit var repository: ExchangeRateRepository
 
-
+    @BeforeEach
+    fun setUp() {
+        repository.deleteAllInBatch()
+    }
 
     @Test
     fun `saving same entity twice overwrites given record`() {

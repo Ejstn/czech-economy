@@ -1,6 +1,5 @@
 package com.estn.economy.grossdomesticproduct.data.database
 
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

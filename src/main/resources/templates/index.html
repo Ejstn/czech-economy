@@ -165,6 +165,68 @@
 
     </section>
 
+    <!-- inflation -->
+    <section class="section">
+
+        <div class="container">
+
+            <h1 class="title is-4">Inflace</h1>
+
+            <div id="chart_inflation" style="height: 500px; min-width: 310px"></div>
+
+            <script data-th-inline="javascript">
+
+
+                var yearlyGdps = /*[[${dashboard.yearlyInflationRates}]]*/ {};
+                var title = "Graf meziročního vývoje inflace v %";
+                var tooltipText = "";
+
+                var formattedData = yearlyGdps.map(function (it) {
+                    return [it.year, it.valuePercent];
+                });
+
+                Highcharts.chart("chart_inflation", {
+                    chart: {
+                        zoomType: "x"
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Inflace %"
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: "{point.y:.1f} %"
+                    },
+                    series: [{
+                        type: "area",
+                        name: tooltipText,
+                        data: formattedData
+                    }]
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
     <!-- exchange rates -->
     <section class="section">
 

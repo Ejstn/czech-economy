@@ -2,6 +2,8 @@ package com.estn.economy.dashboard.presentation
 
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
+import com.estn.economy.inflation.data.InflationRateEntity
+import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
@@ -33,7 +35,10 @@ class DashboardControllerTest {
     val exampleUnemployment = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     val expectedRates = listOf(exampleRate)
-    val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(date, expectedRates, exampleGDP, exampleUnemployment)
+    val expectedInflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
+    valuePercent = 5f))
+
+    val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(date, expectedRates, exampleGDP, exampleUnemployment, expectedInflation)
 
     @Test
     fun `GET root route returns dashboard`() {

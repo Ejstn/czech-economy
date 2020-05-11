@@ -23,7 +23,6 @@ class ExchangeRateRepositoryTest {
     @Autowired
     lateinit var entityManager: TestEntityManager
 
-
     @Test
     fun `test saving an entity`() {
         // given

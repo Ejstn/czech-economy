@@ -4,6 +4,8 @@ import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
+import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
+import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.mockito.BDDMockito.given
 import java.time.LocalDate
 
@@ -20,4 +22,8 @@ val exampleRate = ExchangeRate(date = LocalDate.now(),
 
 fun FetchGrossDomesticProductUseCase.mockGDP(gdps: List<GrossDomesticProductPerYear>) {
     given(this.fetchYearyGdps()).willReturn(gdps)
+}
+
+fun FetchUnemploymentRateUseCase.mockUnemployment(unemployment: List<UnemploymentRatePerYearAvg>) {
+    given(this.fetchAllUnempRatesAveragedByYear()).willReturn(unemployment)
 }

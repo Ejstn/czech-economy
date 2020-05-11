@@ -6,6 +6,8 @@ import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
+import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
+import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseStatus
-import java.time.format.TextStyle
-import java.util.*
 import kotlin.NoSuchElementException
 
 /**
@@ -23,6 +23,7 @@ import kotlin.NoSuchElementException
 @Controller
 class EconomyController(private val fetchExchangeUseCase: FetchExchangeRateUseCase,
                         private val fetchGdpUseCase: FetchGrossDomesticProductUseCase,
+                        private val fetchUnemploymentUseCase: FetchUnemploymentRateUseCase,
                         private val dateFormatter: DateFormatter) {
 
     @GetMapping
@@ -31,12 +32,14 @@ class EconomyController(private val fetchExchangeUseCase: FetchExchangeRateUseCa
         val date = exchangeRates.first().date
 
         val formattedDate = " ${date.dayOfWeek.translate(false)} ${dateFormatter.formatDateForFrontEnd(date)}"
-        val yearlyGDPs = fetchGdpUseCase.fetchYearyGdps()
+        val gdp = fetchGdpUseCase.fetchYearyGdps()
+        val unemployment = fetchUnemploymentUseCase.fetchAllUnempRatesAveragedByYear()
 
         val dashboard = EconomyDashboard(
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
-                yearlyGDPs = yearlyGDPs)
+                yearlyGDPs = gdp,
+                yearlyUnempRates = unemployment)
 
         model.addAttribute("dashboard", dashboard)
         return "index"
@@ -44,7 +47,8 @@ class EconomyController(private val fetchExchangeUseCase: FetchExchangeRateUseCa
 
     data class EconomyDashboard(val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
-                                val yearlyGDPs: Collection<GrossDomesticProductPerYear>)
+                                val yearlyGDPs: Collection<GrossDomesticProductPerYear>,
+                                val yearlyUnempRates: Collection<UnemploymentRatePerYearAvg>)
 
     @GetMapping("/kurzy/{currencyCode}")
     fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model): String {

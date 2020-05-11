@@ -5,10 +5,9 @@ import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
-import com.estn.economy.utility.any
-import com.estn.economy.utility.exampleRate
-import com.estn.economy.utility.mockGDP
-import com.estn.economy.utility.mockLatestRates
+import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
+import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
+import com.estn.economy.utility.*
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,23 +35,29 @@ class EconomyControllerTest {
     lateinit var gdpUseCase: FetchGrossDomesticProductUseCase
 
     @MockBean
+    lateinit var unemploymentUseCase: FetchUnemploymentRateUseCase
+
+    @MockBean
     lateinit var dateFormatter: DateFormatter
 
     val date = "15.1.2020"
 
     val exampleGDP = listOf(GrossDomesticProductPerYear(year = 2015, millionsCrowns = 5644787))
+    val exampleUnemployment = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     @Test
     fun `GET root route returns dashboard`() {
         // given
         val expectedRates = listOf(exampleRate)
-        val expectedDashboard = EconomyController.EconomyDashboard(date, expectedRates, exampleGDP)
+        val expectedDashboard = EconomyController.EconomyDashboard(date, expectedRates, exampleGDP, exampleUnemployment)
 
         given(dateFormatter.formatDateForFrontEnd(any(LocalDate::class.java)))
                 .willReturn(date)
 
         useCaseFetch.mockLatestRates(expectedRates)
         gdpUseCase.mockGDP(exampleGDP)
+        unemploymentUseCase.mockUnemployment(exampleUnemployment)
+
         // when
         // then
         mvc.perform(get("/"))

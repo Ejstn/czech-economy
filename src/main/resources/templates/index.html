@@ -13,6 +13,9 @@
 
 <body>
 
+<!-- highcharts common options -->
+<div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
+
 <!-- header -->
 <div th:insert="fragments/header :: header"></div>
 
@@ -29,29 +32,6 @@
             <div id="chart_gdp" style="height: 500px; min-width: 310px"></div>
 
             <script data-th-inline="javascript">
-
-                Highcharts.setOptions({
-                    lang: {
-                        downloadPDF: " Stáhnout obrázek PDF",
-                        loading: "Načítám...",
-                        printButtonTitle: "Tisk",
-                        downloadPNG: "Stáhnout obrázek PNG",
-                        downloadSVG: " Stáhnout obrázek SVG",
-                        months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-                        shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
-                        weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                        rangeSelectorFrom: "Od",
-                        exportButtonTitle: "Export",
-                        rangeSelectorZoom: "Období",
-                        downloadJPEG: " Stáhnout obrázek JPEG",
-                        decimalPoint: ".",
-                        rangeSelectorTo: "Do",
-                        resetZoom: "Zrušit výběr",
-                        resetZoomTitle: "Zrušit",
-                        printChart: "Vytisknout graf",
-                        thousandsSep: " "
-                    }
-                });
 
                 var yearlyGdps = /*[[${dashboard.yearlyGDPs}]]*/ {};
                 var title = "Graf HDP v běžných cenách";

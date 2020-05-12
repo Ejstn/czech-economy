@@ -8,6 +8,8 @@ import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUse
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
+import com.estn.economy.publicdebt.data.PublicDebtEntity
+import com.estn.economy.publicdebt.data.PublicDebtRepository
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.springframework.stereotype.Service
@@ -17,6 +19,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                               private val fetchGdp: FetchGrossDomesticProductUseCase,
                               private val fetchUnemploymentRate: FetchUnemploymentRateUseCase,
                               private val fetchInflation: FetchInflationRateUseCase,
+                              private val publicDebtRepository: PublicDebtRepository,
                               private val dateFormatter: DateFormatter) {
 
 
@@ -28,13 +31,15 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         val gdp = fetchGdp.fetchYearyGdps()
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
+        val publicDebt = publicDebtRepository.findAll()
 
         return EconomyDashboard(
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
                 yearlyGDPs = gdp,
                 yearlyUnempRates = unemployment,
-                yearlyInflationRates = inflation)
+                yearlyInflationRates = inflation,
+                publicDebt = publicDebt)
 
     }
 
@@ -42,6 +47,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                                 val exchangeRates: Collection<ExchangeRate>,
                                 val yearlyGDPs: Collection<GrossDomesticProductPerYear>,
                                 val yearlyUnempRates: Collection<UnemploymentRatePerYearAvg>,
-                                val yearlyInflationRates: Collection<InflationRateEntity>)
+                                val yearlyInflationRates: Collection<InflationRateEntity>,
+                                val publicDebt: Collection<PublicDebtEntity>)
 
 }

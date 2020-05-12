@@ -38,7 +38,7 @@
                 var tooltipText = "";
 
                 var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.millionsCrowns / 1000];
+                    return [it.year, it.gdpMillionsCrowns / 1000];
                 });
 
                 Highcharts.chart("chart_gdp", {

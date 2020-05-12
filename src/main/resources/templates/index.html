@@ -13,6 +13,9 @@
 
 <body>
 
+<!-- highcharts common options -->
+<div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
+
 <!-- header -->
 <div th:insert="fragments/header :: header"></div>
 
@@ -29,29 +32,6 @@
             <div id="chart_gdp" style="height: 500px; min-width: 310px"></div>
 
             <script data-th-inline="javascript">
-
-                Highcharts.setOptions({
-                    lang: {
-                        downloadPDF: " Stáhnout obrázek PDF",
-                        loading: "Načítám...",
-                        printButtonTitle: "Tisk",
-                        downloadPNG: "Stáhnout obrázek PNG",
-                        downloadSVG: " Stáhnout obrázek SVG",
-                        months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-                        shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
-                        weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                        rangeSelectorFrom: "Od",
-                        exportButtonTitle: "Export",
-                        rangeSelectorZoom: "Období",
-                        downloadJPEG: " Stáhnout obrázek JPEG",
-                        decimalPoint: ".",
-                        rangeSelectorTo: "Do",
-                        resetZoom: "Zrušit výběr",
-                        resetZoomTitle: "Zrušit",
-                        printChart: "Vytisknout graf",
-                        thousandsSep: " "
-                    }
-                });
 
                 var yearlyGdps = /*[[${dashboard.yearlyGDPs}]]*/ {};
                 var title = "Graf HDP v běžných cenách";
@@ -245,6 +225,64 @@
                 });
 
                 Highcharts.chart("chart_public_debt", {
+                    chart: {
+                        zoomType: "x"
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Miliardy Kč"
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: "{point.y:.0f} miliard Kč"
+                    },
+                    series: [{
+                        type: "area",
+                        data: formattedData
+                    }]
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
+    <!-- budget balance -->
+    <section class="section">
+
+        <div class="container">
+
+            <h1 class="title is-4">Saldo státního rozpočtu</h1>
+
+            <div id="chart_budget_balance" style="height: 500px; min-width: 310px"></div>
+
+            <script data-th-inline="javascript">
+                var yearlyGdps = /*[[${dashboard.budgetBalance}]]*/ {};
+                var title = "Graf salda státního rozpočtu";
+
+                var formattedData = yearlyGdps.map(function (it) {
+                    return [it.year, it.millionsCrowns / 1000];
+                });
+
+                Highcharts.chart("chart_budget_balance", {
                     chart: {
                         zoomType: "x"
                     },

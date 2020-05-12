@@ -6,14 +6,15 @@
     <title>Ekonomika ČR</title>
 
     <link data-th-href="@{/styles.css}" rel="stylesheet">
-
     <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
-
     <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
 
 </head>
 
 <body>
+
+<!-- highcharts common options -->
+<div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
 
 <!-- header -->
 <div th:insert="fragments/header :: header"></div>
@@ -27,29 +28,6 @@
         <div id="chart" style="height: 500px; min-width: 310px"></div>
 
         <script data-th-inline="javascript">
-            Highcharts.setOptions({
-                lang: {
-                    downloadPDF: " Stáhnout obrázek PDF",
-                    loading: "Načítám...",
-                    printButtonTitle: "Tisk",
-                    downloadPNG: "Stáhnout obrázek PNG",
-                    downloadSVG: " Stáhnout obrázek SVG",
-                    months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-                    shortMonths: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
-                    weekdays: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                    rangeSelectorFrom: "Od",
-                    exportButtonTitle: "Export",
-                    rangeSelectorZoom: "Období",
-                    downloadJPEG: " Stáhnout obrázek JPEG",
-                    decimalPoint: ".",
-                    rangeSelectorTo: "Do",
-                    resetZoom: "Zrušit výběr",
-                    resetZoomTitle: "Zrušit",
-                    printChart: "Vytisknout graf",
-                    thousandsSep: " "
-                }
-            });
-
             var rates = /*[[${rates}]]*/ {};
             var currencyCode =  /*[[${currencyCode}]]*/ {};
             var czechCurrencyCode = "CZK";

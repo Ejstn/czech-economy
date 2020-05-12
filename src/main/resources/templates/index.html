@@ -227,6 +227,64 @@
 
     </section>
 
+    <!-- public debt -->
+    <section class="section">
+
+        <div class="container">
+
+            <h1 class="title is-4">Státní dluh</h1>
+
+            <div id="chart_public_debt" style="height: 500px; min-width: 310px"></div>
+
+            <script data-th-inline="javascript">
+                var yearlyGdps = /*[[${dashboard.publicDebt}]]*/ {};
+                var title = "Graf vývoje státního dluhu v běžných cenách";
+
+                var formattedData = yearlyGdps.map(function (it) {
+                    return [it.year, it.millionsCrowns / 1000];
+                });
+
+                Highcharts.chart("chart_public_debt", {
+                    chart: {
+                        zoomType: "x"
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Miliardy Kč"
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: "{point.y:.0f} miliard Kč"
+                    },
+                    series: [{
+                        type: "area",
+                        data: formattedData
+                    }]
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
     <!-- exchange rates -->
     <section class="section">
 

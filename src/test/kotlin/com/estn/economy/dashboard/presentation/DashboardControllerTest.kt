@@ -1,5 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
+import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.inflation.data.InflationRateEntity
@@ -37,12 +38,14 @@ class DashboardControllerTest {
 
     val expectedRates = listOf(exampleRate)
     val expectedInflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
-    valuePercent = 5f))
+            valuePercent = 5f))
 
     val expectedPublicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
+    val expectedBudgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(date,
-            expectedRates, exampleGDP, exampleUnemployment, expectedInflation, expectedPublicDebt)
+            expectedRates, exampleGDP, exampleUnemployment, expectedInflation, expectedPublicDebt,
+            expectedBudgetBalance)
 
     @Test
     fun `GET root route returns dashboard`() {
@@ -72,8 +75,6 @@ class DashboardControllerTest {
                     view().name("5xx")
                 }
     }
-
-
 
 
 }

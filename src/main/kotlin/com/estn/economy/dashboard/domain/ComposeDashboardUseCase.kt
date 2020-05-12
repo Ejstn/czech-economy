@@ -1,5 +1,7 @@
 package com.estn.economy.dashboard.domain
 
+import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
+import com.estn.economy.budgetbalance.data.BudgetBalanceRepository
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.translate
 import com.estn.economy.exchangerate.domain.ExchangeRate
@@ -20,6 +22,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                               private val fetchUnemploymentRate: FetchUnemploymentRateUseCase,
                               private val fetchInflation: FetchInflationRateUseCase,
                               private val publicDebtRepository: PublicDebtRepository,
+                              private val budgetBalanceRepository: BudgetBalanceRepository,
                               private val dateFormatter: DateFormatter) {
 
 
@@ -32,6 +35,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = publicDebtRepository.findAll()
+        val budgetBalance = budgetBalanceRepository.findAll()
 
         return EconomyDashboard(
                 exchangeRatesDate = formattedDate,
@@ -39,7 +43,8 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                 yearlyGDPs = gdp,
                 yearlyUnempRates = unemployment,
                 yearlyInflationRates = inflation,
-                publicDebt = publicDebt)
+                publicDebt = publicDebt,
+                budgetBalance = budgetBalance)
 
     }
 
@@ -48,6 +53,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                                 val yearlyGDPs: Collection<GrossDomesticProductPerYear>,
                                 val yearlyUnempRates: Collection<UnemploymentRatePerYearAvg>,
                                 val yearlyInflationRates: Collection<InflationRateEntity>,
-                                val publicDebt: Collection<PublicDebtEntity>)
+                                val publicDebt: Collection<PublicDebtEntity>,
+                                val budgetBalance: Collection<BudgetBalanceEntity>)
 
 }

@@ -4,7 +4,6 @@ import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.publicdebt.data.PublicDebtEntity

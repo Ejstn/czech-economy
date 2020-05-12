@@ -5,7 +5,6 @@ import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.mockito.BDDMockito.given

@@ -8,7 +8,6 @@ import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.publicdebt.data.PublicDebtEntity

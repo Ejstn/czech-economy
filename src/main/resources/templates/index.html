@@ -22,7 +22,7 @@
 <!-- content -->
 <div>
 
-    <!-- gdp -->
+    <!-- nominal gdp -->
     <section class="section">
 
         <div class="container">
@@ -33,8 +33,8 @@
 
             <script data-th-inline="javascript">
 
-                var yearlyGdps = /*[[${dashboard.yearlyGDPs}]]*/ {};
-                var title = "Graf HDP v běžných cenách";
+                var yearlyGdps = /*[[${dashboard.nominalGdp}]]*/ {};
+                var title = "Graf nominálního HDP";
                 var tooltipText = "";
 
                 var formattedData = yearlyGdps.map(function (it) {
@@ -42,6 +42,65 @@
                 });
 
                 Highcharts.chart("chart_gdp", {
+                    chart: {
+                        zoomType: "x"
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Miliardy Kč"
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: "{point.y:.0f} miliard Kč"
+                    },
+                    series: [{
+                        type: "area",
+                        name: tooltipText,
+                        data: formattedData
+                    }]
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
+    <!-- real gdp 2010 prices -->
+    <section class="section">
+
+        <div class="container">
+
+            <div id="chart_real_gdp_2010_prices" style="height: 500px; min-width: 310px"></div>
+
+            <script data-th-inline="javascript">
+
+                var yearlyGdps = /*[[${dashboard.realGdp2010Prices}]]*/ {};
+                var title = "Graf reálného HDP v cenách roku 2010";
+                var tooltipText = "";
+
+                var formattedData = yearlyGdps.map(function (it) {
+                    return [it.year, it.gdpMillionsCrowns / 1000];
+                });
+
+                Highcharts.chart("chart_real_gdp_2010_prices", {
                     chart: {
                         zoomType: "x"
                     },

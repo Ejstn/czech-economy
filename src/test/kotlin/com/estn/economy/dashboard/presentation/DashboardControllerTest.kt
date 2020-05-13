@@ -12,6 +12,8 @@ import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.mock
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -44,9 +46,7 @@ class DashboardControllerTest {
     val expectedPublicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
     val expectedBudgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
-    val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(date,
-            expectedRates, exampleGDP, exampleUnemployment, expectedInflation, expectedPublicDebt,
-            expectedBudgetBalance)
+    val expectedDashboard = Mockito.mock(ComposeDashboardUseCase.EconomyDashboard::class.java)
 
     @Test
     fun `GET root route returns dashboard`() {

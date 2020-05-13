@@ -22,7 +22,7 @@ class GrossDomesticProductRepositoryTest {
     fun `test saving an entity`() {
         // given
         // when
-        val entityToSave = GrossDomesticProductEntity(quarter = 1, year = 2016, gdpMillionsCrowns = 456465464)
+        val entityToSave = GrossDomesticProductEntity(year = 2016, gdpMillionsCrowns = 456465464, type = GrossDomesticProductType.REAL_2010_PRICES)
         repository.save(entityToSave)
         // then
         val foundRate = repository.findById(entityToSave.key())

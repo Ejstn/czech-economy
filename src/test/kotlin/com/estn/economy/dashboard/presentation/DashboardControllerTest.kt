@@ -2,7 +2,8 @@ package com.estn.economy.dashboard.presentation
 
 import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.publicdebt.data.PublicDebtEntity
@@ -11,6 +12,8 @@ import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.mock
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -33,7 +36,7 @@ class DashboardControllerTest {
 
     val date = "15.1.2020"
 
-    val exampleGDP = listOf(GrossDomesticProductPerYear(year = 2015, millionsCrowns = 5644787))
+    val exampleGDP = listOf(GrossDomesticProductEntity(year = 2015, type = GrossDomesticProductType.NOMINAL, gdpMillionsCrowns = 5644787))
     val exampleUnemployment = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     val expectedRates = listOf(exampleRate)
@@ -43,9 +46,7 @@ class DashboardControllerTest {
     val expectedPublicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
     val expectedBudgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
-    val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(date,
-            expectedRates, exampleGDP, exampleUnemployment, expectedInflation, expectedPublicDebt,
-            expectedBudgetBalance)
+    val expectedDashboard = Mockito.mock(ComposeDashboardUseCase.EconomyDashboard::class.java)
 
     @Test
     fun `GET root route returns dashboard`() {

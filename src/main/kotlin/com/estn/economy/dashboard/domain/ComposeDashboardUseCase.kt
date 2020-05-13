@@ -6,8 +6,9 @@ import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.translate
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductPerYear
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.publicdebt.data.PublicDebtEntity
@@ -31,7 +32,8 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         val date = exchangeRates.first().date
 
         val formattedDate = " ${date.dayOfWeek.translate(false)} ${dateFormatter.formatDateForFrontEnd(date)}"
-        val gdp = fetchGdp.fetchYearyGdps()
+        val nominalGdp = fetchGdp.fetchGdp(GrossDomesticProductType.NOMINAL)
+        val realGdp = fetchGdp.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES)
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = publicDebtRepository.findAll()
@@ -40,7 +42,8 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         return EconomyDashboard(
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
-                yearlyGDPs = gdp,
+                nominalGdp = nominalGdp,
+                realGdp2010Prices = realGdp,
                 yearlyUnempRates = unemployment,
                 yearlyInflationRates = inflation,
                 publicDebt = publicDebt,
@@ -50,7 +53,8 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
 
     data class EconomyDashboard(val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
-                                val yearlyGDPs: Collection<GrossDomesticProductPerYear>,
+                                val nominalGdp: Collection<GrossDomesticProductEntity>,
+                                val realGdp2010Prices: Collection<GrossDomesticProductEntity>,
                                 val yearlyUnempRates: Collection<UnemploymentRatePerYearAvg>,
                                 val yearlyInflationRates: Collection<InflationRateEntity>,
                                 val publicDebt: Collection<PublicDebtEntity>,

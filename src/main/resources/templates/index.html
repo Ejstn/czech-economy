@@ -8,7 +8,6 @@
     <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
 
     <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
-
 </head>
 
 <body>
@@ -22,14 +21,15 @@
 <!-- content -->
 <div>
 
-    <!-- nominal gdp -->
-    <section class="section">
+    <!-- gdp -->
+    <section class="section has-text-centered">
 
+        <!-- nominal gdp -->
         <div class="container">
 
             <h1 class="title is-4">Hrubý domácí produkt</h1>
 
-            <div id="chart_gdp" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_gdp"></div>
 
             <script data-th-inline="javascript">
 
@@ -81,14 +81,10 @@
 
         </div>
 
-    </section>
-
-    <!-- real gdp 2010 prices -->
-    <section class="section">
-
+        <!-- real gdp 2010 prices -->
         <div class="container">
 
-            <div id="chart_real_gdp_2010_prices" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_real_gdp_2010_prices"></div>
 
             <script data-th-inline="javascript">
 
@@ -143,13 +139,13 @@
     </section>
 
     <!-- unemployment -->
-    <section class="section">
+    <section class="section has-text-centered">
 
-        <div class="container">
+        <div class="container ">
 
             <h1 class="title is-4">Nezaměstnanost</h1>
 
-            <div id="chart_unemployment" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_unemployment"></div>
 
             <script data-th-inline="javascript">
 
@@ -205,13 +201,13 @@
     </section>
 
     <!-- inflation -->
-    <section class="section">
+    <section class="section has-text-centered">
 
         <div class="container">
 
             <h1 class="title is-4">Inflace</h1>
 
-            <div id="chart_inflation" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_inflation"></div>
 
             <script data-th-inline="javascript">
 
@@ -267,13 +263,13 @@
     </section>
 
     <!-- public debt -->
-    <section class="section">
+    <section class="section has-text-centered">
 
         <div class="container">
 
             <h1 class="title is-4">Státní dluh</h1>
 
-            <div id="chart_public_debt" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_public_debt"></div>
 
             <script data-th-inline="javascript">
                 var yearlyGdps = /*[[${dashboard.publicDebt}]]*/ {};
@@ -325,13 +321,13 @@
     </section>
 
     <!-- budget balance -->
-    <section class="section">
+    <section class="section has-text-centered">
 
         <div class="container">
 
             <h1 class="title is-4">Saldo státního rozpočtu</h1>
 
-            <div id="chart_budget_balance" style="height: 500px; min-width: 310px"></div>
+            <div id="chart_budget_balance"></div>
 
             <script data-th-inline="javascript">
                 var yearlyGdps = /*[[${dashboard.budgetBalance}]]*/ {};
@@ -383,7 +379,7 @@
     </section>
 
     <!-- exchange rates -->
-    <section class="section">
+    <section class="section has-text-centered">
 
         <div class="container">
 
@@ -391,14 +387,17 @@
 
             <table class="table is-hoverable is-fullwidth is-striped">
 
-                <thead class="title is-5">
-                <th>Země</th>
-                <th>Název měny</th>
-                <th>Kód měny</th>
-                <th>Množsví</th>
-                <th>Kurz</th>
-                <th></th>
+                <thead class="title is-6">
+                <tr>
+                    <th>Země</th>
+                    <th>Název</th>
+                    <th>Kód</th>
+                    <th>Množsví</th>
+                    <th>Kurz</th>
+                    <th></th>
+                </tr>
                 </thead>
+
                 <tbody>
                 <tr data-th-each="entry : ${dashboard.exchangeRates}">
                     <td>[[${entry.country}]]</td>
@@ -411,18 +410,12 @@
 
                 </tbody>
 
-                <tfoot class="title is-5">
-                <th>Země</th>
-                <th>Název měny</th>
-                <th>Kód měny</th>
-                <th>Množsví</th>
-                <th>Kurz</th>
-                </tfoot>
 
             </table>
         </div>
 
     </section>
+
 </div>
 
 <!-- footer -->

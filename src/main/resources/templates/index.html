@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8">
-    <title>Ekonomika ČR</title>
-    <link data-th-href="@{/styles.css}" rel="stylesheet">
-    <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
-
-    <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
-</head>
+<head th:replace="fragments/common :: head"></head>
 
 <body class="has-navbar-fixed-top">
 
@@ -16,10 +8,23 @@
 <div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
 
 <!-- header -->
-<div th:insert="fragments/header :: header"></div>
+<div th:insert="fragments/common :: header"></div>
 
 <!-- content -->
 <div>
+
+<!--    <script data-th-inline="javascript">-->
+<!--        var yearlyGdps = /*[[${dashboard.nominalGdp}]]*/ {};-->
+<!--        var title = "Graf nominálního HDP";-->
+<!--        var tooltipText = "";-->
+
+<!--        var formattedData = yearlyGdps.map(function (it) {-->
+<!--            return [it.year, it.gdpMillionsCrowns / 1000];-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    <div th:replace="fragments/charts :: simplechart('chartname','Nominální GDP', ${dashboard.nominalGdp})"></div>-->
+
 
     <!-- gdp -->
     <section class="section has-text-centered">
@@ -437,7 +442,7 @@
 </div>
 
 <!-- footer -->
-<div th:insert="fragments/footer :: footer"></div>
+<div th:insert="fragments/common :: footer"></div>
 
 </body>
 </html>

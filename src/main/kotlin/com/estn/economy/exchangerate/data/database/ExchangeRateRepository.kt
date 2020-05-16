@@ -16,6 +16,12 @@ interface ExchangeRateRepository : JpaRepository<ExchangeRateEntity, ExchangeRat
             nativeQuery = true)
     fun findAllRatesFromLastDay(): Collection<ExchangeRateEntity>
 
+
+    @Query(value = "SELECT * FROM exchange_rate WHERE date = (SELECT MAX(date) FROM exchange_rate)" +
+            "AND currency_code IN(?1) ORDER BY country",
+            nativeQuery = true)
+    fun findAllRatesFromLastDayWhereCodeLike(currencyCodes: List<String>): Collection<ExchangeRateEntity>
+
     @Query(value = "select * from (\n" +
             "    select * from(\n" +
             "        select adddate('1970-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) selected_date from(\n" +

@@ -44,7 +44,7 @@ class ExchangeRateRepositoryIntegrationTest {
     @Test
     fun `entity is saved with correct date`() {
         // given
-        val today = LocalDate.of(2020,1,18)
+        val today = LocalDate.of(2020, 1, 18)
         val usdEntity = ExchangeRateEntity(date = today, currencyCode = "USD", exchangeRate = 22.5)
         // when
         val saved = repository.save(usdEntity)
@@ -52,5 +52,28 @@ class ExchangeRateRepositoryIntegrationTest {
         // then
         assertThat(repository.findById(usdEntity.key()).get()).isEqualTo(usdEntity)
 
+    }
+
+    @Test
+    fun `test retrieve all exchange rates from last day and with given code`() {
+        // given
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
+
+        val usdToday = ExchangeRateEntity(date = today, currencyCode = "USD", exchangeRate = 22.5)
+        val usdYesterday = ExchangeRateEntity(date = yesterday, currencyCode = "USD", exchangeRate = 20.5)
+
+        val eurToday = ExchangeRateEntity(date = today, currencyCode = "EUR", exchangeRate = 22.5)
+        val eurYesterday = ExchangeRateEntity(date = yesterday, currencyCode = "EUR", exchangeRate = 28.5)
+
+        repository.saveAll(
+                listOf(usdToday, usdYesterday,
+                        eurToday, eurYesterday))
+
+        // when
+        val result = repository.findAllRatesFromLastDayWhereCodeLike(listOf("USD"))
+        // then
+        assertThat(result.size).isEqualTo(1)
+        assertThat(result.first()).isEqualTo(usdToday)
     }
 }

@@ -3,6 +3,8 @@ package com.estn.economy.dashboard.presentation
 import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.dashboard.domain.EconomyOverview
+import com.estn.economy.dashboard.domain.InflationOverview
+import com.estn.economy.dashboard.domain.LatestGdp
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.inflation.data.InflationRateEntity
@@ -12,10 +14,7 @@ import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.mock
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -38,23 +37,38 @@ class DashboardControllerTest {
 
     val date = "15.1.2020"
 
-    val exampleGDP = listOf(GrossDomesticProductEntity(year = 2015, type = GrossDomesticProductType.NOMINAL, gdpMillionsCrowns = 5644787))
-    val exampleUnemployment = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
+    val gdp = listOf(GrossDomesticProductEntity(year = 2015, type = GrossDomesticProductType.NOMINAL, gdpMillionsCrowns = 5644787))
+    val unemp = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
-    val expectedRates = listOf(exampleRate)
-    val expectedInflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
+    val exchangeRates = listOf(exampleRate)
+    val inflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
             valuePercent = 5f))
 
-    val expectedPublicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
-    val expectedBudgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
+    val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
+    val budgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
-    val expectedDashboard = mock(ComposeDashboardUseCase.EconomyDashboard::class.java)
+    val overview = EconomyOverview(exchangeRates = listOf(exampleRate),
+            inflation = InflationOverview("Leden",
+                    InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
+            latestGdp = LatestGdp(2019, 2.6)
+    )
+
+    val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
+            overview = overview,
+            realGdp2010Prices = gdp,
+            budgetBalance = budgetBalance,
+            publicDebt = publicDebt,
+            yearlyInflationRates = inflation,
+            yearlyUnempRates = unemp,
+            exchangeRates = exchangeRates,
+            exchangeRatesDate = date,
+            nominalGdp = gdp
+    )
+
 
     @Test
     fun `GET root route returns dashboard`() {
         // given
-        Mockito.`when`(expectedDashboard.overview).thenReturn(Mockito.mock(EconomyOverview::class.java))
-
         composeDashboard.mockDashboard(expectedDashboard)
 
         // when

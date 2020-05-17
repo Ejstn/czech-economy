@@ -1,23 +1,20 @@
-package com.estn.economy.grossdomesticproduct.data.database
+package com.estn.economy.inflation.data
 
 import com.estn.economy.DatabaseTest
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 
-/**
- * Written by estn on 17.01.2020.
- */
 @DatabaseTest
-class GrossDomesticProductRepositoryTest {
+class InflationRateRepositoryTest {
 
     @Autowired
-    lateinit var repository: GrossDomesticProductRepository
+    lateinit var repository: InflationRateRepository
 
     @BeforeEach
     fun setUp() {
@@ -28,12 +25,17 @@ class GrossDomesticProductRepositoryTest {
     fun `test saving an entity`() {
         // given
         // when
-        val entityToSave = GrossDomesticProductEntity(year = 2016, gdpMillionsCrowns = 456465464, type = GrossDomesticProductType.REAL_2010_PRICES)
+        val entityToSave = InflationRateEntity(
+                year = 2015,
+                type = InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH,
+                valuePercent = 4.5f,
+                month = 10)
         repository.save(entityToSave)
         // then
         val foundRate = repository.findById(entityToSave.key())
         assertThat(foundRate.isPresent).isTrue()
         assertThat(foundRate.get()).isEqualTo(entityToSave)
     }
+
 
 }

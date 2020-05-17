@@ -8,4 +8,6 @@ interface GrossDomesticProductRepository : JpaRepository<GrossDomesticProductEnt
 
     fun getAllByTypeEqualsOrderByYearAsc(type: GrossDomesticProductType) : List<GrossDomesticProductEntity>
 
+    fun getAllByTypeEqualsOrderByYearDesc(type: GrossDomesticProductType) : List<GrossDomesticProductEntity>
+
 }

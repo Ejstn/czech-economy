@@ -14,11 +14,11 @@
 <div>
 
     <!-- quick overview -->
-    <section class="section ">
+    <section class="section has-text-centered">
 
         <div class="container">
 
-            <h1 class="title is-4">Základní přehled</h1>
+            <h1 class="title is-4 is-centered">Základní přehled</h1>
 
             <div class="columns">
 
@@ -28,7 +28,7 @@
 
                         <h1 class="title is-6">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
 
-                        <table class="table is-hoverable is-striped">
+                        <table class="table is-hoverable is-striped is-centered">
 
                             <thead class="title is-6">
                             <tr>
@@ -63,7 +63,9 @@
 
                         <h1 class="title is-6">Meziroční inflace</h1>
 
-                        <p th:text="${dashboard.overview.inflation.valuePercent}"></p>
+                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
+
+                        <p th:text="${dashboard.overview.inflation.inflation.valuePercent}"></p>
 
                     </div>
 
@@ -71,6 +73,15 @@
                 </div>
 
                 <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
+
+                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
+                        <p th:text="${dashboard.overview.latestGdp.percentChange}"></p>
+
+                    </div>
 
                 </div>
 

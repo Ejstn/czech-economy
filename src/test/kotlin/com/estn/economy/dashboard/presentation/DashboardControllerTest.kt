@@ -2,6 +2,7 @@ package com.estn.economy.dashboard.presentation
 
 import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
+import com.estn.economy.dashboard.domain.EconomyOverview
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.inflation.data.InflationRateEntity
@@ -11,6 +12,7 @@ import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
 import org.junit.jupiter.api.Test
+import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
 import org.mockito.Mockito
@@ -46,11 +48,13 @@ class DashboardControllerTest {
     val expectedPublicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
     val expectedBudgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
-    val expectedDashboard = Mockito.mock(ComposeDashboardUseCase.EconomyDashboard::class.java)
+    val expectedDashboard = mock(ComposeDashboardUseCase.EconomyDashboard::class.java)
 
     @Test
     fun `GET root route returns dashboard`() {
         // given
+        Mockito.`when`(expectedDashboard.overview).thenReturn(Mockito.mock(EconomyOverview::class.java))
+
         composeDashboard.mockDashboard(expectedDashboard)
 
         // when

@@ -1,23 +1,24 @@
-package com.estn.economy.grossdomesticproduct.data.database
+package com.estn.economy.budgetbalance.data
 
 import com.estn.economy.DatabaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.orm.jpa.JpaSystemException
 import org.springframework.test.context.ActiveProfiles
+import java.sql.SQLException
 
-/**
- * Written by estn on 17.01.2020.
- */
+
 @DatabaseTest
-class GrossDomesticProductRepositoryTest {
+class BudgetBalanceRepositoryTest {
 
     @Autowired
-    lateinit var repository: GrossDomesticProductRepository
+    lateinit var repository: BudgetBalanceRepository
 
     @BeforeEach
     fun setUp() {
@@ -27,13 +28,27 @@ class GrossDomesticProductRepositoryTest {
     @Test
     fun `test saving an entity`() {
         // given
+        repository.deleteAllInBatch()
         // when
-        val entityToSave = GrossDomesticProductEntity(year = 2016, gdpMillionsCrowns = 456465464, type = GrossDomesticProductType.REAL_2010_PRICES)
+        val entityToSave = BudgetBalanceEntity(year = 2030, millionsCrowns = 15)
         repository.save(entityToSave)
         // then
-        val foundRate = repository.findById(entityToSave.key())
+        val foundRate = repository.findById(entityToSave.year)
         assertThat(foundRate.isPresent).isTrue()
         assertThat(foundRate.get()).isEqualTo(entityToSave)
+    }
+
+
+    @Test
+    fun `test saving an entity with 0 year wont work`() {
+        // given
+        repository.deleteAllInBatch()
+        // when
+        // then
+        assertThrows<JpaSystemException> {
+            val entityToSave = BudgetBalanceEntity(year = 0, millionsCrowns = 15)
+            repository.save(entityToSave)
+        }
     }
 
 }

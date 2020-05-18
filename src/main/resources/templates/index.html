@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8">
-    <title>Ekonomika ČR</title>
-    <link data-th-href="@{/styles.css}" rel="stylesheet">
-    <link rel="stylesheet" data-th-href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
-
-    <script type="text/javascript" data-th-src="@{/webjars/highcharts/8.0.4/highcharts.js}"></script>
-</head>
+<head th:replace="fragments/common :: head"></head>
 
 <body class="has-navbar-fixed-top">
 
@@ -16,10 +8,88 @@
 <div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
 
 <!-- header -->
-<div th:insert="fragments/header :: header"></div>
+<div th:insert="fragments/common :: header"></div>
 
 <!-- content -->
 <div>
+
+    <!-- quick overview -->
+    <section class="section has-text-centered">
+
+        <div class="container">
+
+            <h1 class="title is-4 is-centered">Základní přehled</h1>
+
+            <div class="columns is-centered">
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
+
+
+                        <table class="table is-hoverable is-striped is-fullwidth">
+
+                            <thead class="title is-6">
+                            <tr>
+                                <th>Kód</th>
+                                <th>Množsví</th>
+                                <th>Kurz</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
+                                <td>[[${entry.currencyCode}]]</td>
+                                <td>[[${entry.amount}]]</td>
+                                <td>[[${entry.exchangeRate}]]</td>
+                            </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční inflace</h1>
+
+                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
+
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
+
+                    </div>
+
+
+                </div>
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
+
+                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
     <!-- gdp -->
     <section class="section has-text-centered">
@@ -76,7 +146,7 @@
                         data: formattedData
                     }],
                     credits: {
-                       enabled: false
+                        enabled: false
                     }
                 });
 
@@ -437,7 +507,7 @@
 </div>
 
 <!-- footer -->
-<div th:insert="fragments/footer :: footer"></div>
+<div th:insert="fragments/common :: footer"></div>
 
 </body>
 </html>

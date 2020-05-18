@@ -24,6 +24,7 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                               private val fetchInflation: FetchInflationRateUseCase,
                               private val publicDebtRepository: PublicDebtRepository,
                               private val budgetBalanceRepository: BudgetBalanceRepository,
+                              private val composeOverview: ComposeEconomyOverviewUseCase,
                               private val dateFormatter: DateFormatter) {
 
 
@@ -38,8 +39,10 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = publicDebtRepository.findAll()
         val budgetBalance = budgetBalanceRepository.findAll()
+        val overview = composeOverview.execute()
 
         return EconomyDashboard(
+                overview = overview,
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
                 nominalGdp = nominalGdp,
@@ -51,7 +54,8 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
 
     }
 
-    data class EconomyDashboard(val exchangeRatesDate: String,
+    data class EconomyDashboard(val overview: EconomyOverview,
+                                val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
                                 val nominalGdp: Collection<GrossDomesticProductEntity>,
                                 val realGdp2010Prices: Collection<GrossDomesticProductEntity>,

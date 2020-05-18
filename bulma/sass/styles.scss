@@ -34,8 +34,8 @@ $text-light: lighten($text, 10);
 $text-strong: darken($text, 5);
 
 $box-color: $text;
-$box-background-color: $grey-accent;
-$box-shadow: none;
+$box-background-color: hsl(0, 0%, 17%);
+//$box-shadow: none;
 
 $link-hover: $primary-light;
 $link-focus: $primary-light;

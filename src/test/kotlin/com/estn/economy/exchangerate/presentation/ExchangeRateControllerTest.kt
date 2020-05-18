@@ -56,5 +56,17 @@ class ExchangeRateControllerTest {
                 ))
     }
 
+    @Test
+    fun `GET kurzy return correct template`() {
+        // given
+        // when
+        // then
+        mvc.perform(get("/kurzy"))
+                .andExpect(matchAll(
+                        status().isOk,
+                        view().name("pages/exchangerate")
+                ))
+    }
+
 
 }

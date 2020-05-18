@@ -12,4 +12,6 @@ interface UnemploymentRateRepository : JpaRepository<UnemploymentRateEntity, Une
             "(year, avg(unemploymentRatePercent)) from unemployment_rate group by year order by year asc")
     fun getAllYearlyAveragedUnemploymentRates() : List<UnemploymentRatePerYearAvg>
 
+    fun findFirstByOrderByYearDescQuarterDesc() : UnemploymentRateEntity
+
 }

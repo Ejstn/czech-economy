@@ -22,11 +22,56 @@
 
             <div class="columns is-centered">
 
+                <!-- gdp -->
                 <div class="column">
 
                     <div class="box">
 
-                        <h1 class="title is-6">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
+                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
+
+                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
+
+                    </div>
+
+                </div>
+
+                <!-- inflation -->
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční inflace</h1>
+
+                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
+
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
+
+                    </div>
+
+
+                </div>
+
+                <!-- unemployment -->
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Nezaměstnanost</h1>
+
+                        <p th:text="${dashboard.overview.unemployment.quarter} + '. čtvrtletí ' +  ${dashboard.overview.unemployment.year}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
+
+                    </div>
+
+                </div>
+
+                <!-- exchange rate -->
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
 
 
                         <table class="table is-hoverable is-striped is-fullwidth">
@@ -52,34 +97,6 @@
                         </table>
 
 
-
-                    </div>
-
-                </div>
-
-                <div class="column">
-
-                    <div class="box">
-
-                        <h1 class="title is-6">Meziroční inflace</h1>
-
-                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
-
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
-
-                    </div>
-
-
-                </div>
-
-                <div class="column">
-
-                    <div class="box">
-
-                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
-
-                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
 
                     </div>
 

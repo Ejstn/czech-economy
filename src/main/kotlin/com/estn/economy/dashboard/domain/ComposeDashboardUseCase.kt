@@ -1,7 +1,7 @@
 package com.estn.economy.dashboard.domain
 
-import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
-import com.estn.economy.budgetbalance.data.BudgetBalanceRepository
+import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
+import com.estn.economy.nationalbudget.data.BudgetBalanceRepository
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.translate
 import com.estn.economy.exchangerate.domain.ExchangeRate
@@ -11,8 +11,8 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductT
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
-import com.estn.economy.publicdebt.data.PublicDebtEntity
-import com.estn.economy.publicdebt.data.PublicDebtRepository
+import com.estn.economy.nationalbudget.data.PublicDebtEntity
+import com.estn.economy.nationalbudget.data.PublicDebtRepository
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.springframework.stereotype.Service

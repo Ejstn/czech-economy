@@ -65,7 +65,7 @@
 
                         <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
 
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT')}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
 
                     </div>
 
@@ -79,7 +79,7 @@
                         <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
 
                         <p th:text="${dashboard.overview.latestGdp.year}"></p>
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
 
                     </div>
 

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
@@ -74,10 +75,11 @@ class DashboardControllerTest {
         // when
         // then
         mvc.perform(get("/"))
-                .andExpect {
-                    status().is2xxSuccessful
-                    model().attribute("dashboard", expectedDashboard)
-                }
+                .andExpect(ResultMatcher.matchAll(
+                        status().isOk,
+                        model().attribute("dashboard", expectedDashboard),
+                        view().name("index")
+                ))
     }
 
     @Test
@@ -87,12 +89,12 @@ class DashboardControllerTest {
         // when
         // then
         mvc.perform(get("/"))
-                .andExpect {
-                    status().is5xxServerError
-                    model().attributeDoesNotExist("dashboard")
-                    model().attribute("status", 500)
-                    view().name("5xx")
-                }
+                .andExpect(ResultMatcher.matchAll(
+                        status().isInternalServerError,
+                        model().attributeDoesNotExist("dashboard"),
+                        model().attribute("status", 500),
+                        view().name("error/5xx")
+                ))
     }
 
 

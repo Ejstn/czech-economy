@@ -46,11 +46,9 @@ class EconomyRestControllerTest {
         // then
         mvc.perform(get("/api/v1/exchangerate")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect {
-                    status().is2xxSuccessful
-                    content().contentType(MediaType.APPLICATION_JSON)
-                    content().json(expectedJsonResponse)
-                }
+                .andExpect(   status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expectedJsonResponse))
                 .andDo(document("exchangeRate"))
 
     }

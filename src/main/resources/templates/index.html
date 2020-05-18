@@ -5,10 +5,10 @@
 <body class="has-navbar-fixed-top">
 
 <!-- highcharts common options -->
-<div th:insert="fragments/highchartsoptions :: highchartsoptions"></div>
+<div th:replace="fragments/highchartsoptions :: highchartsoptions"></div>
 
 <!-- header -->
-<div th:insert="fragments/common :: header"></div>
+<div th:replace="fragments/common :: header"></div>
 
 <!-- content -->
 <section class="section has-text-centered">
@@ -509,7 +509,7 @@
 </section>
 
 <!-- footer -->
-<div th:insert="fragments/common :: footer"></div>
+<div th:replace="fragments/common :: footer"></div>
 
 </body>
 </html>

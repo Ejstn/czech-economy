@@ -11,10 +11,10 @@
 <div th:insert="fragments/common :: header"></div>
 
 <!-- content -->
-<div>
+<section class="section has-text-centered">
 
     <!-- quick overview -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
         <div class="container">
 
@@ -89,70 +89,72 @@
 
         </div>
 
-    </section>
+    <br>
+
+<!--    </section>-->
 
     <!-- gdp -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
         <!-- nominal gdp -->
-        <div class="container">
+<!--        <div class="container">-->
 
-            <h1 class="title is-4">Hrubý domácí produkt</h1>
+<!--            <h1 class="title is-4">Hrubý domácí produkt</h1>-->
 
-            <div id="chart_gdp"></div>
+<!--            <div id="chart_gdp"></div>-->
 
-            <script data-th-inline="javascript">
+<!--            <script data-th-inline="javascript">-->
 
-                var yearlyGdps = /*[[${dashboard.nominalGdp}]]*/ {};
-                var title = "Graf nominálního HDP";
-                var tooltipText = "";
+<!--                var yearlyGdps = /*[[${dashboard.nominalGdp}]]*/ {};-->
+<!--                var title = "Graf nominálního HDP";-->
+<!--                var tooltipText = "";-->
 
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.gdpMillionsCrowns / 1000];
-                });
+<!--                var formattedData = yearlyGdps.map(function (it) {-->
+<!--                    return [it.year, it.gdpMillionsCrowns / 1000];-->
+<!--                });-->
 
-                Highcharts.chart("chart_gdp", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Miliardy Kč"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.0f} miliard Kč"
-                    },
-                    series: [{
-                        type: "area",
-                        name: tooltipText,
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
-                    }
-                });
+<!--                Highcharts.chart("chart_gdp", {-->
+<!--                    chart: {-->
+<!--                        zoomType: "x"-->
+<!--                    },-->
+<!--                    title: {-->
+<!--                        text: title-->
+<!--                    },-->
+<!--                    subtitle: {-->
+<!--                        text: document.ontouchstart === undefined ?-->
+<!--                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"-->
+<!--                    },-->
+<!--                    yAxis: {-->
+<!--                        title: {-->
+<!--                            text: "Miliardy Kč"-->
+<!--                        }-->
+<!--                    },-->
+<!--                    legend: {-->
+<!--                        enabled: false-->
+<!--                    },-->
+<!--                    plotOptions: {-->
+<!--                        series: {-->
+<!--                            label: {-->
+<!--                                connectorAllowed: false-->
+<!--                            },-->
+<!--                        }-->
+<!--                    },-->
+<!--                    tooltip: {-->
+<!--                        pointFormat: "{point.y:.0f} miliard Kč"-->
+<!--                    },-->
+<!--                    series: [{-->
+<!--                        type: "area",-->
+<!--                        name: tooltipText,-->
+<!--                        data: formattedData-->
+<!--                    }],-->
+<!--                    credits: {-->
+<!--                        enabled: false-->
+<!--                    }-->
+<!--                });-->
 
-            </script>
+<!--            </script>-->
 
-        </div>
+<!--        </div>-->
 
         <!-- real gdp 2010 prices -->
         <div class="container">
@@ -212,14 +214,14 @@
 
         </div>
 
-    </section>
+<!--    </section>-->
 
     <!-- unemployment -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
         <div class="container ">
 
-            <h1 class="title is-4">Nezaměstnanost</h1>
+<!--            <h1 class="title is-4">Nezaměstnanost</h1>-->
 
             <div id="chart_unemployment"></div>
 
@@ -277,14 +279,14 @@
 
         </div>
 
-    </section>
+<!--    </section>-->
 
     <!-- inflation -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
         <div class="container">
 
-            <h1 class="title is-4">Inflace</h1>
+<!--            <h1 class="title is-4">Inflace</h1>-->
 
             <div id="chart_inflation"></div>
 
@@ -342,14 +344,14 @@
 
         </div>
 
-    </section>
+<!--    </section>-->
 
     <!-- public debt -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
         <div class="container">
 
-            <h1 class="title is-4">Státní dluh</h1>
+<!--            <h1 class="title is-4">Státní dluh</h1>-->
 
             <div id="chart_public_debt"></div>
 
@@ -403,73 +405,73 @@
 
         </div>
 
-    </section>
+<!--    </section>-->
 
     <!-- budget balance -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
-        <div class="container">
+<!--        <div class="container">-->
 
-            <h1 class="title is-4">Saldo státního rozpočtu</h1>
+<!--            <h1 class="title is-4">Saldo státního rozpočtu</h1>-->
 
-            <div id="chart_budget_balance"></div>
+<!--            <div id="chart_budget_balance"></div>-->
 
-            <script data-th-inline="javascript">
-                var yearlyGdps = /*[[${dashboard.budgetBalance}]]*/ {};
-                var title = "Graf salda státního rozpočtu";
+<!--            <script data-th-inline="javascript">-->
+<!--                var yearlyGdps = /*[[${dashboard.budgetBalance}]]*/ {};-->
+<!--                var title = "Graf salda státního rozpočtu";-->
 
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.millionsCrowns / 1000];
-                });
+<!--                var formattedData = yearlyGdps.map(function (it) {-->
+<!--                    return [it.year, it.millionsCrowns / 1000];-->
+<!--                });-->
 
-                Highcharts.chart("chart_budget_balance", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Miliardy Kč"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.0f} miliard Kč"
-                    },
-                    series: [{
-                        type: "area",
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
-                    }
-                });
+<!--                Highcharts.chart("chart_budget_balance", {-->
+<!--                    chart: {-->
+<!--                        zoomType: "x"-->
+<!--                    },-->
+<!--                    title: {-->
+<!--                        text: title-->
+<!--                    },-->
+<!--                    subtitle: {-->
+<!--                        text: document.ontouchstart === undefined ?-->
+<!--                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"-->
+<!--                    },-->
+<!--                    yAxis: {-->
+<!--                        title: {-->
+<!--                            text: "Miliardy Kč"-->
+<!--                        }-->
+<!--                    },-->
+<!--                    legend: {-->
+<!--                        enabled: false-->
+<!--                    },-->
+<!--                    plotOptions: {-->
+<!--                        series: {-->
+<!--                            label: {-->
+<!--                                connectorAllowed: false-->
+<!--                            },-->
+<!--                        }-->
+<!--                    },-->
+<!--                    tooltip: {-->
+<!--                        pointFormat: "{point.y:.0f} miliard Kč"-->
+<!--                    },-->
+<!--                    series: [{-->
+<!--                        type: "area",-->
+<!--                        data: formattedData-->
+<!--                    }],-->
+<!--                    credits: {-->
+<!--                        enabled: false-->
+<!--                    }-->
+<!--                });-->
 
-            </script>
+<!--            </script>-->
 
-        </div>
+<!--        </div>-->
 
-    </section>
+<!--    </section>-->
 
     <!-- exchange rates -->
-    <section class="section has-text-centered">
+<!--    <section class="section has-text-centered">-->
 
-        <div class="container">
+        <div class="container has-text-centered">
 
             <h1 class="title is-4">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
 
@@ -502,9 +504,9 @@
             </table>
         </div>
 
-    </section>
+<!--    </section>-->
 
-</div>
+</section>
 
 <!-- footer -->
 <div th:insert="fragments/common :: footer"></div>

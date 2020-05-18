@@ -13,18 +13,83 @@
 <!-- content -->
 <div>
 
-<!--    <script data-th-inline="javascript">-->
-<!--        var yearlyGdps = /*[[${dashboard.nominalGdp}]]*/ {};-->
-<!--        var title = "Graf nominálního HDP";-->
-<!--        var tooltipText = "";-->
+    <!-- quick overview -->
+    <section class="section has-text-centered">
 
-<!--        var formattedData = yearlyGdps.map(function (it) {-->
-<!--            return [it.year, it.gdpMillionsCrowns / 1000];-->
-<!--        });-->
-<!--    </script>-->
+        <div class="container">
 
-<!--    <div th:replace="fragments/charts :: simplechart('chartname','Nominální GDP', ${dashboard.nominalGdp})"></div>-->
+            <h1 class="title is-4 is-centered">Základní přehled</h1>
 
+            <div class="columns is-centered">
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
+
+
+                        <table class="table is-hoverable is-striped is-fullwidth">
+
+                            <thead class="title is-6">
+                            <tr>
+                                <th>Kód</th>
+                                <th>Množsví</th>
+                                <th>Kurz</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
+                                <td>[[${entry.currencyCode}]]</td>
+                                <td>[[${entry.amount}]]</td>
+                                <td>[[${entry.exchangeRate}]]</td>
+                            </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční inflace</h1>
+
+                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
+
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
+
+                    </div>
+
+
+                </div>
+
+                <div class="column">
+
+                    <div class="box">
+
+                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
+
+                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
+                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
     <!-- gdp -->
     <section class="section has-text-centered">

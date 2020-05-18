@@ -1,5 +1,6 @@
 package com.estn.economy.unemploymentrate.data.database
 
+import com.estn.economy.DatabaseTest
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -12,10 +13,8 @@ import org.springframework.test.context.ActiveProfiles
 /**
  * Written by estn on 17.01.2020.
  */
-@SpringBootTest
-@ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UnemploymentRateRepositoryIntegrationTest {
+@DatabaseTest
+class UnemploymentRateRepositoryTest {
 
     @Autowired
     lateinit var repository: UnemploymentRateRepository

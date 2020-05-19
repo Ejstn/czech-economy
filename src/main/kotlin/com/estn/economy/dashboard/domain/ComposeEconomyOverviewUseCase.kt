@@ -9,6 +9,8 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductT
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationRateRepository
 import com.estn.economy.inflation.data.InflationType
+import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
+import com.estn.economy.unemploymentrate.data.database.UnemploymentRateRepository
 import org.springframework.stereotype.Service
 import java.time.Month
 
@@ -16,6 +18,7 @@ import java.time.Month
 class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRateRepository,
                                     private val inflationRepository: InflationRateRepository,
                                     private val gdpRepository: GrossDomesticProductRepository,
+                                    private val unemploymentRepository: UnemploymentRateRepository,
                                     private val configuration: EconomyOverviewConfiguration) {
 
     fun execute(): EconomyOverview {
@@ -26,6 +29,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         val inflationEntity = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)
         val inflation = InflationOverview(Month.of(inflationEntity.month).translate(true), inflationEntity)
 
+        val unemployment = unemploymentRepository.findFirstByOrderByYearDescQuarterDesc()
 
         val latestGdp = gdpRepository.getAllByTypeEqualsOrderByYearDesc(GrossDomesticProductType.REAL_2010_PRICES)
                 .take(2)
@@ -37,14 +41,15 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                             / second.gdpMillionsCrowns * 100) - 100)
                 }
 
-        return EconomyOverview(rates, inflation, latestGdp)
+        return EconomyOverview(rates, inflation, latestGdp, unemployment)
     }
 
 }
 
 data class EconomyOverview(val exchangeRates: Collection<ExchangeRate>,
                            val inflation: InflationOverview,
-                           val latestGdp: LatestGdp)
+                           val latestGdp: LatestGdp,
+                           val unemployment: UnemploymentRateEntity)
 
 
 data class LatestGdp(val year: Int,

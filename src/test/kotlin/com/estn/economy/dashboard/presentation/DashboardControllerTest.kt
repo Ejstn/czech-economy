@@ -1,6 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
-import com.estn.economy.budgetbalance.data.BudgetBalanceEntity
+import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.dashboard.domain.EconomyOverview
 import com.estn.economy.dashboard.domain.InflationOverview
@@ -9,7 +9,8 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductE
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
-import com.estn.economy.publicdebt.data.PublicDebtEntity
+import com.estn.economy.nationalbudget.data.PublicDebtEntity
+import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
@@ -50,7 +52,8 @@ class DashboardControllerTest {
     val overview = EconomyOverview(exchangeRates = listOf(exampleRate),
             inflation = InflationOverview("Leden",
                     InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
-            latestGdp = LatestGdp(2019, 2.6)
+            latestGdp = LatestGdp(2019, 2.6),
+            unemployment = UnemploymentRateEntity(quarter = 1, year = 2015, unemploymentRatePercent = 5.0)
     )
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
@@ -74,10 +77,11 @@ class DashboardControllerTest {
         // when
         // then
         mvc.perform(get("/"))
-                .andExpect {
-                    status().is2xxSuccessful
-                    model().attribute("dashboard", expectedDashboard)
-                }
+                .andExpect(ResultMatcher.matchAll(
+                        status().isOk,
+                        model().attribute("dashboard", expectedDashboard),
+                        view().name("index")
+                ))
     }
 
     @Test
@@ -87,12 +91,12 @@ class DashboardControllerTest {
         // when
         // then
         mvc.perform(get("/"))
-                .andExpect {
-                    status().is5xxServerError
-                    model().attributeDoesNotExist("dashboard")
-                    model().attribute("status", 500)
-                    view().name("5xx")
-                }
+                .andExpect(ResultMatcher.matchAll(
+                        status().isInternalServerError,
+                        model().attributeDoesNotExist("dashboard"),
+                        model().attribute("status", 500),
+                        view().name("error/5xx")
+                ))
     }
 
 

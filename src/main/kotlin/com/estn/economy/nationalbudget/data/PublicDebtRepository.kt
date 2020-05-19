@@ -1,4 +1,4 @@
-package com.estn.economy.publicdebt.data
+package com.estn.economy.nationalbudget.data
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

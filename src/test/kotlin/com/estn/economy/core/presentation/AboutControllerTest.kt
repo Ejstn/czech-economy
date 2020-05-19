@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher.matchAll
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
@@ -20,10 +21,12 @@ class AboutControllerTest {
         // when
         // then
         mvc.perform(MockMvcRequestBuilders.get("/oaplikaci/zdroje-dat"))
-                .andExpect {
-                    status().is2xxSuccessful
-                    view().name("data_sources")
-                }
+                .andExpect(
+                        matchAll(
+                                status().isOk,
+                                view().name("data_sources")
+                        )
+                )
     }
 
 

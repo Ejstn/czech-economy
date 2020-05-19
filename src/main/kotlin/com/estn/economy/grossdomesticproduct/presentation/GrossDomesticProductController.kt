@@ -17,6 +17,10 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
     fun getGdp(model: Model): String {
         model.addAttribute("nominalGdp", fetchGdpUseCase.fetchGdp(GrossDomesticProductType.NOMINAL))
         model.addAttribute("realGdp2010Prices", fetchGdpUseCase.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES))
+
+        model.addAttribute("nominalGdpChanges", fetchGdpUseCase.fetchPercentChangesPerYear(GrossDomesticProductType.NOMINAL))
+        model.addAttribute("realGdpChanges", fetchGdpUseCase.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES))
+
         return template
     }
 

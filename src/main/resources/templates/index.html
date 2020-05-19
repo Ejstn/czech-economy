@@ -2,6 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
+<script>
+
+    jQuery(document).ready(function($) {
+        $(".table").click(function() {
+            window.location = $(this).find('a').attr('href');
+        });
+    });
+
+</script>
+
 <body >
 
 <!-- highcharts common options -->
@@ -406,7 +416,7 @@
 <!--    </section>-->
 
     <!-- exchange rates -->
-        <div class="container has-text-centered">
+        <div class="table-container">
 
             <h1 class="title is-4">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
 
@@ -419,18 +429,16 @@
                     <th>Kód</th>
                     <th>Množsví</th>
                     <th>Kurz</th>
-                    <th></th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr data-th-each="entry : ${dashboard.exchangeRates}">
+                <tr data-th-each="entry : ${dashboard.exchangeRates}" class="clickable-row">
                     <td>[[${entry.country}]]</td>
                     <td>[[${entry.currencyName}]]</td>
                     <td>[[${entry.currencyCode}]]</td>
                     <td>[[${entry.amount}]]</td>
-                    <td>[[${entry.exchangeRate}]]</td>
-                    <td><a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}">Více info</a></td>
+                    <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a> </td>
                 </tr>
 
                 </tbody>

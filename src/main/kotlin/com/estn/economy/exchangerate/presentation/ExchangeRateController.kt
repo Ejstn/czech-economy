@@ -5,12 +5,20 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
+@RequestMapping("/kurzy")
 class ExchangeRateController(private val fetchExchangeUseCase: FetchExchangeRateUseCase) {
 
 
-    @GetMapping("/kurzy/{currencyCode}")
+    @GetMapping
+    fun getExchangeRates(model: Model) : String {
+        return "pages/exchangerate"
+    }
+
+
+    @GetMapping("/{currencyCode}")
     fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model): String {
         val ratesList = fetchExchangeUseCase.fetchByCurrencyOrderByDate(currencyCode)
 

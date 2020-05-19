@@ -1,4 +1,4 @@
-package com.estn.economy.publicdebt.data
+package com.estn.economy.nationalbudget.data
 
 import javax.persistence.Column
 import javax.persistence.Entity

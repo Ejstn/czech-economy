@@ -1,6 +1,8 @@
-package com.estn.economy.publicdebt.data
+package com.estn.economy.nationalbudget.data
 
 import com.estn.economy.DatabaseTest
+import com.estn.economy.nationalbudget.data.PublicDebtEntity
+import com.estn.economy.nationalbudget.data.PublicDebtRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

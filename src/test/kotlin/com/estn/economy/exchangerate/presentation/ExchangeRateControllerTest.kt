@@ -7,7 +7,10 @@ import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.ResultMatcher.matchAll
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
@@ -31,10 +34,9 @@ class ExchangeRateControllerTest {
         // when
         // then
         mvc.perform(get("/kurzy/${currencyCode}"))
-                .andExpect {
-                    status().is2xxSuccessful
-                    model().attribute("rates", expectedRates)
-                }
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.parseMediaType("text/html;charset=UTF8")))
+                .andExpect(model().attribute("rates", expectedRates))
     }
 
     @Test
@@ -46,12 +48,24 @@ class ExchangeRateControllerTest {
         // when
         // then
         mvc.perform(get("/kurzy/${currencyCode}"))
-                .andExpect {
-                    status().is4xxClientError
-                    model().attributeDoesNotExist("rates")
-                    model().attribute("status", 404)
-                    view().name("4xx")
-                }
+                .andExpect(matchAll(
+                        status().isNotFound,
+                        model().attributeDoesNotExist("rates"),
+                        model().attribute("status", 404),
+                        view().name("error/4xx")
+                ))
+    }
+
+    @Test
+    fun `GET kurzy return correct template`() {
+        // given
+        // when
+        // then
+        mvc.perform(get("/kurzy"))
+                .andExpect(matchAll(
+                        status().isOk,
+                        view().name("pages/exchangerate")
+                ))
     }
 
 

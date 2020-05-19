@@ -2,6 +2,15 @@
 html {
   scroll-behavior: smooth; }
 
+.menu.is-sticky {
+  position: -webkit-sticky;
+  /* Safari */
+  position: sticky;
+  top: 0; }
+
+.menu.has-top-padding {
+  top: 1em; }
+
 /*! bulma.io v0.8.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {

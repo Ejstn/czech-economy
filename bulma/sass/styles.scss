@@ -95,34 +95,18 @@ html {
   scroll-behavior: smooth;
 }
 
-//.columns {
-//  &.is-fullheight {
-//    flex: 1;
-//
-//    .column {
-//      overflow-y: auto;
-//    }
-//  }
-//};
+.menu {
+  &.is-sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }
 
-//$navbar-height: 3.25rem;
-//
-//.columns {
-//  &.is-fullheight {
-//    min-height: calc(100vh - (#{$navbar-height} - .75rem));
-//    max-height: calc(100vh - (#{$navbar-height} - .75rem));
-//    height: calc(100vh - (#{$navbar-height} - .75rem));
-//    display: flex;
-//    flex-direction: row;
-//    justify-content: stretch;
-//
-//    .column {
-//      overflow: hidden;
-//    }
-//  }
-//
-//};
+  &.has-top-padding {
+    top: 1em;
+  }
 
+}
 
 @import "../node_modules/bulma/bulma.sass";
 

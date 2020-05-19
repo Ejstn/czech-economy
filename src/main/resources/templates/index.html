@@ -96,7 +96,7 @@
                             <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
                                 <td>[[${entry.currencyCode}]]</td>
                                 <td>[[${entry.amount}]]</td>
-                                <td>[[${entry.exchangeRate}]]</td>
+                                <td>[[${entry.exchangeRate}]] <a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
                             </tr>
 
                             </tbody>

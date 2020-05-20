@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
-<body >
+<body>
 
 <!-- highcharts common options -->
 <div th:replace="fragments/highchartsoptions :: highchartsoptions"></div>
@@ -13,84 +13,104 @@
 <!-- content -->
 <section class="section">
 
-    <div class="container">
+    <div class="container" id="main" style="min-height: 450px"></div>
+    <script data-th-inline="javascript">
 
-        <div id="chart" style="height: 500px; min-width: 310px"></div>
+        var myChart = echarts.init(document.getElementById('main'), 'dark');
 
-        <script data-th-inline="javascript">
-            var rates = /*[[${rates}]]*/ {};
-            var currencyCode =  /*[[${currencyCode}]]*/ {};
-            var czechCurrencyCode = "CZK";
-            var currencyAmount = /*[[${currencyAmount}]]*/ {};
-            var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
-            var tooltipText = currencyCode.concat("/", czechCurrencyCode);
+        var rates = /*[[${rates}]]*/ {};
+        var currencyCode =  /*[[${currencyCode}]]*/ {};
+        var czechCurrencyCode = "CZK";
+        var currencyAmount = /*[[${currencyAmount}]]*/ {};
+        var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
+        var tooltipText = currencyCode.concat("/", czechCurrencyCode);
 
-            var formattedData = rates.map(function (rate) {
-                return [Date.parse(rate.date), rate.exchangeRate];
-            });
+        var dates = rates.map(function (rate) {
+            return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
+        })
 
-            Highcharts.chart("chart", {
-                chart: {
-                    zoomType: "x"
-                },
-                title: {
-                    text: title
-                },
-                subtitle: {
-                    text: document.ontouchstart === undefined ?
-                        "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                },
-                xAxis: {
-                    type: "datetime"
-                },
-                yAxis: {
-                    title: {
-                        text: "Kurz"
+        var data = rates.map(function (rate) {
+            return rate.exchangeRate;
+        })
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove|click',
+                alwaysShowContent: true,
+                axisPointer: {
+                    snap: true,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.75)'
                     }
-                },
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    area: {
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, Highcharts.getOptions().colors[0]],
-                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get("rgba")]
-                            ]
-                        },
-                        marker: {
-                            radius: 2
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: null
-                    }
-                },
-
-                series: [{
-                    type: "area",
-                    name: tooltipText,
-                    data: formattedData
-                }],
-                credits: {
-                    enabled: false
                 }
-            });
+            },
+            title: {
+                left: 'center',
+                text: title,
+            },
+            toolbox: {
+                feature: {
+                    restore: {
+                        title: 'Zrušit přiblížení'
+                    },
+                    saveAsImage: {
+                        title: 'Uložit obrázek'
+                    }
+                }
+            },
+            xAxis: {
+                data: dates
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Kurz',
+                nameLocation: 'center',
+                nameGap: 30
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                containLabel: true
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 100
+            },
+                {
+                    handleStyle: {
+                        color: '#fff',
+                    }
+                }
+            ],
+            backgroundColor: "#242424",
+            series: [
+                {
+                    name: tooltipText,
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    sampling: 'average',
+                    itemStyle: {
+                        color: 'rgba(99,173,227,0.69)'
+                    },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(101,160,203,0.69)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(0,78,130,0.69)'
+                        }])
+                    },
+                    data: data
+                }
+            ]
+        };
 
-        </script>
-
-    </div>
+        myChart.setOption(option);
+    </script>
 
 </section>
 

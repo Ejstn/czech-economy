@@ -1,6 +1,7 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
 import com.estn.economy.core.domain.OutputPercentageData
+import com.estn.economy.core.presentation.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
@@ -84,10 +85,10 @@ class GrossDomesticProductControllerTest {
         mvc.perform(get("/hdp"))
                 .andExpect(
                         matchAll(
-                                model().attribute("nominalGdp", nominalGdp),
-                                model().attribute("realGdp2010Prices", realGdp),
-                                model().attribute("nominalGdpChanges", nominalChanges),
-                                model().attribute("realGdpChanges", realChanges)
+                                model().attribute("nominalGdp", nominalGdp.mapToPairs()),
+                                model().attribute("realGdp2010Prices", realGdp.mapToPairs()),
+                                model().attribute("nominalGdpChanges", nominalChanges.mapToPairs()),
+                                model().attribute("realGdpChanges", realChanges.mapToPairs())
                         ))
 
     }

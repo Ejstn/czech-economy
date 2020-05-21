@@ -1,5 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
+import com.estn.economy.core.presentation.mapToPairs
 import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.dashboard.domain.EconomyOverview
@@ -58,11 +59,11 @@ class DashboardControllerTest {
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,
-            realGdp2010Prices = gdp,
+            realGdp2010Prices = gdp.mapToPairs(),
             budgetBalance = budgetBalance,
-            publicDebt = publicDebt,
-            yearlyInflationRates = inflation,
-            yearlyUnempRates = unemp,
+            publicDebt = publicDebt.mapToPairs(),
+            yearlyInflationRates = inflation.mapToPairs(),
+            yearlyUnempRates = unemp.mapToPairs(),
             exchangeRates = exchangeRates,
             exchangeRatesDate = date,
             nominalGdp = gdp

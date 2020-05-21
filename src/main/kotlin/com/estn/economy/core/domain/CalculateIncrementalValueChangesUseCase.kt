@@ -1,5 +1,6 @@
 package com.estn.economy.core.domain
 
+import com.estn.economy.core.presentation.PairConvertable
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,4 +27,7 @@ data class InputData(val order: Long,
                      val value: Long)
 
 data class OutputPercentageData(val order: Long,
-                                val value: Double)
+                                val value: Double) : PairConvertable {
+
+    override fun convertToPair() = Pair(order, value)
+}

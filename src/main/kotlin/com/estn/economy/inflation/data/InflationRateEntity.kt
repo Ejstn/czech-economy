@@ -1,5 +1,6 @@
 package com.estn.economy.inflation.data
 
+import com.estn.economy.core.presentation.PairConvertable
 import java.io.Serializable
 import javax.persistence.*
 
@@ -10,7 +11,9 @@ data class InflationRateEntity(
         @Column(name = "year") @Id var year: Int = 0,
         @Column(name = "type") @Enumerated(EnumType.STRING) @Id var type: InflationType = InflationType.THIS_YEAR_VS_LAST_YEAR,
         @Column(name = "value_percent") var valuePercent: Float = 0f
-)
+) : PairConvertable {
+    override fun convertToPair() = Pair(year, valuePercent)
+}
 
 enum class InflationType {
     THIS_YEAR_VS_LAST_YEAR,

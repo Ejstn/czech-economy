@@ -9,12 +9,9 @@ import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
-import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
-import com.estn.economy.nationalbudget.data.PublicDebtEntity
 import com.estn.economy.nationalbudget.data.PublicDebtRepository
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
-import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import org.springframework.stereotype.Service
 
 @Service
@@ -46,10 +43,18 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
                 nominalGdp = nominalGdp,
-                realGdp2010Prices = realGdp,
-                yearlyUnempRates = unemployment,
-                yearlyInflationRates = inflation,
-                publicDebt = publicDebt,
+                realGdp2010Prices = realGdp.map {
+                    Pair(it.year, it.gdpMillionsCrowns)
+                },
+                yearlyUnempRates = unemployment.map {
+                    Pair(it.year, it.unemploymentRatePercent)
+                },
+                yearlyInflationRates = inflation.map {
+                    Pair(it.year, it.valuePercent)
+                },
+                publicDebt = publicDebt.map {
+                    Pair(it.year, it.millionsCrowns)
+                },
                 budgetBalance = budgetBalance)
 
     }
@@ -58,10 +63,10 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                                 val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
                                 val nominalGdp: Collection<GrossDomesticProductEntity>,
-                                val realGdp2010Prices: Collection<GrossDomesticProductEntity>,
-                                val yearlyUnempRates: Collection<UnemploymentRatePerYearAvg>,
-                                val yearlyInflationRates: Collection<InflationRateEntity>,
-                                val publicDebt: Collection<PublicDebtEntity>,
+                                val realGdp2010Prices: List<Pair<Int, Long>>,
+                                val yearlyUnempRates: List<Pair<Int, Double>>,
+                                val yearlyInflationRates: List<Pair<Int, Float>>,
+                                val publicDebt: List<Pair<Int, Long>>,
                                 val budgetBalance: Collection<BudgetBalanceEntity>)
 
 }

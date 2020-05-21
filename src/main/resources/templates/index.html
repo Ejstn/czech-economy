@@ -115,316 +115,33 @@
     <br>
 
     <!-- real gdp 2010 prices -->
-    <div class="container box has-echart" id="chart_real_gdp_2010_prices">
-
-        <script data-th-inline="javascript">
-
-            var myChart = echarts.init(document.getElementById('chart_real_gdp_2010_prices'), 'dark');
-            var yearlyGdps = /*[[${dashboard.realGdp2010Prices}]]*/ {};
-            var title = "Graf reálného HDP v cenách roku 2010";
-
-            option = {
-                tooltip: {},
-                title: {
-                    text: title,
-                },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    data: yearlyGdps.map(function (it) {
-                        return it.year;
-                    })
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (a) {
-                            return a.toLocaleString() + ' mld Kč'
-                        }
-                    },
-                },
-                dataZoom: [{
-                    type: 'inside',
-                    start: 0,
-                    end: 100
-                },
-                ],
-                series: [
-                    {
-                        name: 'HDP',
-                        type: 'line',
-                        sampling: 'average',
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#5e92f3'
-                            }, {
-                                offset: 1,
-                                color: '#003c8f'
-                            }])
-                        },
-                        data: yearlyGdps.map(function (it) {
-                            return Math.round(it.gdpMillionsCrowns / 1000);
-                        })
-                    }
-                ]
-            };
-
-            myChart.setOption(option);
-
-
-            // Highcharts.chart("chart_real_gdp_2010_prices", {
-            //     chart: {
-            //         zoomType: "x"
-            //     },
-            //     title: {
-            //         text: title
-            //     },
-            //     subtitle: {
-            //         text: document.ontouchstart === undefined ?
-            //             "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-            //     },
-            //     yAxis: {
-            //         title: {
-            //             text: "Miliardy Kč"
-            //         }
-            //     },
-            //     legend: {
-            //         enabled: false
-            //     },
-            //     plotOptions: {
-            //         series: {
-            //             label: {
-            //                 connectorAllowed: false
-            //             },
-            //         }
-            //     },
-            //     tooltip: {
-            //         pointFormat: "{point.y:.0f} miliard Kč"
-            //     },
-            //     series: [{
-            //         type: "area",
-            //         name: tooltipText,
-            //         data: formattedData
-            //     }],
-            //     credits: {
-            //         enabled: false
-            //     }
-            // });
-
-        </script>
-
-    </div>
+    <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+    'chart_real_gdp_2010_prices',
+    'Graf reálného HDP v cenách roku 2010',
+    'HDP',
+    ${dashboard.realGdp2010Prices})"></div>
 
     <!-- unemployment -->
-    <div class="container box">
-
-        <div class="container has-echart" id="chart_unemployment"></div>
-
-        <script data-th-inline="javascript">
-
-            var myChart = echarts.init(document.getElementById('chart_unemployment'), 'dark');
-
-            var unemp = /*[[${dashboard.yearlyUnempRates}]]*/ {};
-            var title = "Graf nezaměstnanosti v %";
-
-            option = {
-                tooltip: {},
-                title: {
-                    text: title,
-                },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    data: unemp.map(function (it) {
-                        return it.year;
-                    })
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (a) {
-                            return a + ' %'
-                        }
-                    },
-                },
-                dataZoom: [{
-                    type: 'inside',
-                    start: 0,
-                    end: 100
-                },
-                ],
-                series: [
-                    {
-                        name: 'Nezaměstnanost',
-                        type: 'line',
-                        sampling: 'average',
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#5e92f3'
-                            }, {
-                                offset: 1,
-                                color: '#003c8f'
-                            }])
-                        },
-                        data: unemp.map(function (it) {
-                            return it.unemploymentRatePercent.toFixed(1);
-                        })
-                    }
-                ]
-            };
-
-            myChart.setOption(option);
-
-        </script>
-
-    </div>
+    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    'chart_unemployment',
+    'Graf nezaměstnanosti v %',
+    'Nezaměstnanost',
+    ${dashboard.yearlyUnempRates})"></div>
 
     <!-- inflation -->
-    <div class="container box">
-
-        <div class="container has-echart" id="chart_inflation"></div>
-
-        <script data-th-inline="javascript">
-
-            var myChart = echarts.init(document.getElementById('chart_inflation'), 'dark');
-
-            var unemp = /*[[${dashboard.yearlyInflationRates}]]*/ {};
-            var title = "Graf meziročního vývoje inflace v %";
-
-            option = {
-                tooltip: {},
-                title: {
-                    text: title,
-                },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    data: unemp.map(function (it) {
-                        return it.year;
-                    })
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (a) {
-                            return a + ' %'
-                        }
-                    },
-                },
-                dataZoom: [{
-                    type: 'inside',
-                    start: 0,
-                    end: 100
-                },
-                ],
-                series: [
-                    {
-                        name: 'Inflace',
-                        type: 'line',
-                        sampling: 'average',
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#5e92f3'
-                            }, {
-                                offset: 1,
-                                color: '#003c8f'
-                            }])
-                        },
-                        data: unemp.map(function (it) {
-                            return it.valuePercent.toFixed(1);
-                        })
-                    }
-                ]
-            };
-
-            myChart.setOption(option);
-
-        </script>
-
-    </div>
+    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    'chart_inflation',
+    'Graf meziročního vývoje inflace v %',
+    'Inflace',
+    ${dashboard.yearlyInflationRates})"></div>
 
     <!-- public debt -->
-    <div class="container box">
-
-        <div class="container has-echart" id="chart_public_debt"></div>
-
-        <script data-th-inline="javascript">
-            var myChart = echarts.init(document.getElementById('chart_public_debt'), 'dark');
-
-            var yearlyGdps = /*[[${dashboard.publicDebt}]]*/ {};
-            var title = "Graf vývoje státního dluhu v běžných cenách";
-
-            option = {
-                tooltip: {},
-                title: {
-                    text: title,
-                },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    data: yearlyGdps.map(function (it) {
-                        return it.year;
-                    })
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (a) {
-                            return a.toLocaleString() + ' mld Kč'
-                        }
-                    },
-                },
-                dataZoom: [{
-                    type: 'inside',
-                    start: 0,
-                    end: 100
-                },
-                ],
-                series: [
-                    {
-                        name: 'Státní dluh',
-                        type: 'line',
-                        sampling: 'average',
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#5e92f3'
-                            }, {
-                                offset: 1,
-                                color: '#003c8f'
-                            }])
-                        },
-                        data: yearlyGdps.map(function (it) {
-                            return Math.round(it.millionsCrowns / 1000);
-                        })
-                    }
-                ]
-            };
-
-            myChart.setOption(option);
-
-        </script>
-
-    </div>
+    <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+    'chart_public_debt',
+    'Graf vývoje státního dluhu v běžných cenách',
+    'Státní dluh',
+    ${dashboard.publicDebt}
+    )"></div>
 
     <!-- exchange rates -->
     <div class="container box">

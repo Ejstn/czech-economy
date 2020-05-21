@@ -58,11 +58,11 @@ class DashboardControllerTest {
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,
-            realGdp2010Prices = gdp,
+            realGdp2010Prices = listOf(),
             budgetBalance = budgetBalance,
-            publicDebt = publicDebt,
-            yearlyInflationRates = inflation,
-            yearlyUnempRates = unemp,
+            publicDebt = listOf(),
+            yearlyInflationRates = listOf(),
+            yearlyUnempRates = listOf(),
             exchangeRates = exchangeRates,
             exchangeRatesDate = date,
             nominalGdp = gdp

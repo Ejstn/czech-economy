@@ -4,68 +4,150 @@
 
 <body>
 
-<div th:fragment="simplechart(chartname, title, data)" class="section">
+<!-- year to millions crowns chart (ie gdp by year, public debt by year) -->
+<div th:fragment="yearToMillionsSimpleChart(chartname, title,  seriesName, data)">
 
-    <div class="container">
+    <div data-th-id="${chartname}" class="container has-echart box"></div>
 
-        <div data-th-id="${chartname}"></div>
+    <script data-th-inline="javascript">
 
-        <script data-th-inline="javascript">
+        var chartName = /*[[${chartname}]]*/ '';
+        var seriesName = /*[[${seriesName}]]*/ '';
 
-            var yearlyGdps = /*[[${data}]]*/ {};
-            var title = "hello";
+        var myChart = echarts.init(document.getElementById(chartName), 'dark');
 
-            var formattedData = yearlyGdps.map(function (it) {
-                return [it.year, it.gdpMillionsCrowns / 1000];
-            });
+        var data = /*[[${data}]]*/ {};
+        var title = /*[[${title}]]*/ '';
 
-            var chartname = /*[[${chartname}]]*/ "";
-
-            Highcharts.chart('chartname', {
-                chart: {
-                    zoomType: "x"
-                },
-                title: {
-                    text: /*[[${title}]]*/ "",
-                },
-                subtitle: {
-                    text: document.ontouchstart === undefined ?
-                        "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                },
-                yAxis: {
-                    title: {
-                        text: "Miliardy Kč"
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
-                        },
-                    }
-                },
-                tooltip: {
-                    pointFormat: "{point.y:.0f} miliard Kč"
-                },
-                series: [{
-                    type: "area",
-                    data: formattedData
-                }],
-                credits: {
-                    enabled: false
+        option = {
+            tooltip: {},
+            title: {
+                text: title,
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
                 }
-            });
+            },
+            xAxis: {
+                data: data.map(function (it) {
+                    return it.first;
+                })
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: function (a) {
+                        return a.toLocaleString() + ' mld Kč'
+                    }
+                },
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 100
+            },],
+            series: [
+                {
+                    name: seriesName,
+                    type: 'line',
+                    sampling: 'average',
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#5e92f3'
+                        }, {
+                            offset: 1,
+                            color: '#003c8f'
+                        }])
+                    },
+                    data: data.map(function (it) {
+                        return Math.round(it.second / 1000);
+                    })
+                }
+            ]
+        };
 
-        </script>
-
-    </div>
+        myChart.setOption(option);
 
 
+    </script>
 
 </div>
+
+<!-- year to percentage chart (ie unemployment by year, inlflation by year) -->
+<div th:fragment="yearToPercentageSimpleChart(chartname, title,  seriesName, data)">
+
+    <div data-th-id="${chartname}" class="container has-echart box"></div>
+
+    <script data-th-inline="javascript">
+
+        var chartName = /*[[${chartname}]]*/ '';
+        var seriesName = /*[[${seriesName}]]*/ '';
+
+        var myChart = echarts.init(document.getElementById(chartName), 'dark');
+
+        var data = /*[[${data}]]*/ {};
+        var title = /*[[${title}]]*/ '';
+
+        option = {
+            tooltip: {},
+            title: {
+                text: title,
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                data: data.map(function (it) {
+                    return it.first;
+                })
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: function (a) {
+                        return a + ' %'
+                    }
+                },
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 100
+            },],
+            series: [
+                {
+                    name: seriesName,
+                    type: 'line',
+                    sampling: 'average',
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#5e92f3'
+                        }, {
+                            offset: 1,
+                            color: '#003c8f'
+                        }])
+                    },
+                    data: data.map(function (it) {
+                        return it.second.toFixed(1);
+                    })
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+
+    </script>
+
+</div>
+
 
 </body>
 

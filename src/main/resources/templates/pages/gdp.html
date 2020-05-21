@@ -21,238 +21,35 @@
             <div class="column is-10 is-12-mobile">
 
                 <!--  nominal gdp -->
-                <div class="container" id="nominal_gdp_container">
+                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                'nominal_gdp_container',
+                'Graf nominálního HDP',
+                'HDP',
+                ${nominalGdp})"></div>
 
-                    <div id="nominal_gdp"></div>
-
-                    <script data-th-inline="javascript">
-
-                        var yearlyGdps = /*[[${nominalGdp}]]*/ {};
-                        var title = "Graf nominálního HDP";
-                        var tooltipText = "";
-
-                        var formattedData = yearlyGdps.map(function (it) {
-                            return [it.year, it.gdpMillionsCrowns / 1000];
-                        });
-
-                        Highcharts.chart("nominal_gdp", {
-                            chart: {
-                                zoomType: "x"
-                            },
-                            title: {
-                                text: title
-                            },
-                            subtitle: {
-                                text: document.ontouchstart === undefined ?
-                                    "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                            },
-                            yAxis: {
-                                title: {
-                                    text: "Miliardy Kč"
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    label: {
-                                        connectorAllowed: false
-                                    },
-                                }
-                            },
-                            tooltip: {
-                                pointFormat: "{point.y:.0f} miliard Kč"
-                            },
-                            series: [{
-                                type: "area",
-                                name: tooltipText,
-                                data: formattedData
-                            }],
-                            credits: {
-                                enabled: false
-                            }
-                        });
-
-                    </script>
-
-                </div>
 
                 <!--  nominal gdp % changes -->
-                <div class="container" id="nominal_gdp_container_changes">
-
-                    <div id="nominal_gdp_changes"></div>
-
-                    <script data-th-inline="javascript">
-
-                        var yearlyGdps = /*[[${nominalGdpChanges}]]*/ {};
-                        var title = "Graf meziročního vývoje nominálního HDP";
-                        var tooltipText = "";
-
-                        var formattedData = yearlyGdps.map(function (it) {
-                            return [it.order, it.value];
-                        });
-
-                        Highcharts.chart("nominal_gdp_changes", {
-                            chart: {
-                                zoomType: "x"
-                            },
-                            title: {
-                                text: title
-                            },
-                            subtitle: {
-                                text: document.ontouchstart === undefined ?
-                                    "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                            },
-                            yAxis: {
-                                title: {
-                                    text: "Meziroční změna %"
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    label: {
-                                        connectorAllowed: false
-                                    },
-                                }
-                            },
-                            tooltip: {
-                                pointFormat: "{point.y:.1f} %"
-                            },
-                            series: [{
-                                type: "area",
-                                name: tooltipText,
-                                data: formattedData
-                            }],
-                            credits: {
-                                enabled: false
-                            }
-                        });
-
-                    </script>
-
-                </div>
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'nominal_gdp_container_changes',
+                'Graf meziročního vývoje nominálního HDP',
+                'Změna HDP',
+                ${nominalGdpChanges})"></div>
 
                 <br>
 
                 <!-- real gdp 2010 prices -->
-                <div class="container" id="real_gdp_container">
-
-                    <div id="real_gdp"></div>
-
-                    <script data-th-inline="javascript">
-
-                        var yearlyGdps = /*[[${realGdp2010Prices}]]*/ {};
-                        var title = "Graf reálného HDP v cenách roku 2010";
-                        var tooltipText = "";
-
-                        var formattedData = yearlyGdps.map(function (it) {
-                            return [it.year, it.gdpMillionsCrowns / 1000];
-                        });
-
-                        Highcharts.chart("real_gdp", {
-                            chart: {
-                                zoomType: "x"
-                            },
-                            title: {
-                                text: title
-                            },
-                            subtitle: {
-                                text: document.ontouchstart === undefined ?
-                                    "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                            },
-                            yAxis: {
-                                title: {
-                                    text: "Miliardy Kč"
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    label: {
-                                        connectorAllowed: false
-                                    },
-                                }
-                            },
-                            tooltip: {
-                                pointFormat: "{point.y:.0f} miliard Kč"
-                            },
-                            series: [{
-                                type: "area",
-                                name: tooltipText,
-                                data: formattedData
-                            }],
-                            credits: {
-                                enabled: false
-                            }
-                        });
-
-                    </script>
-
-                </div>
+                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                'real_gdp_container',
+                'Graf reálného HDP v cenách roku 2010',
+                'HDP',
+                ${realGdp2010Prices})"></div>
 
                 <!--  real gdp 2010 % changes -->
-                <div class="container" id="real_gdp_container_changes">
-
-                    <div id="real_gdp_changes"></div>
-
-                    <script data-th-inline="javascript">
-
-                        var yearlyGdps = /*[[${realGdpChanges}]]*/ {};
-                        var title = "Graf meziročního vývoje reálného HDP v cenách roku 2010";
-                        var tooltipText = "";
-
-                        var formattedData = yearlyGdps.map(function (it) {
-                            return [it.order, it.value];
-                        });
-
-                        Highcharts.chart("real_gdp_changes", {
-                            chart: {
-                                zoomType: "x"
-                            },
-                            title: {
-                                text: title
-                            },
-                            subtitle: {
-                                text: document.ontouchstart === undefined ?
-                                    "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                            },
-                            yAxis: {
-                                title: {
-                                    text: "Meziroční změna %"
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    label: {
-                                        connectorAllowed: false
-                                    },
-                                }
-                            },
-                            tooltip: {
-                                pointFormat: "{point.y:.1f} %"
-                            },
-                            series: [{
-                                type: "area",
-                                name: tooltipText,
-                                data: formattedData
-                            }],
-                            credits: {
-                                enabled: false
-                            }
-                        });
-
-                    </script>
-
-                </div>
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'real_gdp_container_changes',
+                'Graf meziročního vývoje reálného HDP v cenách roku 2010',
+                'Změna HDP',
+                ${realGdpChanges})"></div>
 
 
             </div>

@@ -4,6 +4,7 @@ import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.nationalbudget.data.BudgetBalanceRepository
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.translate
+import com.estn.economy.core.presentation.mapToPairs
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
@@ -43,18 +44,10 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
                 nominalGdp = nominalGdp,
-                realGdp2010Prices = realGdp.map {
-                    Pair(it.year, it.gdpMillionsCrowns)
-                },
-                yearlyUnempRates = unemployment.map {
-                    Pair(it.year, it.unemploymentRatePercent)
-                },
-                yearlyInflationRates = inflation.map {
-                    Pair(it.year, it.valuePercent)
-                },
-                publicDebt = publicDebt.map {
-                    Pair(it.year, it.millionsCrowns)
-                },
+                realGdp2010Prices = realGdp.mapToPairs(),
+                yearlyUnempRates = unemployment.mapToPairs(),
+                yearlyInflationRates = inflation.mapToPairs(),
+                publicDebt = publicDebt.mapToPairs(),
                 budgetBalance = budgetBalance)
 
     }
@@ -63,10 +56,10 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                                 val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
                                 val nominalGdp: Collection<GrossDomesticProductEntity>,
-                                val realGdp2010Prices: List<Pair<Int, Long>>,
-                                val yearlyUnempRates: List<Pair<Int, Double>>,
-                                val yearlyInflationRates: List<Pair<Int, Float>>,
-                                val publicDebt: List<Pair<Int, Long>>,
+                                val realGdp2010Prices: List<Pair<Any, Any>>,
+                                val yearlyUnempRates: List<Pair<Any, Any>>,
+                                val yearlyInflationRates: List<Pair<Any, Any>>,
+                                val publicDebt: List<Pair<Any, Any>>,
                                 val budgetBalance: Collection<BudgetBalanceEntity>)
 
 }

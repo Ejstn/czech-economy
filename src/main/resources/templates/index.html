@@ -4,18 +4,15 @@
 
 <script>
 
-    jQuery(document).ready(function($) {
-        $(".table").click(function() {
+    jQuery(document).ready(function ($) {
+        $(".table").click(function () {
             window.location = $(this).find('a').attr('href');
         });
     });
 
 </script>
 
-<body >
-
-<!-- highcharts common options -->
-<div th:replace="fragments/highchartsoptions :: highchartsoptions"></div>
+<body>
 
 <!-- header -->
 <div th:replace="fragments/common :: header"></div>
@@ -24,89 +21,88 @@
 <section class="section has-text-centered">
 
     <!-- quick overview -->
-        <div class="container">
+    <div class="container">
 
-            <h1 class="title is-4 is-centered">Základní přehled</h1>
+        <h1 class="title is-4 is-centered">Základní přehled</h1>
 
-            <div class="columns is-centered">
+        <div class="columns is-centered">
 
-                <!-- gdp -->
-                <div class="column">
+            <!-- gdp -->
+            <div class="column">
 
-                    <div class="box">
+                <div class="box">
 
-                        <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
+                    <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
 
-                        <p th:text="${dashboard.overview.latestGdp.year}"></p>
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
-
-                    </div>
+                    <p th:text="${dashboard.overview.latestGdp.year}"></p>
+                    <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
 
                 </div>
 
-                <!-- inflation -->
-                <div class="column">
+            </div>
 
-                    <div class="box">
+            <!-- inflation -->
+            <div class="column">
 
-                        <h1 class="title is-6">Meziroční inflace</h1>
+                <div class="box">
 
-                        <p >[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
+                    <h1 class="title is-6">Meziroční inflace</h1>
 
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
+                    <p>[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
 
-                    </div>
-
-
-                </div>
-
-                <!-- unemployment -->
-                <div class="column">
-
-                    <div class="box">
-
-                        <h1 class="title is-6">Nezaměstnanost</h1>
-
-                        <p th:text="${dashboard.overview.unemployment.quarter} + '. čtvrtletí ' +  ${dashboard.overview.unemployment.year}"></p>
-                        <p th:text="${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
-
-                    </div>
+                    <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
 
                 </div>
 
-                <!-- exchange rate -->
-                <div class="column">
 
-                    <div class="box">
+            </div>
 
-                        <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
+            <!-- unemployment -->
+            <div class="column">
 
+                <div class="box">
 
-                        <table class="table is-hoverable is-striped is-fullwidth">
+                    <h1 class="title is-6">Nezaměstnanost</h1>
 
-                            <thead class="title is-6">
-                            <tr>
-                                <th>Kód</th>
-                                <th>Množsví</th>
-                                <th>Kurz</th>
-                            </tr>
-                            </thead>
+                    <p th:text="${dashboard.overview.unemployment.quarter} + '. čtvrtletí ' +  ${dashboard.overview.unemployment.year}"></p>
+                    <p th:text="${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
 
-                            <tbody>
-                            <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
-                                <td>[[${entry.currencyCode}]]</td>
-                                <td>[[${entry.amount}]]</td>
-                                <td>[[${entry.exchangeRate}]] <a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
-                            </tr>
+                </div>
 
-                            </tbody>
+            </div>
+
+            <!-- exchange rate -->
+            <div class="column">
+
+                <div class="box">
+
+                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${dashboard.exchangeRatesDate}"></span>
+                    </h1>
 
 
-                        </table>
+                    <table class="table is-hoverable is-striped is-fullwidth">
+
+                        <thead class="title is-6">
+                        <tr>
+                            <th>Kód</th>
+                            <th>Množsví</th>
+                            <th>Kurz</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
+                            <td>[[${entry.currencyCode}]]</td>
+                            <td>[[${entry.amount}]]</td>
+                            <td>[[${entry.exchangeRate}]] <a
+                                    data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
+                        </tr>
+
+                        </tbody>
 
 
+                    </table>
 
-                    </div>
 
                 </div>
 
@@ -114,310 +110,324 @@
 
         </div>
 
+    </div>
+
     <br>
 
-        <!-- real gdp 2010 prices -->
-        <div class="container">
+    <!-- real gdp 2010 prices -->
+    <div class="container box has-echart" id="chart_real_gdp_2010_prices">
 
-            <div id="chart_real_gdp_2010_prices"></div>
+        <script data-th-inline="javascript">
 
-            <script data-th-inline="javascript">
+            var myChart = echarts.init(document.getElementById('chart_real_gdp_2010_prices'), 'dark');
+            var yearlyGdps = /*[[${dashboard.realGdp2010Prices}]]*/ {};
+            var title = "Graf reálného HDP v cenách roku 2010";
 
-                var yearlyGdps = /*[[${dashboard.realGdp2010Prices}]]*/ {};
-                var title = "Graf reálného HDP v cenách roku 2010";
-                var tooltipText = "";
-
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.gdpMillionsCrowns / 1000];
-                });
-
-                Highcharts.chart("chart_real_gdp_2010_prices", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Miliardy Kč"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.0f} miliard Kč"
-                    },
-                    series: [{
-                        type: "area",
-                        name: tooltipText,
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
+            option = {
+                tooltip: {},
+                title: {
+                    text: title,
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
                     }
-                });
+                },
+                xAxis: {
+                    data: yearlyGdps.map(function (it) {
+                        return it.year;
+                    })
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function (a) {
+                            return a.toLocaleString() + ' mld Kč'
+                        }
+                    },
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 100
+                },
+                ],
+                series: [
+                    {
+                        name: 'HDP',
+                        type: 'line',
+                        sampling: 'average',
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#5e92f3'
+                            }, {
+                                offset: 1,
+                                color: '#003c8f'
+                            }])
+                        },
+                        data: yearlyGdps.map(function (it) {
+                            return Math.round(it.gdpMillionsCrowns / 1000);
+                        })
+                    }
+                ]
+            };
 
-            </script>
+            myChart.setOption(option);
 
-        </div>
 
+            // Highcharts.chart("chart_real_gdp_2010_prices", {
+            //     chart: {
+            //         zoomType: "x"
+            //     },
+            //     title: {
+            //         text: title
+            //     },
+            //     subtitle: {
+            //         text: document.ontouchstart === undefined ?
+            //             "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
+            //     },
+            //     yAxis: {
+            //         title: {
+            //             text: "Miliardy Kč"
+            //         }
+            //     },
+            //     legend: {
+            //         enabled: false
+            //     },
+            //     plotOptions: {
+            //         series: {
+            //             label: {
+            //                 connectorAllowed: false
+            //             },
+            //         }
+            //     },
+            //     tooltip: {
+            //         pointFormat: "{point.y:.0f} miliard Kč"
+            //     },
+            //     series: [{
+            //         type: "area",
+            //         name: tooltipText,
+            //         data: formattedData
+            //     }],
+            //     credits: {
+            //         enabled: false
+            //     }
+            // });
+
+        </script>
+
+    </div>
 
     <!-- unemployment -->
-        <div class="container ">
+    <div class="container box">
 
-<!--            <h1 class="title is-4">Nezaměstnanost</h1>-->
+        <div class="container has-echart" id="chart_unemployment"></div>
 
-            <div id="chart_unemployment"></div>
+        <script data-th-inline="javascript">
 
-            <script data-th-inline="javascript">
+            var myChart = echarts.init(document.getElementById('chart_unemployment'), 'dark');
 
+            var unemp = /*[[${dashboard.yearlyUnempRates}]]*/ {};
+            var title = "Graf nezaměstnanosti v %";
 
-                var yearlyGdps = /*[[${dashboard.yearlyUnempRates}]]*/ {};
-                var title = "Graf nezaměstnanosti v %";
-                var tooltipText = "";
-
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.unemploymentRatePercent];
-                });
-
-                Highcharts.chart("chart_unemployment", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Nezaměstnanost %"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.1f} %"
-                    },
-                    series: [{
-                        type: "area",
-                        name: tooltipText,
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
+            option = {
+                tooltip: {},
+                title: {
+                    text: title,
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
                     }
-                });
+                },
+                xAxis: {
+                    data: unemp.map(function (it) {
+                        return it.year;
+                    })
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function (a) {
+                            return a + ' %'
+                        }
+                    },
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 100
+                },
+                ],
+                series: [
+                    {
+                        name: 'Nezaměstnanost',
+                        type: 'line',
+                        sampling: 'average',
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#5e92f3'
+                            }, {
+                                offset: 1,
+                                color: '#003c8f'
+                            }])
+                        },
+                        data: unemp.map(function (it) {
+                            return it.unemploymentRatePercent.toFixed(1);
+                        })
+                    }
+                ]
+            };
 
-            </script>
+            myChart.setOption(option);
 
-        </div>
+        </script>
 
+    </div>
 
     <!-- inflation -->
-        <div class="container">
+    <div class="container box">
 
-            <div id="chart_inflation"></div>
+        <div class="container has-echart" id="chart_inflation"></div>
 
-            <script data-th-inline="javascript">
+        <script data-th-inline="javascript">
 
+            var myChart = echarts.init(document.getElementById('chart_inflation'), 'dark');
 
-                var yearlyGdps = /*[[${dashboard.yearlyInflationRates}]]*/ {};
-                var title = "Graf meziročního vývoje inflace v %";
-                var tooltipText = "";
+            var unemp = /*[[${dashboard.yearlyInflationRates}]]*/ {};
+            var title = "Graf meziročního vývoje inflace v %";
 
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.valuePercent];
-                });
-
-                Highcharts.chart("chart_inflation", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Inflace %"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.1f} %"
-                    },
-                    series: [{
-                        type: "area",
-                        name: tooltipText,
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
+            option = {
+                tooltip: {},
+                title: {
+                    text: title,
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
                     }
-                });
+                },
+                xAxis: {
+                    data: unemp.map(function (it) {
+                        return it.year;
+                    })
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function (a) {
+                            return a + ' %'
+                        }
+                    },
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 100
+                },
+                ],
+                series: [
+                    {
+                        name: 'Inflace',
+                        type: 'line',
+                        sampling: 'average',
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#5e92f3'
+                            }, {
+                                offset: 1,
+                                color: '#003c8f'
+                            }])
+                        },
+                        data: unemp.map(function (it) {
+                            return it.valuePercent.toFixed(1);
+                        })
+                    }
+                ]
+            };
 
-            </script>
+            myChart.setOption(option);
 
-        </div>
+        </script>
 
+    </div>
 
     <!-- public debt -->
-        <div class="container">
+    <div class="container box">
 
-            <div id="chart_public_debt"></div>
+        <div class="container has-echart" id="chart_public_debt"></div>
 
-            <script data-th-inline="javascript">
-                var yearlyGdps = /*[[${dashboard.publicDebt}]]*/ {};
-                var title = "Graf vývoje státního dluhu v běžných cenách";
+        <script data-th-inline="javascript">
+            var myChart = echarts.init(document.getElementById('chart_public_debt'), 'dark');
 
-                var formattedData = yearlyGdps.map(function (it) {
-                    return [it.year, it.millionsCrowns / 1000];
-                });
+            var yearlyGdps = /*[[${dashboard.publicDebt}]]*/ {};
+            var title = "Graf vývoje státního dluhu v běžných cenách";
 
-                Highcharts.chart("chart_public_debt", {
-                    chart: {
-                        zoomType: "x"
-                    },
-                    title: {
-                        text: title
-                    },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Miliardy Kč"
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: "{point.y:.0f} miliard Kč"
-                    },
-                    series: [{
-                        type: "area",
-                        data: formattedData
-                    }],
-                    credits: {
-                        enabled: false
+            option = {
+                tooltip: {},
+                title: {
+                    text: title,
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
                     }
-                });
+                },
+                xAxis: {
+                    data: yearlyGdps.map(function (it) {
+                        return it.year;
+                    })
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function (a) {
+                            return a.toLocaleString() + ' mld Kč'
+                        }
+                    },
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 100
+                },
+                ],
+                series: [
+                    {
+                        name: 'Státní dluh',
+                        type: 'line',
+                        sampling: 'average',
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#5e92f3'
+                            }, {
+                                offset: 1,
+                                color: '#003c8f'
+                            }])
+                        },
+                        data: yearlyGdps.map(function (it) {
+                            return Math.round(it.millionsCrowns / 1000);
+                        })
+                    }
+                ]
+            };
 
-            </script>
+            myChart.setOption(option);
 
-        </div>
+        </script>
 
-<!--    </section>-->
-
-    <!-- budget balance -->
-<!--    <section class="section has-text-centered">-->
-
-<!--        <div class="container">-->
-
-<!--            <h1 class="title is-4">Saldo státního rozpočtu</h1>-->
-
-<!--            <div id="chart_budget_balance"></div>-->
-
-<!--            <script data-th-inline="javascript">-->
-<!--                var yearlyGdps = /*[[${dashboard.budgetBalance}]]*/ {};-->
-<!--                var title = "Graf salda státního rozpočtu";-->
-
-<!--                var formattedData = yearlyGdps.map(function (it) {-->
-<!--                    return [it.year, it.millionsCrowns / 1000];-->
-<!--                });-->
-
-<!--                Highcharts.chart("chart_budget_balance", {-->
-<!--                    chart: {-->
-<!--                        zoomType: "x"-->
-<!--                    },-->
-<!--                    title: {-->
-<!--                        text: title-->
-<!--                    },-->
-<!--                    subtitle: {-->
-<!--                        text: document.ontouchstart === undefined ?-->
-<!--                            "Kliknutím a tažením přiblížíte" : "Dotekem přiblížíte"-->
-<!--                    },-->
-<!--                    yAxis: {-->
-<!--                        title: {-->
-<!--                            text: "Miliardy Kč"-->
-<!--                        }-->
-<!--                    },-->
-<!--                    legend: {-->
-<!--                        enabled: false-->
-<!--                    },-->
-<!--                    plotOptions: {-->
-<!--                        series: {-->
-<!--                            label: {-->
-<!--                                connectorAllowed: false-->
-<!--                            },-->
-<!--                        }-->
-<!--                    },-->
-<!--                    tooltip: {-->
-<!--                        pointFormat: "{point.y:.0f} miliard Kč"-->
-<!--                    },-->
-<!--                    series: [{-->
-<!--                        type: "area",-->
-<!--                        data: formattedData-->
-<!--                    }],-->
-<!--                    credits: {-->
-<!--                        enabled: false-->
-<!--                    }-->
-<!--                });-->
-
-<!--            </script>-->
-
-<!--        </div>-->
-
-<!--    </section>-->
+    </div>
 
     <!-- exchange rates -->
-
-    <div class="container">
+    <div class="container box">
 
         <div class="table-container">
 
@@ -441,7 +451,8 @@
                     <td>[[${entry.currencyName}]]</td>
                     <td>[[${entry.currencyCode}]]</td>
                     <td>[[${entry.amount}]]</td>
-                    <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a> </td>
+                    <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a>
+                    </td>
                 </tr>
 
                 </tbody>

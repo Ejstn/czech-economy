@@ -114,4 +114,10 @@ html {
 
 }
 
+.container {
+  &.has-echart {
+    min-height: 450px;
+  }
+}
+
 @import "../node_modules/bulma/bulma.sass";

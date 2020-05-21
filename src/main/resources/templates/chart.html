@@ -4,16 +4,13 @@
 
 <body>
 
-<!-- highcharts common options -->
-<div th:replace="fragments/highchartsoptions :: highchartsoptions"></div>
-
 <!-- header -->
 <div th:replace="fragments/common :: header"></div>
 
 <!-- content -->
 <section class="section">
 
-    <div class="container" id="main" style="min-height: 450px"></div>
+    <div class="container has-echart box" id="main"></div>
     <script data-th-inline="javascript">
 
         var myChart = echarts.init(document.getElementById('main'), 'dark');
@@ -24,14 +21,6 @@
         var currencyAmount = /*[[${currencyAmount}]]*/ {};
         var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
         var tooltipText = currencyCode.concat("/", czechCurrencyCode);
-
-        var dates = rates.map(function (rate) {
-            return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
-        })
-
-        var data = rates.map(function (rate) {
-            return rate.exchangeRate;
-        })
 
         option = {
             tooltip: {},
@@ -45,7 +34,9 @@
                 }
             },
             xAxis: {
-                data: dates
+                data: rates.map(function (rate) {
+                    return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
+                })
             },
             yAxis: {
                 type: 'value',
@@ -61,7 +52,6 @@
                 {
                     name: tooltipText,
                     type: 'line',
-                    smooth: true,
                     sampling: 'average',
                     areaStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -72,7 +62,9 @@
                             color: '#003c8f'
                         }])
                     },
-                    data: data
+                    data: rates.map(function (rate) {
+                        return rate.exchangeRate;
+                    })
                 }
             ]
         };

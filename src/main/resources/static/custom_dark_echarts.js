@@ -38,7 +38,7 @@
     var axisCommon = function () {
         return {
             nameLocation: 'center',
-            nameGap: 30,
+            nameGap: 45,
             axisLine: {
                 lineStyle: {
                     color: contrastColor
@@ -69,7 +69,8 @@
 
     var theme = {
         color: colorPalette,
-        backgroundColor: "#2b2b2b",
+        // backgroundColor: "#2b2b2b",
+        backgroundColor: "#212121",
         tooltip: {
             trigger: 'axis',
             triggerOn: 'mousemove|click',
@@ -87,6 +88,7 @@
         grid: {
             left: '3%',
             right: '3%',
+            // bottom: '10%',
             containLabel: true
         },
         legend: {

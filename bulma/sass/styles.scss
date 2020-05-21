@@ -1,95 +1,101 @@
 @charset "utf-8";
-// Import a Google Font
+
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
 
-// Update Bulma's global variables
+// FONT
 $family-sans-serif: "Noto Sans", sans-serif;
 
-$grey-accent: hsl(0, 0%, 14%);
+// COLOR SCHEME
+// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=212121&secondary.color=1565C0
+$primary: #1565c0;
+$primary-light: #5e92f3;
+$primary-dark: #003c8f;
+
+$secondary: #212121;
+$secondary-light: #484848;
+$secondary-dark: #000000;
+
 $grey-darker: hsl(0, 0%, 21%);
 $grey-dark: hsl(0, 0%, 29%);
 $grey: hsl(0, 0%, 48%);
 $grey-light: hsl(0, 0%, 71%);
 $grey-lighter: hsl(0, 0%, 86%);
 
-$primary: #2a9fd6 !default;
-$primary-light: lighten($primary, 10);
-$link: #3273e2;
+$white: darken(#fff, 7.5%);
+$white-darker: darken($white, 5%);
 
-$white: #fff;
-$white-ter: #f5f5f5;
+$background-color: $secondary;
+$background: $secondary;
 
-$body-background-color: #242424;
-$background: $grey-darker;
-$footer-background-color: $background;
+$component-background-color: $secondary;
 
-$border: $grey-dark;
+$footer-background-color: $secondary;
+$navbar-background-color: $secondary;
 
+$body-background-color: lighten($secondary, 4%);
+
+$border: $secondary;
+
+// TEXT
 $title-color: $white;
-$subtitle-color: $white-ter;
-$subtitle-strong-color: $white-ter;
+$subtitle-color: $white-darker;
+$subtitle-strong-color: $white-darker;
 
 $text: $white;
 $text-light: lighten($text, 10);
 $text-strong: darken($text, 5);
 
-$box-color: $text;
-$box-background-color: hsl(0, 0%, 17%);
-//$box-shadow: none;
-
+// COMPONENTS
+// link
+$link: $primary-light;
 $link-hover: $primary-light;
 $link-focus: $primary-light;
 $link-active: $primary-light;
 $link-hover-border: $grey-dark;
 $link-active-border: $grey;
 
+// box component
+$box-color: $text;
+$box-background-color: $component-background-color;
+
+// button componennt
 $button-color: $text;
-$button-background-color: #111;
+$button-background-color: $component-background-color;
 $button-border-color: $grey-darker;
 $button-hover-color: $grey-lighter;
 $button-focus: $grey-light;
 $button-active-color: $grey-light;
 
+// input component
 $input-color: $grey-darker;
 $input-icon-color: $grey;
 $input-icon-active-color: $input-color;
 
+// table component
 $table-color: $text;
 $table-head: $grey-lighter;
-$table-background-color: $grey-darker;
-$table-cell-border: 1px solid $grey-dark;
-
+$table-background-color: $body-background-color;
+//  table row
 $table-row-hover-background-color: $grey-dark;
-$table-striped-row-even-background-color: $grey-dark;
-$table-striped-row-even-hover-background-color: lighten($grey-dark, 4);
+$table-striped-row-even-background-color: $secondary;
+$table-striped-row-even-hover-background-color: $secondary-light;
 
+// pagination component
 $pagination-border-color: $grey-darker;
 $pagination-disabled: $grey-light;
 $pagination-disabled-background-color: $grey-dark;
 
-$dropdown-content-background-color: $background;
+// dropdown component
 $dropdown-item-color: $text;
 
-$navbar-background-color: $body-background-color;
+// navbar component
 $navbar-item-color: $white;
 $navbar-item-hover-color: $white;
 $navbar-item-hover-background-color: rgba($white, 0.12);
 $navbar-item-active-color: $link;
 $navbar-item-active-background-color: $navbar-item-hover-background-color;
 
-$navbar-dropdown-background-color: $body-background-color;
-$navbar-dropdown-item-hover-color: $white;
-$navbar-dropdown-item-hover-background-color: $navbar-item-hover-background-color;
-$navbar-dropdown-item-active-background-color: $navbar-item-hover-background-color;
-$navbar-dropdown-arrow: $white;
-
-$tabs-boxed-link-active-background-color: $body-background-color;
-
-$file-cta-background-color: $grey-darker;
-
-$progress-bar-background-color: $grey-dark;
-
-$panel-heading-background-color: $grey-dark;
+// CUSTOM STYLES
 
 html {
   scroll-behavior: smooth;
@@ -109,14 +115,3 @@ html {
 }
 
 @import "../node_modules/bulma/bulma.sass";
-
-//
-//@import "../node_modules/bulma/sass/utilities/_all.sass";
-//@import "../node_modules/bulma/sass/base/_all.sass";
-//@import "../node_modules/bulma/sass/elements/button.sass";
-//@import "../node_modules/bulma/sass/elements/container.sass";
-//@import "../node_modules/bulma/sass/elements/title.sass";
-//@import "../node_modules/bulma/sass/form/_all.sass";
-//@import "../node_modules/bulma/sass/components/navbar.sass";
-//@import "../node_modules/bulma/sass/layout/hero.sass";
-//@import "../node_modules/bulma/sass/layout/section.sass";

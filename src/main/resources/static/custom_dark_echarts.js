@@ -97,11 +97,13 @@
             }
         },
         textStyle: {
-            color: contrastColor
+            color: contrastColor,
+            fontFamily: 'Noto Sans'
         },
         title: {
             textStyle: {
-                color: contrastColor
+                color: contrastColor,
+                fontWeight: '600'
             },
             left: 'center'
         },

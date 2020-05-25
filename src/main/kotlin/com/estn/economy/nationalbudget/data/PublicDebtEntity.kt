@@ -1,6 +1,6 @@
 package com.estn.economy.nationalbudget.data
 
-import com.estn.economy.core.presentation.PairConvertable
+import com.estn.economy.core.presentation.utility.PairConvertable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id

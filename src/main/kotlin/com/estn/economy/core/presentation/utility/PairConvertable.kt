@@ -1,4 +1,4 @@
-package com.estn.economy.core.presentation
+package com.estn.economy.core.presentation.utility
 
 interface PairConvertable {
 

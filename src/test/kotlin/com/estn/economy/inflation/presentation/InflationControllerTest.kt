@@ -1,5 +1,8 @@
 package com.estn.economy.inflation.presentation
 
+import com.estn.economy.core.presentation.Breadcrumbs
+import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.Inflation
 import com.estn.economy.grossdomesticproduct.presentation.GrossDomesticProductController
 import org.junit.jupiter.api.BeforeEach
 
@@ -9,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.ResultMatcher.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest(controllers = [InflationController::class])
 class InflationControllerTest {
@@ -28,12 +34,25 @@ class InflationControllerTest {
         // given
         // when
         // then
-        mvc.perform(MockMvcRequestBuilders.get("/inflace"))
+        mvc.perform(get("/inflace"))
                 .andExpect(
-                        ResultMatcher.matchAll(
-                                MockMvcResultMatchers.status().isOk,
-                                MockMvcResultMatchers.view().name("pages/inflation")
+                        matchAll(
+                                status().isOk,
+                                view().name("pages/inflation")
                         ))
+
+    }
+
+    @Test
+    fun `GET inflace returns correct breadcrumbs`() {
+        // given
+        // when
+        // then
+        mvc.perform(get("/inflace"))
+                .andExpect(matchAll(
+                        model().attribute("breadcrumbs",
+                                Breadcrumbs(listOf(Home, Inflation)))
+                ))
 
     }
 

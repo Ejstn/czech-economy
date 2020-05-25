@@ -1,9 +1,8 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
-import com.estn.economy.core.presentation.Breadcrumbs
-import com.estn.economy.core.presentation.Gdp
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.mapToPairs
+import com.estn.economy.core.presentation.*
+import com.estn.economy.core.presentation.utility.addBreadcrumbs
+import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import org.springframework.stereotype.Controller
@@ -31,7 +30,7 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
         model.addAttribute("realGdpChanges", fetchGdpUseCase.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
                 .mapToPairs())
 
-        model.addAttribute("breadcrumbs", Breadcrumbs(listOf(Home, Gdp)))
+        model.addBreadcrumbs(Home, Gdp)
 
         return template
     }

@@ -1,14 +1,16 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
 import com.estn.economy.core.domain.OutputPercentageData
-import com.estn.economy.core.presentation.mapToPairs
+import com.estn.economy.core.presentation.Breadcrumbs
+import com.estn.economy.core.presentation.Gdp
+import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -90,6 +92,19 @@ class GrossDomesticProductControllerTest {
                                 model().attribute("nominalGdpChanges", nominalChanges.mapToPairs()),
                                 model().attribute("realGdpChanges", realChanges.mapToPairs())
                         ))
+
+    }
+
+    @Test
+    fun `GET hdp returns correct breadcrumbs`() {
+        // given
+        // when
+        // then
+        mvc.perform(get("/hdp"))
+                .andExpect(
+                        matchAll(
+                                model().attribute("breadcrumbs", Breadcrumbs(listOf(Home, Gdp))
+                        )))
 
     }
 

@@ -1,6 +1,6 @@
 package com.estn.economy.inflation.data
 
-import com.estn.economy.core.presentation.PairConvertable
+import com.estn.economy.core.presentation.utility.PairConvertable
 import java.io.Serializable
 import javax.persistence.*
 

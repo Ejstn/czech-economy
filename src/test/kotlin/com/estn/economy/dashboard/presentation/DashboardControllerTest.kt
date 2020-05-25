@@ -1,6 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
-import com.estn.economy.core.presentation.mapToPairs
+import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import com.estn.economy.dashboard.domain.EconomyOverview

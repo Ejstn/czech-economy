@@ -9,3 +9,5 @@ data class Breadcrumbs(val items: Collection<BreadcrumbItem>)
 object Home : BreadcrumbItem("Domů")
 
 object Gdp : BreadcrumbItem("HDP", "/hdp")
+
+object Inflation : BreadcrumbItem("Inflace", "/inflace")

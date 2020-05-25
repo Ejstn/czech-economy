@@ -4,7 +4,7 @@ import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.nationalbudget.data.BudgetBalanceRepository
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.translate
-import com.estn.economy.core.presentation.mapToPairs
+import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity

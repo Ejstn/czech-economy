@@ -1,5 +1,9 @@
 package com.estn.economy.exchangerate.presentation
 
+import com.estn.economy.core.presentation.BreadcrumbItem
+import com.estn.economy.core.presentation.ExchangeRates
+import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -32,6 +36,8 @@ class ExchangeRateController(private val fetchExchangeUseCase: FetchExchangeRate
         model.addAttribute("rates", ratesList)
         model.addAttribute("currencyCode", resolvedCurrencyCode)
         model.addAttribute("currencyAmount", currencyAmount)
+
+        model.addBreadcrumbs(Home, ExchangeRates, BreadcrumbItem(currencyCode))
 
         return "chart"
     }

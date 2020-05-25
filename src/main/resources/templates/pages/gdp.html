@@ -17,22 +17,6 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
-                <!--  nominal gdp -->
-                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
-                'nominal_gdp_container',
-                'Graf nominálního HDP',
-                'HDP',
-                ${nominalGdp})"></div>
-
-
-                <!--  nominal gdp % changes -->
-                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
-                'nominal_gdp_container_changes',
-                'Graf meziročního vývoje nominálního HDP',
-                'Změna HDP',
-                ${nominalGdpChanges})"></div>
-
-                <br>
 
                 <!-- real gdp 2010 prices -->
                 <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
@@ -48,6 +32,22 @@
                 'Změna HDP',
                 ${realGdpChanges})"></div>
 
+                <br>
+
+                <!--  nominal gdp -->
+                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                'nominal_gdp_container',
+                'Graf nominálního HDP',
+                'HDP',
+                ${nominalGdp})"></div>
+
+
+                <!--  nominal gdp % changes -->
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'nominal_gdp_container_changes',
+                'Graf meziročního vývoje nominálního HDP',
+                'Změna HDP',
+                ${nominalGdpChanges})"></div>
 
             </div>
 
@@ -56,15 +56,15 @@
 
                 <aside class="menu is-sticky has-top-padding">
                     <p class="menu-label">HDP Čr</p>
-                    <p class="menu-label">Nominální HDP</p>
-                    <ul class="menu-list">
-                        <li><a href="#nominal_gdp_container">Absolutní hodnoty</a></li>
-                        <li><a href="#nominal_gdp_container_changes">Meziroční vývoj</a></li>
-                    </ul>
                     <p class="menu-label">Reálný HDP</p>
                     <ul class="menu-list">
                         <li><a href="#real_gdp_container">Absolutní hodnoty</a></li>
                         <li><a href="#real_gdp_container_changes">Meziroční vývoj</a></li>
+                    </ul>
+                    <p class="menu-label">Nominální HDP</p>
+                    <ul class="menu-list">
+                        <li><a href="#nominal_gdp_container">Absolutní hodnoty</a></li>
+                        <li><a href="#nominal_gdp_container_changes">Meziroční vývoj</a></li>
                     </ul>
 
                 </aside>

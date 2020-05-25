@@ -18,6 +18,8 @@ class ExchangeRateController(private val fetchExchangeUseCase: FetchExchangeRate
 
     @GetMapping
     fun getExchangeRates(model: Model) : String {
+        model.addBreadcrumbs(Home, ExchangeRates)
+
         return "pages/exchangerate"
     }
 

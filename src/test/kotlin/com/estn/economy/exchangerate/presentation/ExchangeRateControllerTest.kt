@@ -2,17 +2,14 @@ package com.estn.economy.exchangerate.presentation
 
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
+import com.estn.economy.utility.exampleRate
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.*
-import org.mockito.BDDMockito.any
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.ResultMatcher.matchAll
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -62,6 +59,8 @@ class ExchangeRateControllerTest {
     @Test
     fun `GET kurzy return correct template`() {
         // given
+        given(useCaseFetch.fetchLatestRates())
+                .willReturn(listOf(exampleRate))
         // when
         // then
         mvc.perform(get("/kurzy"))
@@ -74,6 +73,8 @@ class ExchangeRateControllerTest {
     @Test
     fun `GET kurzy USD return correct template`() {
         // given
+        given(useCaseFetch.fetchByCurrencyOrderByDate("USD"))
+                .willReturn(listOf(exampleRate))
         // when
         // then
         mvc.perform(get("/kurzy/USD"))

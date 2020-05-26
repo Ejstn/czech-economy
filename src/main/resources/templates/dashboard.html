@@ -58,6 +58,10 @@
 
             </div>
 
+        </div>
+
+        <div class="columns is-centered">
+
             <!-- exchange rate -->
             <div class="column">
 
@@ -129,42 +133,6 @@
     'Státní dluh',
     ${dashboard.publicDebt}
     )"></div>
-
-    <!-- exchange rates -->
-    <div class="container box">
-
-        <div class="table-container">
-
-            <h1 class="title is-4">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
-
-            <table class="table is-hoverable is-fullwidth is-striped">
-
-                <thead class="title is-6">
-                <tr>
-                    <th>Země</th>
-                    <th>Název</th>
-                    <th>Kód</th>
-                    <th>Množsví</th>
-                    <th>Kurz</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr data-th-each="entry : ${dashboard.exchangeRates}">
-                    <td>[[${entry.country}]]</td>
-                    <td>[[${entry.currencyName}]]</td>
-                    <td>[[${entry.currencyCode}]]</td>
-                    <td>[[${entry.amount}]]</td>
-                    <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a>
-                    </td>
-                </tr>
-
-                </tbody>
-
-
-            </table>
-        </div>
-    </div>
 
 </section>
 

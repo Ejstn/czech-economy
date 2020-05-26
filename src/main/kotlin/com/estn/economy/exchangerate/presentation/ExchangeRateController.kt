@@ -4,7 +4,6 @@ import com.estn.economy.core.presentation.BreadcrumbItem
 import com.estn.economy.core.presentation.ExchangeRates
 import com.estn.economy.core.presentation.Home
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
-import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,33 +21,13 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
     fun getExchangeRates(model: Model): String {
         model.addBreadcrumbs(Home, ExchangeRates)
 
-        val today = LocalDate.now()
-        val monthAgo = today.minusMonths(1)
+        val rates = fetchExchange.fetchLatestRates()
 
-        val result = fetchExchange.fetchExchangeRateBetweenDates("USD", monthAgo, today)
-
-        val currentUSD = result.last()
-
-        val previousUSD = result.first()
-
-        val USD = MainRateOverview(name = previousUSD.currencyName.capitalize(),
-                currentValue = currentUSD,
-                comparedValue = previousUSD,
-                currentVsComparedPercentChange = currentUSD.exchangeRate / previousUSD.exchangeRate * 100,
-                development = result
-        )
-
-        model.addAttribute("usd", USD)
+        model.addAttribute("rates", rates)
+        model.addAttribute("date", rates.first().date)
 
         return "pages/exchangerate"
     }
-
-    data class MainRateOverview(val name: String,
-                                val currentValue: ExchangeRate,
-                                val comparedValue: ExchangeRate,
-                                val currentVsComparedPercentChange: Double,
-                                val development: Collection<ExchangeRate>)
-
 
     @GetMapping("/{currencyCode}")
     fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model): String {

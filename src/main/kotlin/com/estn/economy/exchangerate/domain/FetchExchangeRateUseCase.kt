@@ -25,11 +25,6 @@ class FetchExchangeRateUseCase(private val repository: ExchangeRateRepository,
         }
     }
 
-    fun fetchExchangeRateBetweenDates(currencyCode: String, from: LocalDate, to: LocalDate): List<ExchangeRate> {
-        return repository.findAllByCurrencyCodeEqualsAndDateBetweenOrderByDate(currencyCode, from, to)
-                .map { it.toDomain() }
-    }
-
     fun fetchByCurrencyOrderByDate(currencyCode: String): List<ExchangeRate> {
         return repository.findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode)
                 .map { it.toDomain() }

@@ -2,6 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
+<script>
+
+    jQuery(document).ready(function ($) {
+        $(".table").click(function () {
+            window.location = $(this).find('a').attr('href');
+        });
+    });
+
+</script>
+
+
 <body>
 
 <!-- header -->
@@ -19,99 +30,63 @@
         <div class="columns">
 
             <!-- content column -->
-            <div class="column is-10 is-12-mobile">
+            <div class="column is-12 is-12-mobile">
 
-                <h1 class="title is-5">Hlavní kurzy</h1>
+                <!-- exchange rates -->
+                <div class="container box">
 
-                <!-- USD -->
-                <div class="box has-text-centered" id="dolar">
+                    <div class="table-container has-text-centered">
 
-                    <h1 class="title is-6" data-th-text="${usd.name}"></h1>
+                        <h1 class="title is-4"><span data-th-text="${{date}}"></span></h1>
 
-                    <div class="container has-echart echart" id="main"></div>
-                    <script data-th-inline="javascript">
+                        <table class="table is-hoverable is-fullwidth is-striped">
 
-                        var myChart = echarts.init(document.getElementById('main'), 'dark');
+                            <thead class="title is-6">
+                            <tr>
+                                <th>Země</th>
+                                <th>Název</th>
+                                <th>Kód</th>
+                                <th>Množsví</th>
+                                <th>Kurz</th>
+                            </tr>
+                            </thead>
 
-                        var rates = /*[[${usd.development}]]*/ {};
-                        var currencyCode =  /*[[${usd.currentValue.currencyCode}]]*/ {};
-                        var czechCurrencyCode = "CZK";
-                        var currencyAmount = /*[[${usd.currentValue.amount}]]*/ {};
-                        var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
-                        var tooltipText = currencyCode.concat("/", czechCurrencyCode);
+                            <tbody>
+                            <tr data-th-each="entry : ${rates}">
+                                <td>[[${entry.country}]]</td>
+                                <td>[[${entry.currencyName}]]</td>
+                                <td>[[${entry.currencyCode}]]</td>
+                                <td>[[${entry.amount}]]</td>
+                                <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a>
+                                </td>
+                            </tr>
 
-                        option = {
-                            tooltip: {},
-                            title: {
-                                text: title,
-                            },
-                            toolbox: {
-                                feature: {
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            xAxis: {
-                                data: rates.map(function (rate) {
-                                    return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
-                                })
-                            },
-                            yAxis: {
-                                type: 'value',
-                                name: 'Kurz',
-                            },
-                            dataZoom: [{
-                                type: 'inside',
-                                start: 0,
-                                end: 100
-                            }, {}
-                            ],
-                            series: [
-                                {
-                                    name: tooltipText,
-                                    type: 'line',
-                                    sampling: 'average',
-                                    areaStyle: {
-                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0,
-                                            color: '#5e92f3'
-                                        }, {
-                                            offset: 1,
-                                            color: '#003c8f'
-                                        }])
-                                    },
-                                    data: rates.map(function (rate) {
-                                        return rate.exchangeRate;
-                                    })
-                                }
-                            ]
-                        };
-
-                        myChart.setOption(option);
-                    </script>
+                            </tbody>
 
 
-
+                        </table>
+                    </div>
                 </div>
 
 
-            </div>
-
-            <!-- menu column -->
-            <div class="column is-2 is-hidden-mobile">
-
-                <aside class="menu is-sticky has-top-padding box">
-                    <p class="menu-label"><a href="#">Kurzy Koruny</a></p>
-                    <p class="menu-label">Hlavní kurzy</p>
-                    <ul class="menu-list">
-                        <li><a href="#dolar">Dolar</a></li>
-                        <li><a href="#euro">Euro</a></li>
-                        <li><a href="#libra">Libra</a></li>
-                    </ul>
-
-                </aside>
 
             </div>
+
+<!--            &lt;!&ndash; menu column &ndash;&gt;-->
+<!--            <div class="column is-2 is-hidden-mobile">-->
+
+<!--                <aside class="menu is-sticky has-top-padding box">-->
+<!--                    <p class="menu-label"><a href="#">Kurzy Koruny</a></p>-->
+<!--                    <p class="menu-label">Hlavní kurzy</p>-->
+<!--                    <ul class="menu-list">-->
+<!--                        <li><a href="#dolar">Dolar</a></li>-->
+<!--                        <li><a href="#euro">Euro</a></li>-->
+<!--                        <li><a href="#libra">Libra</a></li>-->
+<!--                    </ul>-->
+
+<!--                </aside>-->
+
+<!--            </div>-->
 
         </div>
 

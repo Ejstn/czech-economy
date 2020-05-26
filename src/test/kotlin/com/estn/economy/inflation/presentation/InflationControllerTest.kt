@@ -3,6 +3,7 @@ package com.estn.economy.inflation.presentation
 import com.estn.economy.core.presentation.Breadcrumbs
 import com.estn.economy.core.presentation.Home
 import com.estn.economy.core.presentation.Inflation
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.grossdomesticproduct.presentation.GrossDomesticProductController
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +40,7 @@ class InflationControllerTest {
         // given
         // when
         // then
-        mvc.perform(get("/inflace"))
+        mvc.perform(get(Routing.INFLATION))
                 .andExpect(
                         matchAll(
                                 status().isOk,
@@ -53,7 +54,7 @@ class InflationControllerTest {
         // given
         // when
         // then
-        mvc.perform(get("/inflace"))
+        mvc.perform(get(Routing.INFLATION))
                 .andExpect(matchAll(
                         model().attribute("breadcrumbs",
                                 Breadcrumbs(listOf(Home, Inflation)))

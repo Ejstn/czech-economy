@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate.presentation
 
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.exampleRate
@@ -33,7 +34,7 @@ class ExchangeRateControllerTest {
         given(useCaseFetch.fetchByCurrencyOrderByDate(currencyCode)).willReturn(expectedRates)
         // when
         // then
-        mvc.perform(get("/kurzy/${currencyCode}"))
+        mvc.perform(get("${Routing.EXCHANGE_RATE}/${currencyCode}"))
                 .andExpect(status().isOk)
                 .andExpect(content().contentType(MediaType.parseMediaType("text/html;charset=UTF8")))
                 .andExpect(model().attribute("rates", expectedRates))
@@ -47,7 +48,7 @@ class ExchangeRateControllerTest {
         given(useCaseFetch.fetchByCurrencyOrderByDate(currencyCode)).willReturn(listOf())
         // when
         // then
-        mvc.perform(get("/kurzy/${currencyCode}"))
+        mvc.perform(get("${Routing.EXCHANGE_RATE}/${currencyCode}"))
                 .andExpect(matchAll(
                         status().isNotFound,
                         model().attributeDoesNotExist("rates"),
@@ -63,7 +64,7 @@ class ExchangeRateControllerTest {
                 .willReturn(listOf(exampleRate))
         // when
         // then
-        mvc.perform(get("/kurzy"))
+        mvc.perform(get(Routing.EXCHANGE_RATE))
                 .andExpect(matchAll(
                         status().isOk,
                         view().name("pages/exchangerate")
@@ -77,7 +78,7 @@ class ExchangeRateControllerTest {
                 .willReturn(listOf(exampleRate))
         // when
         // then
-        mvc.perform(get("/kurzy/USD"))
+        mvc.perform(get("${Routing.EXCHANGE_RATE}/USD"))
                 .andExpect(matchAll(
                         status().isOk,
                         view().name("pages/exchangerate_detail")

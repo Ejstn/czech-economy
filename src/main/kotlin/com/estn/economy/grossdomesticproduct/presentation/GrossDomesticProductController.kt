@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/hdp")
+@RequestMapping(Routing.GDP)
 class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDomesticProductUseCase) {
 
     val template = "pages/gdp"

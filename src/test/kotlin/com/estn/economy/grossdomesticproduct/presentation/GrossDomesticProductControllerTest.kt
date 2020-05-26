@@ -4,6 +4,7 @@ import com.estn.economy.core.domain.OutputPercentageData
 import com.estn.economy.core.presentation.Breadcrumbs
 import com.estn.economy.core.presentation.Gdp
 import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
@@ -70,7 +71,7 @@ class GrossDomesticProductControllerTest {
         // given
         // when
         // then
-        mvc.perform(get("/hdp"))
+        mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
                                 status().isOk,
@@ -84,7 +85,7 @@ class GrossDomesticProductControllerTest {
         // given
         // when
         // then
-        mvc.perform(get("/hdp"))
+        mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
                                 model().attribute("nominalGdp", nominalGdp.mapToPairs()),
@@ -100,7 +101,7 @@ class GrossDomesticProductControllerTest {
         // given
         // when
         // then
-        mvc.perform(get("/hdp"))
+        mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
                                 model().attribute("breadcrumbs", Breadcrumbs(listOf(Home, Gdp))

@@ -3,6 +3,7 @@ package com.estn.economy.exchangerate.presentation
 import com.estn.economy.core.presentation.BreadcrumbItem
 import com.estn.economy.core.presentation.ExchangeRates
 import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.springframework.stereotype.Controller
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import java.time.LocalDate
 
 @Controller
-@RequestMapping("/kurzy")
+@RequestMapping(Routing.EXCHANGE_RATE)
 class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase) {
 
 

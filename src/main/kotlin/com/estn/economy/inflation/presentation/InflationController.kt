@@ -3,6 +3,7 @@ package com.estn.economy.inflation.presentation
 import com.estn.economy.core.domain.date.translate
 import com.estn.economy.core.presentation.Home
 import com.estn.economy.core.presentation.Inflation
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.inflation.data.InflationType
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import java.time.Month
 
 @Controller
-@RequestMapping("/inflace")
+@RequestMapping(Routing.INFLATION)
 class InflationController(private val fetchInflation: FetchInflationRateUseCase) {
 
     val template = "pages/inflation"

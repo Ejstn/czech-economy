@@ -3,6 +3,9 @@ package com.estn.economy.exchangerate.presentation
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.*
+import org.mockito.BDDMockito.any
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -65,6 +68,18 @@ class ExchangeRateControllerTest {
                 .andExpect(matchAll(
                         status().isOk,
                         view().name("pages/exchangerate")
+                ))
+    }
+
+    @Test
+    fun `GET kurzy USD return correct template`() {
+        // given
+        // when
+        // then
+        mvc.perform(get("/kurzy/USD"))
+                .andExpect(matchAll(
+                        status().isOk,
+                        view().name("pages/exchangerate_detail")
                 ))
     }
 

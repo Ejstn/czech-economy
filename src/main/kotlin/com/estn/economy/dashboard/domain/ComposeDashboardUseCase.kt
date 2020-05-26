@@ -21,7 +21,6 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
                               private val fetchUnemploymentRate: FetchUnemploymentRateUseCase,
                               private val fetchInflation: FetchInflationRateUseCase,
                               private val publicDebtRepository: PublicDebtRepository,
-                              private val budgetBalanceRepository: BudgetBalanceRepository,
                               private val composeOverview: ComposeEconomyOverviewUseCase,
                               private val dateFormatter: DateFormatter) {
 
@@ -31,35 +30,30 @@ class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUs
         val date = exchangeRates.first().date
 
         val formattedDate = " ${date.dayOfWeek.translate(false)} ${dateFormatter.formatDateForFrontEnd(date)}"
-        val nominalGdp = fetchGdp.fetchGdp(GrossDomesticProductType.NOMINAL)
-        val realGdp = fetchGdp.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES)
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = publicDebtRepository.findAll()
-        val budgetBalance = budgetBalanceRepository.findAll()
         val overview = composeOverview.execute()
+        val gdp = fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
 
         return EconomyDashboard(
                 overview = overview,
                 exchangeRatesDate = formattedDate,
                 exchangeRates = exchangeRates,
-                nominalGdp = nominalGdp,
-                realGdp2010Prices = realGdp.mapToPairs(),
                 yearlyUnempRates = unemployment.mapToPairs(),
                 yearlyInflationRates = inflation.mapToPairs(),
-                publicDebt = publicDebt.mapToPairs(),
-                budgetBalance = budgetBalance)
+                realGdp2010PricesPercentChange = gdp.mapToPairs(),
+                publicDebt = publicDebt.mapToPairs()
+        )
 
     }
 
     data class EconomyDashboard(val overview: EconomyOverview,
                                 val exchangeRatesDate: String,
                                 val exchangeRates: Collection<ExchangeRate>,
-                                val nominalGdp: Collection<GrossDomesticProductEntity>,
-                                val realGdp2010Prices: List<Pair<Any, Any>>,
+                                val realGdp2010PricesPercentChange: List<Pair<Any, Any>>,
                                 val yearlyUnempRates: List<Pair<Any, Any>>,
                                 val yearlyInflationRates: List<Pair<Any, Any>>,
-                                val publicDebt: List<Pair<Any, Any>>,
-                                val budgetBalance: Collection<BudgetBalanceEntity>)
+                                val publicDebt: List<Pair<Any, Any>>)
 
 }

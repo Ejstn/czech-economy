@@ -1,5 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
+import com.estn.economy.core.domain.OutputPercentageData
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
@@ -40,7 +41,7 @@ class DashboardControllerTest {
 
     val date = "15.1.2020"
 
-    val gdp = listOf(GrossDomesticProductEntity(year = 2015, type = GrossDomesticProductType.NOMINAL, gdpMillionsCrowns = 5644787))
+    val gdp = listOf(OutputPercentageData(order = 2015, value =  5.5))
     val unemp = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     val exchangeRates = listOf(exampleRate)
@@ -48,7 +49,6 @@ class DashboardControllerTest {
             valuePercent = 5f))
 
     val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
-    val budgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
     val overview = EconomyOverview(exchangeRates = listOf(exampleRate),
             inflation = InflationOverview("Leden",
@@ -59,14 +59,12 @@ class DashboardControllerTest {
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,
-            realGdp2010Prices = gdp.mapToPairs(),
-            budgetBalance = budgetBalance,
+            realGdp2010PricesPercentChange = gdp.mapToPairs(),
             publicDebt = publicDebt.mapToPairs(),
             yearlyInflationRates = inflation.mapToPairs(),
             yearlyUnempRates = unemp.mapToPairs(),
             exchangeRates = exchangeRates,
-            exchangeRatesDate = date,
-            nominalGdp = gdp
+            exchangeRatesDate = date
     )
 
 
@@ -81,7 +79,7 @@ class DashboardControllerTest {
                 .andExpect(ResultMatcher.matchAll(
                         status().isOk,
                         model().attribute("dashboard", expectedDashboard),
-                        view().name("index")
+                        view().name("dashboard")
                 ))
     }
 

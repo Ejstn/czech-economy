@@ -67,7 +67,7 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
 
         model.addBreadcrumbs(Home, ExchangeRates, BreadcrumbItem(currencyCode))
 
-        return "chart"
+        return "pages/exchangerate_detail"
     }
 
 }

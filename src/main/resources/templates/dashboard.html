@@ -67,7 +67,7 @@
 
                 <div class="box">
 
-                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${dashboard.exchangeRatesDate}"></span>
+                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
                     </h1>
 
 
@@ -82,7 +82,7 @@
                         </thead>
 
                         <tbody>
-                        <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
+                        <tr data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
                             <td>[[${entry.currencyCode}]]</td>
                             <td>[[${entry.amount}]]</td>
                             <td>[[${entry.exchangeRate}]] <a

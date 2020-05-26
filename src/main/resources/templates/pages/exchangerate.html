@@ -21,6 +21,79 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
+                <h1 class="title is-5">Hlavní kurzy</h1>
+
+                <!-- USD -->
+                <div class="box has-text-centered" id="dolar">
+
+                    <h1 class="title is-6" data-th-text="${usd.name}"></h1>
+
+                    <div class="container has-echart echart" id="main"></div>
+                    <script data-th-inline="javascript">
+
+                        var myChart = echarts.init(document.getElementById('main'), 'dark');
+
+                        var rates = /*[[${usd.development}]]*/ {};
+                        var currencyCode =  /*[[${usd.currentValue.currencyCode}]]*/ {};
+                        var czechCurrencyCode = "CZK";
+                        var currencyAmount = /*[[${usd.currentValue.amount}]]*/ {};
+                        var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
+                        var tooltipText = currencyCode.concat("/", czechCurrencyCode);
+
+                        option = {
+                            tooltip: {},
+                            title: {
+                                text: title,
+                            },
+                            toolbox: {
+                                feature: {
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            xAxis: {
+                                data: rates.map(function (rate) {
+                                    return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
+                                })
+                            },
+                            yAxis: {
+                                type: 'value',
+                                name: 'Kurz',
+                            },
+                            dataZoom: [{
+                                type: 'inside',
+                                start: 0,
+                                end: 100
+                            }, {}
+                            ],
+                            series: [
+                                {
+                                    name: tooltipText,
+                                    type: 'line',
+                                    sampling: 'average',
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: '#5e92f3'
+                                        }, {
+                                            offset: 1,
+                                            color: '#003c8f'
+                                        }])
+                                    },
+                                    data: rates.map(function (rate) {
+                                        return rate.exchangeRate;
+                                    })
+                                }
+                            ]
+                        };
+
+                        myChart.setOption(option);
+                    </script>
+
+
+
+                </div>
+
 
             </div>
 
@@ -29,10 +102,11 @@
 
                 <aside class="menu is-sticky has-top-padding box">
                     <p class="menu-label"><a href="#">Kurzy Koruny</a></p>
-                    <p class="menu-label">Nominální HDP</p>
+                    <p class="menu-label">Hlavní kurzy</p>
                     <ul class="menu-list">
-                        <li><a href="#nominal_gdp_container">Absolutní hodnoty</a></li>
-                        <li><a href="#nominal_gdp_container_changes">Meziroční vývoj</a></li>
+                        <li><a href="#dolar">Dolar</a></li>
+                        <li><a href="#euro">Euro</a></li>
+                        <li><a href="#libra">Libra</a></li>
                     </ul>
 
                 </aside>

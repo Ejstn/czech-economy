@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head"></head>
+
+<body>
+
+<div class="box has-text-centered" th:fragment="simpleBox(title, firstText, secondText)">
+
+    <h1 class="title is-6" data-th-text="${title}"></h1>
+    <h1 class="title is-6" data-th-text="${firstText}"></h1>
+    <h1 class="title is-4" data-th-text="${secondText}"></h1>
+
+</div>
+
+</body>
+
+</html>

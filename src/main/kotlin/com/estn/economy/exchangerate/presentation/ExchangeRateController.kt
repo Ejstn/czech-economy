@@ -19,7 +19,7 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
 
 
     @GetMapping
-    fun getExchangeRates(model: Model) : String {
+    fun getExchangeRates(model: Model): String {
         model.addBreadcrumbs(Home, ExchangeRates)
 
         val today = LocalDate.now()
@@ -31,7 +31,7 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
 
         val previousUSD = result.first()
 
-        val USD = MainRateOverview(name =  previousUSD.currencyName.capitalize(),
+        val USD = MainRateOverview(name = previousUSD.currencyName.capitalize(),
                 currentValue = currentUSD,
                 comparedValue = previousUSD,
                 currentVsComparedPercentChange = currentUSD.exchangeRate / previousUSD.exchangeRate * 100,
@@ -44,28 +44,33 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
     }
 
     data class MainRateOverview(val name: String,
-                                val currentValue : ExchangeRate,
-                                val comparedValue : ExchangeRate,
+                                val currentValue: ExchangeRate,
+                                val comparedValue: ExchangeRate,
                                 val currentVsComparedPercentChange: Double,
                                 val development: Collection<ExchangeRate>)
 
 
     @GetMapping("/{currencyCode}")
     fun getChartsForGivenCurrency(@PathVariable currencyCode: String, model: Model): String {
+
+        model.addBreadcrumbs(Home, ExchangeRates, BreadcrumbItem(currencyCode))
+
         val ratesList = fetchExchange.fetchByCurrencyOrderByDate(currencyCode)
 
         if (ratesList.isEmpty()) {
             throw NoSuchElementException()
         }
 
-        val resolvedCurrencyCode = ratesList.first().currencyCode
-        val currencyAmount = ratesList.first().amount
-
         model.addAttribute("rates", ratesList)
-        model.addAttribute("currencyCode", resolvedCurrencyCode)
-        model.addAttribute("currencyAmount", currencyAmount)
+        model.addAttribute("currencyCode", ratesList.first().currencyCode)
+        model.addAttribute("currencyAmount", ratesList.first().amount)
+        model.addAttribute("current", ratesList.last())
+        model.addAttribute("lowest", ratesList.minBy { it.exchangeRate })
+        model.addAttribute("highest", ratesList.maxBy { it.exchangeRate })
 
-        model.addBreadcrumbs(Home, ExchangeRates, BreadcrumbItem(currencyCode))
+        model.addAttribute("monthAgo", ratesList.first { it.date.isAfter(LocalDate.now().minusMonths(1)) })
+        model.addAttribute("halfYearAgo", ratesList.first { it.date.isAfter(LocalDate.now().minusMonths(6)) })
+        model.addAttribute("yearAgo", ratesList.first { it.date.isAfter(LocalDate.now().minusYears(1)) })
 
         return "pages/exchangerate_detail"
     }

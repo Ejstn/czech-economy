@@ -41,4 +41,5 @@ interface ExchangeRateRepository : JpaRepository<ExchangeRateEntity, ExchangeRat
     fun findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode: String): List<ExchangeRateEntity>
 
 
+
 }

@@ -10,4 +10,6 @@ class FetchInflationRateUseCase (private val repository: InflationRateRepository
     fun fetchAllYearlyInflationRates() =
             repository.findAllByTypeAndMonthEquals(InflationType.THIS_YEAR_VS_LAST_YEAR, 12)
 
+    fun fetchAllInflationRatesByType(type: InflationType) = repository.findAllByTypeEquals(type)
+
 }

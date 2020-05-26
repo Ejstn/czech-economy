@@ -2,15 +2,98 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
-<body >
+<script>
+
+    jQuery(document).ready(function ($) {
+        $(".table").click(function () {
+            window.location = $(this).find('a').attr('href');
+        });
+    });
+
+</script>
+
+
+<body>
 
 <!-- header -->
 <div th:replace="fragments/common :: header"></div>
 
 <!-- content -->
-<div>
+<section class="section">
 
-</div>
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered">Kurzy Koruny</h1>
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-12 is-12-mobile">
+
+                <!-- exchange rates -->
+                <div class="container box">
+
+                    <div class="table-container has-text-centered">
+
+                        <h1 class="title is-4"><span data-th-text="${{date}}"></span></h1>
+
+                        <table class="table is-hoverable is-fullwidth is-striped">
+
+                            <thead class="title is-6">
+                            <tr>
+                                <th>Země</th>
+                                <th>Název</th>
+                                <th>Kód</th>
+                                <th>Množsví</th>
+                                <th>Kurz</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr data-th-each="entry : ${rates}">
+                                <td>[[${entry.country}]]</td>
+                                <td>[[${entry.currencyName}]]</td>
+                                <td>[[${entry.currencyCode}]]</td>
+                                <td>[[${entry.amount}]]</td>
+                                <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+<!--            &lt;!&ndash; menu column &ndash;&gt;-->
+<!--            <div class="column is-2 is-hidden-mobile">-->
+
+<!--                <aside class="menu is-sticky has-top-padding box">-->
+<!--                    <p class="menu-label"><a href="#">Kurzy Koruny</a></p>-->
+<!--                    <p class="menu-label">Hlavní kurzy</p>-->
+<!--                    <ul class="menu-list">-->
+<!--                        <li><a href="#dolar">Dolar</a></li>-->
+<!--                        <li><a href="#euro">Euro</a></li>-->
+<!--                        <li><a href="#libra">Libra</a></li>-->
+<!--                    </ul>-->
+
+<!--                </aside>-->
+
+<!--            </div>-->
+
+        </div>
+
+
+    </div>
+
+</section>
 
 <!-- footer -->
 <div th:replace="fragments/common :: footer"></div>

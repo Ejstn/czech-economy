@@ -4035,8 +4035,8 @@ a.list-item {
     display: block;
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
-      background-color: #212121;
-      color: #dfdfdf; }
+      background-color: rgba(236, 236, 236, 0.12);
+      color: #ececec; }
     .menu-list a.is-active {
       background-color: #5e92f3;
       color: #fff; }

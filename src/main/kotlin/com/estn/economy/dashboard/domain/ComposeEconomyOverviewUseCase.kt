@@ -12,6 +12,7 @@ import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateRepository
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.Month
 
 @Service
@@ -25,6 +26,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 
         val rates = exchangeRepository.findAllRatesFromLastDayWhereCodeLike(configuration.exchangeRates)
                 .map { it.toDomain() }
+        val ratesDate = rates.first().date
 
         val inflationEntity = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)
         val inflation = InflationOverview(Month.of(inflationEntity.month).translate(true), inflationEntity)
@@ -41,15 +43,18 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                             / second.gdpMillionsCrowns * 100) - 100)
                 }
 
-        return EconomyOverview(rates, inflation, latestGdp, unemployment)
+        return EconomyOverview(ExchangeRatesOverview(date = ratesDate, rates = rates), inflation, latestGdp, unemployment)
     }
 
 }
 
-data class EconomyOverview(val exchangeRates: Collection<ExchangeRate>,
+data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
                            val inflation: InflationOverview,
                            val latestGdp: LatestGdp,
                            val unemployment: UnemploymentRateEntity)
+
+data class ExchangeRatesOverview(val date: LocalDate,
+                                 val rates: Collection<ExchangeRate>)
 
 
 data class LatestGdp(val year: Int,

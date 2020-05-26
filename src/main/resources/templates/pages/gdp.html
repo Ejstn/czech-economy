@@ -12,6 +12,10 @@
 
     <div class="container">
 
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered">HDP Česka</h1>
+
         <div class="columns">
 
             <!-- content column -->
@@ -54,8 +58,8 @@
             <!-- menu column -->
             <div class="column is-2 is-hidden-mobile">
 
-                <aside class="menu is-sticky has-top-padding">
-                    <p class="menu-label">HDP Čr</p>
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#">HDP Čr</a></p>
                     <p class="menu-label">Reálný HDP</p>
                     <ul class="menu-list">
                         <li><a href="#real_gdp_container">Absolutní hodnoty</a></li>

@@ -2,15 +2,62 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
-<body >
+<body>
 
 <!-- header -->
 <div th:replace="fragments/common :: header"></div>
 
 <!-- content -->
-<div>
+<section class="section">
 
-</div>
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered">Inflace Česka</h1>
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-10 is-12-mobile">
+
+                <!--  this 12 months vs last 12 months inflation -->
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'this_vs_last_year_inflation',
+                'Graf meziročního vývoje inflace v %',
+                'Inflace',
+                ${yearlyInflation})"></div>
+
+                <!--  month vs previous month inflation rates -->
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'month_vs_month_inflation',
+                'Graf meziměsíčního vývoje inflace v %',
+                'Inflace',
+                ${monthlyInflation})"></div>
+
+            </div>
+
+            <!-- menu column -->
+            <div class="column is-2 is-hidden-mobile">
+
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#">Inflace Čr</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#this_vs_last_year_inflation">Meziroční</a></li>
+                        <li><a href="#month_vs_month_inflation">Meziměsíční</a></li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
 
 <!-- footer -->
 <div th:replace="fragments/common :: footer"></div>

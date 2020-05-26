@@ -1,22 +1,24 @@
 package com.estn.economy.exchangerate.domain
 
+import com.estn.economy.exchangerate.data.database.ExchangeRateEntity
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toDomain
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 
 /**
  * Written by estn on 13.01.2020.
  */
 @Service
-class FetchExchangeRateUseCase(private val exchangeRepository: ExchangeRateRepository,
+class FetchExchangeRateUseCase(private val repository: ExchangeRateRepository,
                                private val synchronizeExchangeRate: SynchronizeExchangeRateUseCase) {
 
     fun fetchLatestRates(): Collection<ExchangeRate> {
-        val latestRates = exchangeRepository.findAllRatesFromLastDay()
+        val latestRates = repository.findAllRatesFromLastDay()
         latestRates.ifEmpty {
             synchronizeExchangeRate.executeForToday()
-            exchangeRepository.findAllRatesFromLastDay()
+            repository.findAllRatesFromLastDay()
         }
         return latestRates.map {
             it.toDomain()
@@ -24,7 +26,7 @@ class FetchExchangeRateUseCase(private val exchangeRepository: ExchangeRateRepos
     }
 
     fun fetchByCurrencyOrderByDate(currencyCode: String): List<ExchangeRate> {
-        return exchangeRepository.findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode)
+        return repository.findExchangeRateEntityByCurrencyCodeOrderByDate(currencyCode)
                 .map { it.toDomain() }
     }
 

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head"></head>
+
+<body>
+
+<nav th:fragment="breadCrumbs(breadcrumbs)" class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li data-th-each="item, index : ${breadcrumbs.items}"
+            data-th-class="${index.last} ? 'is-active'"
+        data-th-aria-current="${index.last} ? 'page'">
+            <a data-th-href="${item.link}">[[${item.name}]]</a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+
+
+</html>

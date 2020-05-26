@@ -1,6 +1,6 @@
 package com.estn.economy.core.domain
 
-import com.estn.economy.core.presentation.PairConvertable
+import com.estn.economy.core.presentation.utility.PairConvertable
 import org.springframework.stereotype.Service
 
 @Service

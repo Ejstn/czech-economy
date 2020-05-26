@@ -1,13 +1,6 @@
 package com.estn.economy.dashboard.domain
 
-import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
-import com.estn.economy.nationalbudget.data.BudgetBalanceRepository
-import com.estn.economy.core.domain.date.DateFormatter
-import com.estn.economy.core.domain.date.translate
-import com.estn.economy.core.presentation.mapToPairs
-import com.estn.economy.exchangerate.domain.ExchangeRate
-import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
-import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
+import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
@@ -16,50 +9,35 @@ import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
 import org.springframework.stereotype.Service
 
 @Service
-class ComposeDashboardUseCase(private val fetchExchangeRate: FetchExchangeRateUseCase,
-                              private val fetchGdp: FetchGrossDomesticProductUseCase,
+class ComposeDashboardUseCase(private val fetchGdp: FetchGrossDomesticProductUseCase,
                               private val fetchUnemploymentRate: FetchUnemploymentRateUseCase,
                               private val fetchInflation: FetchInflationRateUseCase,
                               private val publicDebtRepository: PublicDebtRepository,
-                              private val budgetBalanceRepository: BudgetBalanceRepository,
-                              private val composeOverview: ComposeEconomyOverviewUseCase,
-                              private val dateFormatter: DateFormatter) {
+                              private val composeOverview: ComposeEconomyOverviewUseCase) {
 
 
     fun execute(): EconomyDashboard {
-        val exchangeRates = fetchExchangeRate.fetchLatestRates()
-        val date = exchangeRates.first().date
 
-        val formattedDate = " ${date.dayOfWeek.translate(false)} ${dateFormatter.formatDateForFrontEnd(date)}"
-        val nominalGdp = fetchGdp.fetchGdp(GrossDomesticProductType.NOMINAL)
-        val realGdp = fetchGdp.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES)
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = publicDebtRepository.findAll()
-        val budgetBalance = budgetBalanceRepository.findAll()
         val overview = composeOverview.execute()
+        val gdp = fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
 
         return EconomyDashboard(
                 overview = overview,
-                exchangeRatesDate = formattedDate,
-                exchangeRates = exchangeRates,
-                nominalGdp = nominalGdp,
-                realGdp2010Prices = realGdp.mapToPairs(),
                 yearlyUnempRates = unemployment.mapToPairs(),
                 yearlyInflationRates = inflation.mapToPairs(),
-                publicDebt = publicDebt.mapToPairs(),
-                budgetBalance = budgetBalance)
+                realGdp2010PricesPercentChange = gdp.mapToPairs(),
+                publicDebt = publicDebt.mapToPairs()
+        )
 
     }
 
     data class EconomyDashboard(val overview: EconomyOverview,
-                                val exchangeRatesDate: String,
-                                val exchangeRates: Collection<ExchangeRate>,
-                                val nominalGdp: Collection<GrossDomesticProductEntity>,
-                                val realGdp2010Prices: List<Pair<Any, Any>>,
+                                val realGdp2010PricesPercentChange: List<Pair<Any, Any>>,
                                 val yearlyUnempRates: List<Pair<Any, Any>>,
                                 val yearlyInflationRates: List<Pair<Any, Any>>,
-                                val publicDebt: List<Pair<Any, Any>>,
-                                val budgetBalance: Collection<BudgetBalanceEntity>)
+                                val publicDebt: List<Pair<Any, Any>>)
 
 }

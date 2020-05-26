@@ -30,13 +30,9 @@
             <!-- gdp -->
             <div class="column">
 
-                <div class="box">
-
-                    <h1 class="title is-6">Meziroční vývoj reálného HDP</h1>
-
-                    <p th:text="${dashboard.overview.latestGdp.year}"></p>
-                    <p th:text="${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
-
+                <div th:replace="fragments/components :: simpleBox('Meziroční vývoj reálného HDP',
+                ${dashboard.overview.latestGdp.year},
+                ${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'} )">
                 </div>
 
             </div>
@@ -44,14 +40,9 @@
             <!-- inflation -->
             <div class="column">
 
-                <div class="box">
-
-                    <h1 class="title is-6">Meziroční inflace</h1>
-
-                    <p>[[${dashboard.overview.inflation.month}]] [[${dashboard.overview.inflation.inflation.year}]]</p>
-
-                    <p th:text="${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'}"></p>
-
+                <div th:replace="fragments/components :: simpleBox('Meziroční inflace',
+                |${dashboard.overview.inflation.month} ${dashboard.overview.inflation.inflation.year}|,
+                ${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'} )">
                 </div>
 
 
@@ -60,23 +51,23 @@
             <!-- unemployment -->
             <div class="column">
 
-                <div class="box">
-
-                    <h1 class="title is-6">Nezaměstnanost</h1>
-
-                    <p th:text="${dashboard.overview.unemployment.quarter} + '. čtvrtletí ' +  ${dashboard.overview.unemployment.year}"></p>
-                    <p th:text="${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'}"></p>
-
+                <div th:replace="fragments/components :: simpleBox('Nezaměstnanost',
+                |${dashboard.overview.unemployment.quarter}. čtvrtletí ${dashboard.overview.unemployment.year}|,
+                ${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'} )">
                 </div>
 
             </div>
+
+        </div>
+
+        <div class="columns is-centered">
 
             <!-- exchange rate -->
             <div class="column">
 
                 <div class="box">
 
-                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${dashboard.exchangeRatesDate}"></span>
+                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
                     </h1>
 
 
@@ -91,7 +82,7 @@
                         </thead>
 
                         <tbody>
-                        <tr data-th-each="entry : ${dashboard.overview.exchangeRates}">
+                        <tr data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
                             <td>[[${entry.currencyCode}]]</td>
                             <td>[[${entry.amount}]]</td>
                             <td>[[${entry.exchangeRate}]] <a
@@ -115,11 +106,11 @@
     <br>
 
     <!-- real gdp 2010 prices -->
-    <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
-    'chart_real_gdp_2010_prices',
-    'Graf reálného HDP v cenách roku 2010',
+    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    'chart_real_gdp',
+    'Graf vývoje reálného HDP v %',
     'HDP',
-    ${dashboard.realGdp2010Prices})"></div>
+    ${dashboard.realGdp2010PricesPercentChange})"></div>
 
     <!-- unemployment -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
@@ -142,42 +133,6 @@
     'Státní dluh',
     ${dashboard.publicDebt}
     )"></div>
-
-    <!-- exchange rates -->
-    <div class="container box">
-
-        <div class="table-container">
-
-            <h1 class="title is-4">Kurzy pro <span data-th-text="${dashboard.exchangeRatesDate}"></span></h1>
-
-            <table class="table is-hoverable is-fullwidth is-striped">
-
-                <thead class="title is-6">
-                <tr>
-                    <th>Země</th>
-                    <th>Název</th>
-                    <th>Kód</th>
-                    <th>Množsví</th>
-                    <th>Kurz</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr data-th-each="entry : ${dashboard.exchangeRates}">
-                    <td>[[${entry.country}]]</td>
-                    <td>[[${entry.currencyName}]]</td>
-                    <td>[[${entry.currencyCode}]]</td>
-                    <td>[[${entry.amount}]]</td>
-                    <td>[[${entry.exchangeRate}]]<a data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a>
-                    </td>
-                </tr>
-
-                </tbody>
-
-
-            </table>
-        </div>
-    </div>
 
 </section>
 

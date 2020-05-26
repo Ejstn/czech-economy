@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head"></head>
+
+<body>
+
+<!-- header -->
+<div th:replace="fragments/common :: header"></div>
+
+<!-- content -->
+<section class="section">
+
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered"
+            data-th-text="|Detail CZK/${currencyCode}|"></h1>
+
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-10 is-12-mobile">
+
+                <div class="columns" id="zaklad">
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox('Aktuální kurz',${{current.date}}, ${current.exchangeRate} )">
+                        </div>
+
+                        <div th:replace="fragments/components :: simpleBox('Měsíc zpátky',${{monthAgo.date}}, ${monthAgo.exchangeRate} )">
+                        </div>
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox('Nejnižší kurz',${{lowest.date}}, ${lowest.exchangeRate} )">
+                        </div>
+
+                        <div th:replace="fragments/components :: simpleBox('Půl roku zpět',${{halfYearAgo.date}}, ${halfYearAgo.exchangeRate} )">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox('Nejvyšší kurz',${{highest.date}}, ${highest.exchangeRate} )">
+                        </div>
+
+                        <div th:replace="fragments/components :: simpleBox('Rok zpět',${{yearAgo.date}}, ${yearAgo.exchangeRate} )">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <!-- chart -->
+                <div class="container has-echart box echart" id="graf"></div>
+                <script data-th-inline="javascript">
+
+                    var myChart = echarts.init(document.getElementById('graf'), 'dark');
+
+                    var rates = /*[[${rates}]]*/ {};
+                    var currencyCode =  /*[[${currencyCode}]]*/ {};
+                    var czechCurrencyCode = "CZK";
+                    var currencyAmount = /*[[${currencyAmount}]]*/ {};
+                    var title = "Graf kurzu ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
+                    var tooltipText = currencyCode.concat("/", czechCurrencyCode);
+
+                    option = {
+                        tooltip: {},
+                        title: {
+                            text: title,
+                        },
+                        toolbox: {
+                            feature: {
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            data: rates.map(function (rate) {
+                                return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
+                            })
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name: 'Kurz',
+                        },
+                        dataZoom: [{
+                            type: 'inside',
+                            start: 0,
+                            end: 100
+                        }, {}
+                        ],
+                        series: [
+                            {
+                                name: tooltipText,
+                                type: 'line',
+                                sampling: 'average',
+                                areaStyle: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#5e92f3'
+                                    }, {
+                                        offset: 1,
+                                        color: '#003c8f'
+                                    }])
+                                },
+                                data: rates.map(function (rate) {
+                                    return rate.exchangeRate;
+                                })
+                            }
+                        ]
+                    };
+
+                    myChart.setOption(option);
+                </script>
+
+            </div>
+
+            <!-- menu column -->
+            <div class="column is-2 is-hidden-mobile">
+
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#" data-th-text="|Detail CZK/${currencyCode}|"></a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zaklad">Základní údaje</a></li>
+                        <li><a href="#graf">Graf</a></li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+<!-- footer -->
+<div th:replace="fragments/common :: footer"></div>
+
+</body>
+</html>

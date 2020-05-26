@@ -1,11 +1,9 @@
 package com.estn.economy.dashboard.presentation
 
-import com.estn.economy.core.presentation.mapToPairs
+import com.estn.economy.core.domain.OutputPercentageData
+import com.estn.economy.core.presentation.utility.mapToPairs
+import com.estn.economy.dashboard.domain.*
 import com.estn.economy.nationalbudget.data.BudgetBalanceEntity
-import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
-import com.estn.economy.dashboard.domain.EconomyOverview
-import com.estn.economy.dashboard.domain.InflationOverview
-import com.estn.economy.dashboard.domain.LatestGdp
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.inflation.data.InflationRateEntity
@@ -24,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.time.LocalDate
 
 /**
  * Written by estn on 16.01.2020.
@@ -38,19 +37,15 @@ class DashboardControllerTest {
     @MockBean
     lateinit var composeDashboard: ComposeDashboardUseCase
 
-    val date = "15.1.2020"
-
-    val gdp = listOf(GrossDomesticProductEntity(year = 2015, type = GrossDomesticProductType.NOMINAL, gdpMillionsCrowns = 5644787))
+    val gdp = listOf(OutputPercentageData(order = 2015, value =  5.5))
     val unemp = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
-    val exchangeRates = listOf(exampleRate)
     val inflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
             valuePercent = 5f))
 
     val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
-    val budgetBalance = listOf(BudgetBalanceEntity(year = 2015, millionsCrowns = -54564))
 
-    val overview = EconomyOverview(exchangeRates = listOf(exampleRate),
+    val overview = EconomyOverview(exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
             inflation = InflationOverview("Leden",
                     InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
             latestGdp = LatestGdp(2019, 2.6),
@@ -59,14 +54,10 @@ class DashboardControllerTest {
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,
-            realGdp2010Prices = gdp.mapToPairs(),
-            budgetBalance = budgetBalance,
+            realGdp2010PricesPercentChange = gdp.mapToPairs(),
             publicDebt = publicDebt.mapToPairs(),
             yearlyInflationRates = inflation.mapToPairs(),
-            yearlyUnempRates = unemp.mapToPairs(),
-            exchangeRates = exchangeRates,
-            exchangeRatesDate = date,
-            nominalGdp = gdp
+            yearlyUnempRates = unemp.mapToPairs()
     )
 
 
@@ -81,7 +72,7 @@ class DashboardControllerTest {
                 .andExpect(ResultMatcher.matchAll(
                         status().isOk,
                         model().attribute("dashboard", expectedDashboard),
-                        view().name("index")
+                        view().name("dashboard")
                 ))
     }
 

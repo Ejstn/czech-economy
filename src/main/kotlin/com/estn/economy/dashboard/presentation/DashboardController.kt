@@ -14,9 +14,8 @@ class DashboardController(private val composeDashboard: ComposeDashboardUseCase)
 
     @GetMapping
     fun getDashboard(model: Model): String {
-        val dashboard = composeDashboard.execute()
+        model.addAttribute("dashboard", composeDashboard.execute())
 
-        model.addAttribute("dashboard", dashboard)
         return "dashboard"
     }
 

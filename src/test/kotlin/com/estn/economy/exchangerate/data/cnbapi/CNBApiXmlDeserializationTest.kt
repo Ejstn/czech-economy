@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate.data.cnbapi
 
+import com.estn.economy.TestProfile
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.assertj.core.api.Assertions.assertThat
@@ -15,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @SpringBootTest
-@ActiveProfiles("test")
+@TestProfile
 class CNBApiXmlDeserializationTest {
 
     val input: String =

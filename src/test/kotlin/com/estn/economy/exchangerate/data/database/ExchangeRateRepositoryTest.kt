@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate.data.database
 
+import com.estn.economy.TestProfile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +14,7 @@ import java.time.LocalDate
  * Written by estn on 17.01.2020.
  */
 @DataJpaTest
-@ActiveProfiles("test")
+@TestProfile
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ExchangeRateRepositoryTest {
 

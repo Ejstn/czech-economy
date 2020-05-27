@@ -10,13 +10,21 @@ import org.springframework.stereotype.Component
  */
 @Profile("!test")
 @Component
-class DataScheduler(private val synchronize: SynchronizeExchangeRateUseCase) {
+class DataSynchronizer(private val synchronize: SynchronizeExchangeRateUseCase,
+                       private val evictCache: EvictAllCacheUseCase) {
 
     @Scheduled(fixedRateString = "\${synchronization.exchangerate.small.millis:60000}")
-    fun smallRatesSync() = synchronize.executeForToday()
+    fun smallRatesSync() {
+        synchronize.executeForToday()
+        evictCache()
+    }
 
     @Scheduled(fixedRateString = "\${synchronization.exchangerate.large.millis:60000}")
-    fun largeRatesSync() = synchronize.executeForAllMissingDays()
+    fun largeRatesSync() {
+        synchronize.executeForAllMissingDays()
+        evictCache()
+    }
 
+    private fun evictCache() = evictCache.execute()
 
 }

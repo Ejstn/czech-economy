@@ -1,5 +1,6 @@
 package com.estn.economy.exchangerate.data.cnbapi
 
+import com.estn.economy.TestProfile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
@@ -15,7 +16,7 @@ import java.time.LocalDate
  */
 @SpringBootTest
 @Disabled()
-@ActiveProfiles("test")
+@TestProfile
 class CNBClientIntegrationTest {
 
     @Autowired

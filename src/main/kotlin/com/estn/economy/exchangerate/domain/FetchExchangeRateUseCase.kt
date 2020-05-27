@@ -1,11 +1,8 @@
 package com.estn.economy.exchangerate.domain
 
-import com.estn.economy.exchangerate.data.database.ExchangeRateEntity
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toDomain
 import org.springframework.stereotype.Service
-import java.time.LocalDate
-
 
 /**
  * Written by estn on 13.01.2020.

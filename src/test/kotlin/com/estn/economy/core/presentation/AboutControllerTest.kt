@@ -1,11 +1,12 @@
 package com.estn.economy.core.presentation
 
+import com.estn.economy.core.presentation.controller.AboutController
+import com.estn.economy.core.presentation.model.Routing
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher.matchAll
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
@@ -25,7 +26,7 @@ class AboutControllerTest {
                 .andExpect(
                         matchAll(
                                 status().isOk,
-                                view().name("about")
+                                view().name("pages/about")
                         )
                 )
     }

@@ -1,8 +1,8 @@
 package com.estn.economy.unemploymentrate.presentation
 
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.Routing
-import com.estn.economy.core.presentation.Unemployment
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.Routing
+import com.estn.economy.core.presentation.model.Unemployment
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.core.presentation.utility.toRoman

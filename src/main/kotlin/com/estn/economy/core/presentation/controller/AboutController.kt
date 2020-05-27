@@ -1,5 +1,8 @@
-package com.estn.economy.core.presentation
+package com.estn.economy.core.presentation.controller
 
+import com.estn.economy.core.presentation.model.About
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -14,7 +17,7 @@ class AboutController {
     fun getDataSources(model: Model): String {
         model.addBreadcrumbs(Home, About)
 
-        return "about"
+        return "pages/about"
     }
 
 }

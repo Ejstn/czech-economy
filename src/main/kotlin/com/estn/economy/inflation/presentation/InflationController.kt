@@ -1,9 +1,9 @@
 package com.estn.economy.inflation.presentation
 
 import com.estn.economy.core.domain.date.translate
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.Inflation
-import com.estn.economy.core.presentation.Routing
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.Inflation
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.inflation.data.InflationType

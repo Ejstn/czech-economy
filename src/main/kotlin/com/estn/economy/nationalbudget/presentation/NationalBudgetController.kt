@@ -1,9 +1,8 @@
 package com.estn.economy.nationalbudget.presentation
 
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.NationalBudget
-import com.estn.economy.core.presentation.Routing
-import com.estn.economy.core.presentation.Unemployment
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.NationalBudget
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.nationalbudget.domain.FetchNationalBudgetUseCase

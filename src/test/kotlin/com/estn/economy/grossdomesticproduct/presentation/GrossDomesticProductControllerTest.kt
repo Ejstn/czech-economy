@@ -1,10 +1,9 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
 import com.estn.economy.core.domain.OutputPercentageData
-import com.estn.economy.core.presentation.Breadcrumbs
-import com.estn.economy.core.presentation.Gdp
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.Routing
+import com.estn.economy.core.presentation.model.Gdp
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType

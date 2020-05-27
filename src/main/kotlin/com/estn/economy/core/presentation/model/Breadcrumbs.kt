@@ -1,4 +1,4 @@
-package com.estn.economy.core.presentation
+package com.estn.economy.core.presentation.model
 
 open class BreadcrumbItem(val name: String,
                           val link: String = Routing.DASHBOARD)

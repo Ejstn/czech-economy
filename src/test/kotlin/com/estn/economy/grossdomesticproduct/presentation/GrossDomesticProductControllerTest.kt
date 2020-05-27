@@ -9,6 +9,7 @@ import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
+import com.estn.economy.utility.breadcrumbs
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -104,8 +105,8 @@ class GrossDomesticProductControllerTest {
         mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
-                                model().attribute("breadcrumbs", Breadcrumbs(listOf(Home, Gdp))
-                        )))
+                                breadcrumbs(Home, Gdp)
+                        ))
 
     }
 

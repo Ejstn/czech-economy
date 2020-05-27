@@ -8,9 +8,85 @@
 <div th:replace="fragments/common :: header"></div>
 
 <!-- content -->
-<div>
+<section class="section">
 
-</div>
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered">Nezaměstnanost Česka</h1>
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-10 is-12-mobile">
+
+                <div class="columns" id="zaklad">
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Aktuální nezaměstnanost',
+                        ${{current.first}},
+                        ${current.second} )">
+                        </div>
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Nejnižší nezaměstnanost',
+                        ${lowest.first},
+                        ${lowest.second} )">
+                        </div>
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Nejvyšší nezaměstanost',
+                        ${highest.first},
+                        ${highest.second} )">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <!--  quarterly inflation rates -->
+                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                'graf',
+                'Graf čtvrtletního vývoje nezaměstnanosti v %',
+                'Nezaměstnanost',
+                ${unempGraph})"></div>
+
+
+            </div>
+
+            <!-- menu column -->
+            <div class="column is-2 is-hidden-mobile">
+
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#">Nezaměstanost ČR</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zaklad">Základní hodnoty</a></li>
+                        <li><a href="#graf">Čtvrtletní graf</a></li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 <!-- footer -->
 <div th:replace="fragments/common :: footer"></div>

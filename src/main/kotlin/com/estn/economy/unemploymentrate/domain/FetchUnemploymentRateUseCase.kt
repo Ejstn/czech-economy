@@ -8,4 +8,6 @@ class FetchUnemploymentRateUseCase (private val repository: UnemploymentRateRepo
 
     fun fetchAllUnempRatesAveragedByYear() = repository.getAllYearlyAveragedUnemploymentRates()
 
+    fun fetchAllQuarteryUnempRates() = repository.findAll()
+
 }

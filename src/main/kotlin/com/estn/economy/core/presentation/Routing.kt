@@ -9,6 +9,8 @@ object Routing {
     const val GDP = "/hdp"
     const val UNEMPLOYMENT = "/nezamestnanost"
     const val NATIONAL_BUDGET = "/statni-rozpocet"
+    const val ABOUT = "/o-aplikaci"
+
 
 
 }

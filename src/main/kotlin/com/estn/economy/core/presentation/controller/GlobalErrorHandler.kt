@@ -1,4 +1,4 @@
-package com.estn.economy.core.presentation
+package com.estn.economy.core.presentation.controller
 
 import org.springframework.http.HttpStatus
 import org.springframework.ui.Model

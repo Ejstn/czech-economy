@@ -2,16 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
-<script>
-
-    jQuery(document).ready(function ($) {
-        $("tr#clickableRow").click(function () {
-            window.location = $(this).find('a').attr('href');
-        });
-    });
-
+<script th:replace="fragments/jquery :: clickableTableRows">
 </script>
-
 
 <body>
 

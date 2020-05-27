@@ -25,9 +25,7 @@ class CNBClient(private val dateFormatter: DateFormatter,
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
 
-    fun fetchLatestExchangeRatesEntity(): ResponseEntity<ExchangeRateRootDto> = fetchExchangeRateForDay(LocalDate.now())
-
-    fun fetchExchangeRateForDay(date: LocalDate): ResponseEntity<ExchangeRateRootDto> {
+    fun fetchExchangeRateForDay(date: LocalDate = LocalDate.now()): ResponseEntity<ExchangeRateRootDto> {
         val formattedDate = dateFormatter.formatDateForCnbApi(date)
 
         val queryParam = UriComponentsBuilder.fromHttpUrl(BASE_URL)

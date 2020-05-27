@@ -1,4 +1,4 @@
-package com.estn.economy.core.presentation
+package com.estn.economy.core.presentation.controller
 
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase

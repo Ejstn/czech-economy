@@ -1,9 +1,9 @@
 package com.estn.economy.exchangerate.presentation
 
-import com.estn.economy.core.presentation.BreadcrumbItem
-import com.estn.economy.core.presentation.ExchangeRates
-import com.estn.economy.core.presentation.Home
-import com.estn.economy.core.presentation.Routing
+import com.estn.economy.core.presentation.model.BreadcrumbItem
+import com.estn.economy.core.presentation.model.ExchangeRates
+import com.estn.economy.core.presentation.model.Home
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import org.springframework.stereotype.Controller
@@ -16,7 +16,6 @@ import java.time.LocalDate
 @Controller
 @RequestMapping(Routing.EXCHANGE_RATE)
 class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase) {
-
 
     @GetMapping
     fun getExchangeRates(model: Model): String {
@@ -44,6 +43,7 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
         model.addAttribute("rates", ratesList)
         model.addAttribute("currencyCode", ratesList.first().currencyCode)
         model.addAttribute("currencyAmount", ratesList.first().amount)
+
         model.addAttribute("current", ratesList.last())
         model.addAttribute("lowest", ratesList.minBy { it.exchangeRate })
         model.addAttribute("highest", ratesList.maxBy { it.exchangeRate })

@@ -8,7 +8,7 @@ val quarters = hashMapOf(
 
 )
 
-fun Int.quarterToRoman(): String {
+fun Int.toRoman(): String {
     return quarters.get(this)
             ?: throw IllegalStateException("$this is not quarter!")
 }

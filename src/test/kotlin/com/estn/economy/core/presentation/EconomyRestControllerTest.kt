@@ -1,5 +1,6 @@
 package com.estn.economy.core.presentation
 
+import com.estn.economy.core.presentation.controller.EconomyRestController
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockLatestRates

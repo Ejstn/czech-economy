@@ -1,6 +1,6 @@
 package com.estn.economy.exchangerate.presentation
 
-import com.estn.economy.core.presentation.Routing
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.estn.economy.exchangerate.domain.FetchExchangeRateUseCase
 import com.estn.economy.utility.exampleRate

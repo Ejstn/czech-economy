@@ -6,6 +6,7 @@ import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUse
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.nationalbudget.data.PublicDebtRepository
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,6 +17,7 @@ class ComposeDashboardUseCase(private val fetchGdp: FetchGrossDomesticProductUse
                               private val composeOverview: ComposeEconomyOverviewUseCase) {
 
 
+    @Cacheable("dashboard")
     fun execute(): EconomyDashboard {
 
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()

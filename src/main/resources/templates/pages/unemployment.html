@@ -21,6 +21,7 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
+                <!-- basic overview -->
                 <div class="columns" id="zaklad">
 
                     <div class="column">
@@ -28,7 +29,7 @@
                         <div th:replace="fragments/components :: simpleBox(
                         'Aktuální nezaměstnanost',
                         ${{current.first}},
-                        ${current.second} )">
+                        |${current.second}%| )">
                         </div>
 
                     </div>
@@ -39,7 +40,7 @@
                         <div th:replace="fragments/components :: simpleBox(
                         'Nejnižší nezaměstnanost',
                         ${lowest.first},
-                        ${lowest.second} )">
+                        |${lowest.second}%| )">
                         </div>
 
                     </div>
@@ -50,7 +51,7 @@
                         <div th:replace="fragments/components :: simpleBox(
                         'Nejvyšší nezaměstanost',
                         ${highest.first},
-                        ${highest.second} )">
+                        |${highest.second}%| )">
                         </div>
 
                     </div>

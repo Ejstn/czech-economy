@@ -1,6 +1,7 @@
 package com.estn.economy.unemploymentrate.presentation
 
 import com.estn.economy.core.presentation.Home
+import com.estn.economy.core.presentation.Routing
 import com.estn.economy.core.presentation.Unemployment
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/nezamestnanost")
+@RequestMapping(Routing.UNEMPLOYMENT)
 class UnemploymentController(private val fetchUnemp: FetchUnemploymentRateUseCase) {
 
     val template = "pages/unemployment"

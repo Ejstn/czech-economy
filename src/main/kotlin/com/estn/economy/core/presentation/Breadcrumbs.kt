@@ -14,3 +14,5 @@ object Inflation : BreadcrumbItem("Inflace", Routing.INFLATION)
 object ExchangeRates : BreadcrumbItem("Kurzy", Routing.EXCHANGE_RATE)
 
 object Unemployment : BreadcrumbItem("Nezaměstnanost", Routing.EXCHANGE_RATE)
+
+object NationalBudget : BreadcrumbItem("Státní rozpočet", Routing.NATIONAL_BUDGET)

@@ -1,6 +1,6 @@
 package com.estn.economy.dashboard.presentation
 
-import com.estn.economy.core.presentation.Routing
+import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.dashboard.domain.ComposeDashboardUseCase
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,7 +16,7 @@ class DashboardController(private val composeDashboard: ComposeDashboardUseCase)
     fun getDashboard(model: Model): String {
         model.addAttribute("dashboard", composeDashboard.execute())
 
-        return "dashboard"
+        return "pages/dashboard"
     }
 
 

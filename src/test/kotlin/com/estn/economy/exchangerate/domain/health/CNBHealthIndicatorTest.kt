@@ -35,7 +35,7 @@ class CNBHealthIndicatorTest {
     @Test
     fun `health up if api returns 200`() {
         // given
-        given(client.fetchLatestExchangeRatesEntity()).willReturn(ResponseEntity.ok(ExchangeRateRootDto()))
+        given(client.fetchExchangeRateForDay()).willReturn(ResponseEntity.ok(ExchangeRateRootDto()))
         // when
         val health = indicator.health()
         // then
@@ -45,7 +45,7 @@ class CNBHealthIndicatorTest {
     @Test
     fun `health down if api returns NON 200`() {
         // given
-        given(client.fetchLatestExchangeRatesEntity()).willThrow(HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR))
+        given(client.fetchExchangeRateForDay()).willThrow(HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR))
         // when
         val health = indicator.health()
         // then
@@ -55,7 +55,7 @@ class CNBHealthIndicatorTest {
     @Test
     fun `health down if network error occurs`() {
         // given
-        given(client.fetchLatestExchangeRatesEntity()).willThrow(ResourceAccessException("error"))
+        given(client.fetchExchangeRateForDay()).willThrow(ResourceAccessException("error"))
         // when
         val health = indicator.health()
         // then

@@ -72,7 +72,7 @@ class DashboardControllerTest {
                 .andExpect(ResultMatcher.matchAll(
                         status().isOk,
                         model().attribute("dashboard", expectedDashboard),
-                        view().name("dashboard")
+                        view().name("pages/dashboard")
                 ))
     }
 

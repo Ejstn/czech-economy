@@ -17,7 +17,7 @@ class ComposeDashboardUseCase(private val fetchGdp: FetchGrossDomesticProductUse
                               private val composeOverview: ComposeEconomyOverviewUseCase) {
 
 
-    @Cacheable("dashboard")
+    @Cacheable("ComposeDashboardUseCase::execute")
     fun execute(): EconomyDashboard {
 
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()

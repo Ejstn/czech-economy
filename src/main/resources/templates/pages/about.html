@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head"></head>
+
+<body>
+
+<!-- header -->
+<div th:replace="fragments/common :: header"></div>
+
+<!-- content -->
+<section class="section">
+
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4">Zdroje dat</h1>
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-10 is-12-mobile">
+
+                <div class="box container">
+
+                    <ul id="zdroje_dat">
+                        <li>
+                            Kurzy: <a target="_blank" rel="noopener noreferrer"
+                                      href="https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/">ČNB</a>
+                        </li>
+
+                        <li>
+                            HDP: <a target="_blank" rel="noopener noreferrer"
+                                    href="https://www.czso.cz/csu/czso/hdp_narodni_ucty">ČSÚ</a>
+                        </li>
+
+
+                        <li>
+                            Míra nezaměstnanosti: <a target="_blank" rel="noopener noreferrer"
+                                                     href="https://vdb.czso.cz/vdbvo2/faces/cs/index.jsf?page=vystup-objekt&z=T&f=TABULKA&skupId=426&katalog=30853&pvo=ZAM01-C&pvo=ZAM01-C&u=v413__VUZEMI__97__19#w=">ČSÚ</a>
+                        </li>
+
+                        <li>
+                            Inflace: <a target="_blank" rel="noopener noreferrer"
+                                        href="https://www.czso.cz/csu/czso/mira_inflace">ČSÚ</a>
+                        </li>
+
+                        <li>
+                            Státní dluh: <a target="_blank" rel="noopener noreferrer"
+                                            href="https://www.czso.cz/csu/czso/hmu_cr">ČSÚ</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- menu column -->
+            <div class="column is-2 is-hidden-mobile">
+
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#">O aplikaci</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zdroje_dat">Zdroje dat</a></li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- footer -->
+<div th:replace="fragments/common :: footer"></div>
+
+</body>
+</html>

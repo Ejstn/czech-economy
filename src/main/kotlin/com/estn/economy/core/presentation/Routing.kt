@@ -7,6 +7,8 @@ object Routing {
     const val INFLATION = "/inflace"
     const val EXCHANGE_RATE = "/kurzy"
     const val GDP = "/hdp"
+    const val UNEMPLOYMENT = "/nezamestnanost"
+    const val NATIONAL_BUDGET = "/statni-rozpocet"
 
 
 }

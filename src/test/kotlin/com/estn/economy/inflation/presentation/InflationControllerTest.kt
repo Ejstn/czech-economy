@@ -6,6 +6,7 @@ import com.estn.economy.core.presentation.Inflation
 import com.estn.economy.core.presentation.Routing
 import com.estn.economy.grossdomesticproduct.presentation.GrossDomesticProductController
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
+import com.estn.economy.utility.breadcrumbs
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -56,8 +57,7 @@ class InflationControllerTest {
         // then
         mvc.perform(get(Routing.INFLATION))
                 .andExpect(matchAll(
-                        model().attribute("breadcrumbs",
-                                Breadcrumbs(listOf(Home, Inflation)))
+                        breadcrumbs(Home, Inflation)
                 ))
 
     }

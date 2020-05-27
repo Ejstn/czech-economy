@@ -5,7 +5,7 @@
 <script>
 
     jQuery(document).ready(function ($) {
-        $(".table").click(function () {
+        $("tr#clickableRow").click(function () {
             window.location = $(this).find('a').attr('href');
         });
     });
@@ -52,7 +52,7 @@
                             </thead>
 
                             <tbody>
-                            <tr data-th-each="entry : ${rates}">
+                            <tr id="clickableRow" data-th-each="entry : ${rates}">
                                 <td>[[${entry.country}]]</td>
                                 <td>[[${entry.currencyName}]]</td>
                                 <td>[[${entry.currencyCode}]]</td>

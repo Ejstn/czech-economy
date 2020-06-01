@@ -49,8 +49,8 @@ class DashboardControllerTest {
             inflation = InflationOverview("Leden",
                     InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
             latestGdp = LatestGdp(2019, 2.6),
-            unemployment = UnemploymentRateEntity(quarter = 1, year = 2015, unemploymentRatePercent = 5.0)
-    )
+            unemployment = UnemploymentRateEntity(quarter = 1, year = 2015, unemploymentRatePercent = 5.0),
+    averageSalary = null)
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

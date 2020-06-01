@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate.data.cnbapi
+package com.estn.economy.exchangerate.data.api
 
 import com.estn.economy.exchangerate.domain.ExchangeRate
 import com.fasterxml.jackson.annotation.JsonFormat

@@ -27,4 +27,5 @@ data class InflationRateKey(
         var type: InflationType = InflationType.THIS_YEAR_VS_LAST_YEAR
 ) : Serializable
 
-fun InflationRateEntity.key() = InflationRateKey(this.month, this.year, this.type)
+val InflationRateEntity.key
+    get() = InflationRateKey(this.month, this.year, this.type)

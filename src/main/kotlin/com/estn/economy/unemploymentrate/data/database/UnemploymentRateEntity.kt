@@ -19,5 +19,5 @@ data class UnemploymentRateKey(
         var year: Int = 0
 ) : Serializable
 
-fun UnemploymentRateEntity.key()
-        = UnemploymentRateKey(this.quarter, this.year)
+val UnemploymentRateEntity.key
+        get() = UnemploymentRateKey(this.quarter, this.year)

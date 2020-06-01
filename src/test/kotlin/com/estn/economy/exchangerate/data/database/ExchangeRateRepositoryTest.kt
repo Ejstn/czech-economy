@@ -31,7 +31,7 @@ class ExchangeRateRepositoryTest {
         val entityToSave = ExchangeRateEntity()
         repository.save(entityToSave)
         // then
-        val foundRate = repository.findById(entityToSave.key())
+        val foundRate = repository.findById(entityToSave.key)
         assertThat(foundRate.isPresent).isTrue()
         assertThat(foundRate.get()).isEqualTo(entityToSave)
     }
@@ -74,7 +74,7 @@ class ExchangeRateRepositoryTest {
         repository.save(oldUSD)
         repository.save(newUSD)
         // then
-        val foundOptional = repository.findById(oldUSD.key())
+        val foundOptional = repository.findById(oldUSD.key)
         assertThat(foundOptional).isPresent
         assertThat(foundOptional.get()).isEqualTo(newUSD)
     }

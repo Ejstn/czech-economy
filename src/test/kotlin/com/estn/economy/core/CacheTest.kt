@@ -8,11 +8,15 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductT
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
+import com.estn.economy.salary.data.database.SalaryEntity
+import com.estn.economy.salary.data.database.SalaryRepository
+import com.estn.economy.salary.domain.FetchSalaryUseCase
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
 import com.estn.economy.utility.exampleRate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.*
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -23,68 +27,62 @@ import java.time.LocalDate
 class CacheTest {
 
     @Autowired
-    lateinit var composeDashboard: ComposeDashboardUseCase
+    lateinit var fetchSalary: FetchSalaryUseCase
 
     @Autowired
     lateinit var evictCache: EvictAllCacheUseCase
 
     @MockBean
-    lateinit var fetchGdp: FetchGrossDomesticProductUseCase
-
-    @MockBean
-    lateinit var composeOverView: ComposeEconomyOverviewUseCase
+    lateinit var salaryRepository: SalaryRepository
 
     @BeforeEach
     fun setUp() {
         evictCache.execute()
-
-        given(fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES))
-                .willReturn(listOf(OutputPercentageData(2015, 5.0), OutputPercentageData(2016, 5.7)))
-        given(composeOverView.execute())
-                .willReturn(EconomyOverview(
-                        exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
-                        unemployment = UnemploymentRateEntity(
-                                quarter = 1,
-                                year = 2015,
-                                unemploymentRatePercent = 5.0),
-                        latestGdp = LatestGdp(2015, 5.0),
-                        inflation = InflationOverview("leden",
-                                InflationRateEntity(
-                                        month = 1,
-                                        year = 2015,
-                                        type = InflationType.THIS_MONTH_VS_PREVIOUS_MONTH,
-                                        valuePercent = 5.0f))))
     }
 
     @Test
-    fun `compose dashboard usecase is cashed, fetchGdp will be executed only once`() {
+    fun `fetch all is cached if result isnt empty`() {
         // given
+        given(salaryRepository.findAll()).willReturn(
+                listOf(SalaryEntity()))
         // when
-        composeDashboard.execute()
-        composeDashboard.execute()
-        composeDashboard.execute()
+        fetchSalary.fetchAll()
+        fetchSalary.fetchAll()
+        fetchSalary.fetchAll()
         // then
-        verify(fetchGdp, times(1))
-                .fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
-
-        verifyNoMoreInteractions(fetchGdp)
+        verify(salaryRepository, times(1)).findAll()
+        verifyNoMoreInteractions(salaryRepository)
     }
 
 
     @Test
-    fun `compose dashboard usecase is cached, but its executed again after cache eviction`() {
+    fun `fetch all is NOT cached when result is empty`() {
         // given
+        given(salaryRepository.findAll()).willReturn(
+                listOf())
         // when
-        composeDashboard.execute()
+        fetchSalary.fetchAll()
+        fetchSalary.fetchAll()
+        fetchSalary.fetchAll()
+        // then
+        verify(salaryRepository, times(3)).findAll()
+    }
+
+    @Test
+    fun `fetch all is cached then evicted and then cached again`() {
+        // given
+        given(salaryRepository.findAll()).willReturn(
+                listOf(SalaryEntity()))
+        // when
+        fetchSalary.fetchAll()
 
         evictCache.execute()
 
-        composeDashboard.execute()
+        fetchSalary.fetchAll()
+        fetchSalary.fetchAll()
         // then
-        verify(fetchGdp, times(2))
-                .fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
-
-        verifyNoMoreInteractions(fetchGdp)
+        verify(salaryRepository, times(2)).findAll()
     }
+
 
 }

@@ -1,8 +1,8 @@
 package com.estn.economy.exchangerate.domain
 
-import com.estn.economy.exchangerate.data.cnbapi.CNBClient
-import com.estn.economy.exchangerate.data.cnbapi.ExchangeRateRootDto
-import com.estn.economy.exchangerate.data.cnbapi.toDomain
+import com.estn.economy.core.data.api.CNBClient
+import com.estn.economy.exchangerate.data.api.ExchangeRateRootDto
+import com.estn.economy.exchangerate.data.api.toDomain
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toEntity
 import org.slf4j.LoggerFactory

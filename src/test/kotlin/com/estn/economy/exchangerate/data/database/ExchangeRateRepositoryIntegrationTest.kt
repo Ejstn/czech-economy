@@ -34,10 +34,10 @@ class ExchangeRateRepositoryIntegrationTest {
         // then
 
         repository.save(oldUSD)
-        assertThat(repository.findById(oldUSD.key()).get().exchangeRate).isEqualTo(oldUSD.exchangeRate)
+        assertThat(repository.findById(oldUSD.key).get().exchangeRate).isEqualTo(oldUSD.exchangeRate)
 
         repository.save(newUSD)
-        assertThat(repository.findById(newUSD.key()).get().exchangeRate).isEqualTo(newUSD.exchangeRate)
+        assertThat(repository.findById(newUSD.key).get().exchangeRate).isEqualTo(newUSD.exchangeRate)
     }
 
     @Test
@@ -49,7 +49,7 @@ class ExchangeRateRepositoryIntegrationTest {
         val saved = repository.save(usdEntity)
         assertThat(saved).isEqualTo(usdEntity)
         // then
-        assertThat(repository.findById(usdEntity.key()).get()).isEqualTo(usdEntity)
+        assertThat(repository.findById(usdEntity.key).get()).isEqualTo(usdEntity)
 
     }
 

@@ -32,7 +32,7 @@ class InflationRateRepositoryTest {
                 month = 10)
         repository.save(entityToSave)
         // then
-        val foundRate = repository.findById(entityToSave.key())
+        val foundRate = repository.findById(entityToSave.key)
         assertThat(foundRate.isPresent).isTrue()
         assertThat(foundRate.get()).isEqualTo(entityToSave)
     }

@@ -1,6 +1,6 @@
 package com.estn.economy.exchangerate.presentation.health
 
-import com.estn.economy.exchangerate.data.cnbapi.CNBClient
+import com.estn.economy.core.data.api.CNBClient
 import org.springframework.boot.actuate.health.Health
 import org.springframework.boot.actuate.health.HealthIndicator
 import org.springframework.stereotype.Component

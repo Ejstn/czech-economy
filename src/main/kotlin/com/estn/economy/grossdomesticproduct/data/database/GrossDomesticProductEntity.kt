@@ -27,4 +27,5 @@ data class GrossDomesticProductKey(
         var type: GrossDomesticProductType = GrossDomesticProductType.NOMINAL
 ) : Serializable
 
-fun GrossDomesticProductEntity.key() = GrossDomesticProductKey(this.year, this.type)
+val GrossDomesticProductEntity.key
+    get() = GrossDomesticProductKey(this.year, this.type)

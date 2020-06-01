@@ -22,9 +22,9 @@ data class ExchangeRateEntity(
         @Column(name = "country") var country: String = ""
 )
 
-fun ExchangeRateEntity.key(): ExchangeRateKey {
-    return ExchangeRateKey(this.date, this.currencyCode)
-}
+val ExchangeRateEntity.key
+    get() = ExchangeRateKey(this.date, this.currencyCode)
+
 
 data class ExchangeRateKey(
         var date: LocalDate = LocalDate.now(),

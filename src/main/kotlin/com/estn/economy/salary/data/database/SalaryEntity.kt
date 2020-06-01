@@ -19,6 +19,9 @@ data class SalaryEntity(
 data class SalaryKey(val quarter: Int = 0,
                      val year: Int = 0) : Serializable
 
+val SalaryEntity.key
+    get() = SalaryKey(quarter, year)
+
 fun SalaryDto.toEntity(): SalaryEntity {
     return SalaryEntity(
             quarter = this.date.get(IsoFields.QUARTER_OF_YEAR),

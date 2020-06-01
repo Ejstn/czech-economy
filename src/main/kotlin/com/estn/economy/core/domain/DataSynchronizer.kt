@@ -15,14 +15,24 @@ class DataSynchronizer(private val syncExchange: SynchronizeExchangeRateUseCase,
                        private val syncSalary: SynchronizeSalaryUseCase,
                        private val evictCache: EvictAllCacheUseCase) {
 
-    @Scheduled(fixedRateString = "\${synchronization.exchangerate.small.millis:60000}")
-    fun smallRatesSync() = syncExchange.executeForToday().also { evictCache() }
+    companion object {
+        // 1.1. 2.1. everyday at midnight
+        const val EVERYDAY_AT_MIDNIGHT = "0 0 0 ? * *"
+        // 1.1.2020, 1.2.2020 ... every first day of the month at midnight
+        const val EVERY_FIRST_DAY_OF_MONTH = "0 0 0 1 * ?"
+    }
 
-    @Scheduled(fixedRateString = "\${synchronization.exchangerate.large.millis:60000}")
-    fun largeRatesSync() = syncExchange.executeForAllMissingDays().also { evictCache() }
+    @ExecuteAfterStart
+    @Scheduled(cron = "0 0/5 12 ? * MON-FRI") // 12:05, 12:10, 12:15 ... 12:55 everyday (cnb publishes rates at 12:30 utc)
+    fun dailyExchangeRateSync() = syncExchange.executeForToday().also { evictCache() }
 
-    @Scheduled(fixedRateString = "\${synchronization.average_salary.millis:60000}")
-    fun syncSalary() = syncSalary.execute().also { evictCache() }
+    @ExecuteAfterStart
+    @Scheduled(cron = EVERY_FIRST_DAY_OF_MONTH)
+    fun largeExchangeRatesSync() = syncExchange.executeForAllMissingDays().also { evictCache() }
+
+    @ExecuteAfterStart
+    @Scheduled(cron = EVERYDAY_AT_MIDNIGHT)
+    fun dailyAverageSalarySync() = syncSalary.execute().also { evictCache() }
 
     private fun evictCache() = evictCache.execute()
 

@@ -1,4 +1,4 @@
-package com.estn.economy.exchangerate.data.cnbapi
+package com.estn.economy.exchangerate.data.api
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

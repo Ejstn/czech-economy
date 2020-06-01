@@ -17,3 +17,7 @@ class DateFormatter(dateFormatConfiguration: DateFormatConfiguration) {
     fun formatDateForCnbApi(date: LocalDate): String = cnbApiFormat.format(date)
 
 }
+
+fun LocalDate.format(pattern: String): String {
+    return DateTimeFormatter.ofPattern(pattern).format(this)
+}

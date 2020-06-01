@@ -1,5 +1,6 @@
-package com.estn.economy.exchangerate.data.cnbapi
+package com.estn.economy.exchangerate.data.api
 
+import com.estn.economy.core.data.api.CNBClient
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.utility.any
 import org.assertj.core.api.Assertions.assertThat

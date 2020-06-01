@@ -5,6 +5,8 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductT
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.nationalbudget.data.PublicDebtRepository
+import com.estn.economy.nationalbudget.domain.FetchNationalBudgetUseCase
+import com.estn.economy.salary.domain.FetchSalaryUseCase
 import com.estn.economy.unemploymentrate.domain.FetchUnemploymentRateUseCase
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -13,16 +15,15 @@ import org.springframework.stereotype.Service
 class ComposeDashboardUseCase(private val fetchGdp: FetchGrossDomesticProductUseCase,
                               private val fetchUnemploymentRate: FetchUnemploymentRateUseCase,
                               private val fetchInflation: FetchInflationRateUseCase,
-                              private val publicDebtRepository: PublicDebtRepository,
+                              private val fetchNationalBudget: FetchNationalBudgetUseCase,
                               private val composeOverview: ComposeEconomyOverviewUseCase) {
 
 
-    @Cacheable("ComposeDashboardUseCase::execute")
     fun execute(): EconomyDashboard {
 
         val unemployment = fetchUnemploymentRate.fetchAllUnempRatesAveragedByYear()
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
-        val publicDebt = publicDebtRepository.findAll()
+        val publicDebt = fetchNationalBudget.fetchPublicDebt()
         val overview = composeOverview.execute()
         val gdp = fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
 

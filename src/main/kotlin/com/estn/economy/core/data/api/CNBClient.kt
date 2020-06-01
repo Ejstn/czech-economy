@@ -65,12 +65,12 @@ class CNBClient(private val dateFormatter: DateFormatter,
                 .build()
                 .toUri()
 
-        val result = restTemplate.getForEntity(url, SallaryRootDto::class.java).body
+        val result = restTemplate.getForEntity(url, SallaryRootDto::class.java)
+
+        LOGGER.info("fetching nominal average salaries within range $from - $to, http: ${result.statusCodeValue}")
+
+        return result.body
                 ?.list ?: throw IllegalStateException("")
-
-        LOGGER.info("fetching nominal average salaries: $result")
-
-        return result
     }
 
 }

@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface SalaryRepository : JpaRepository<SalaryEntity, SalaryKey>  {
+
+    fun findFirstByOrderByYearDescQuarterDesc() : SalaryEntity?
+
 }

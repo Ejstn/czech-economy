@@ -14,10 +14,7 @@ class SynchronizeSalaryUseCase(private val api: CNBClient,
 
     private val startingDate = LocalDate.of(2000, 1, 1)
 
-    @EventListener(ApplicationReadyEvent::class)
     fun execute() {
-        // todo do some other way without event listener
-
         api.fetchNominalAverageSalaries(from = startingDate, to = LocalDate.now())
                 .filter { it.isValid }
                 .map { it.toEntity() }

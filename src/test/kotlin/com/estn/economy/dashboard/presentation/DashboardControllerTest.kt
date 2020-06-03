@@ -6,6 +6,7 @@ import com.estn.economy.dashboard.domain.*
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.nationalbudget.data.PublicDebtEntity
+import com.estn.economy.salary.data.database.SalaryEntity
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
 import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
@@ -47,7 +48,7 @@ class DashboardControllerTest {
                     InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
             latestGdp = LatestGdp(2019, 2.6),
             unemployment = UnemploymentOverview("Leden 2015", UnemploymentRateEntity(month = 1, year = 2015, unemploymentRatePercent = 5.0)),
-            averageSalary = null)
+            averageSalary = SalaryEntity(quarter = 4, year = 2015, salaryCrowns = 28750))
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

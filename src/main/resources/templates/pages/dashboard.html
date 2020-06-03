@@ -42,7 +42,7 @@
             </div>
 
             <!-- unemployment -->
-            <div class="column" th:remove="${dashboard.overview.unemployment == null} ? all : none">
+            <div class="column">
 
                 <div th:replace="fragments/components :: simpleBox('Nezaměstnanost',
                 ${dashboard.overview.unemployment.month},
@@ -52,7 +52,7 @@
             </div>
 
             <!-- average salary -->
-            <div class="column"  th:remove="${dashboard.overview.averageSalary == null} ? all : none">
+            <div class="column">
 
                 <div th:replace="fragments/components :: simpleBox('Průměrná mzda',
                 |${dashboard.overview.averageSalary.quarter}. čtvrtletí ${dashboard.overview.averageSalary.year}|,

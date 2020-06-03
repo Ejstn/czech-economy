@@ -53,7 +53,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         return EconomyOverview(ExchangeRatesOverview(date = ratesDate, rates = rates),
                 inflation,
                 latestGdp,
-                UnemploymentOverview(month = "${unemployment?.month?.let { Month.of(it).translate() }} ${unemployment?.year}",
+                UnemploymentOverview(month = "${Month.of(unemployment.month).translate()} ${unemployment.year}",
                         unemployment = unemployment),
                 averageSalary)
     }
@@ -63,12 +63,11 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
                            val inflation: InflationOverview,
                            val latestGdp: LatestGdp,
-                           val unemployment: UnemploymentOverview?,
-                           val averageSalary: SalaryEntity?) {
+                           val unemployment: UnemploymentOverview,
+                           val averageSalary: SalaryEntity) {
 
     val canBeCached: Boolean
-        get() = unemployment != null
-                && averageSalary != null
+        get() = true
 
 }
 
@@ -82,5 +81,5 @@ data class LatestGdp(val year: Int,
 data class InflationOverview(val month: String,
                              val inflation: InflationRateEntity)
 
-data class UnemploymentOverview(val month: String?,
-                                val unemployment: UnemploymentRateEntity?)
+data class UnemploymentOverview(val month: String,
+                                val unemployment: UnemploymentRateEntity)

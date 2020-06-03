@@ -31,5 +31,5 @@ fun SalaryDto.toEntity(): SalaryEntity {
     return SalaryEntity(
             quarter = this.date.get(IsoFields.QUARTER_OF_YEAR),
             year = this.date.year,
-            salaryCrowns = this.salaryCrowns!!)
+            salaryCrowns = this.salaryCrowns ?: throw IllegalStateException("salary cannot be null at this point but it is null!"))
 }

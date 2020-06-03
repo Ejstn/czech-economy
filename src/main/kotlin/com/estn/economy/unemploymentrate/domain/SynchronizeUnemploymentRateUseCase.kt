@@ -15,16 +15,9 @@ class SynchronizeUnemploymentRateUseCase(private val api: CNBClient,
 
     fun execute() {
         api.fetchMonthlyUnemploymentRates(from = startingDate, to = LocalDate.now())
-                .filter {
-                    it.isValid
-                }
-                .map {
-                    it.toEntity()
-                }
+                .map { it.toEntity() }
                 .toList()
-                .also {
-                    repository.saveAll(it)
-                }
+                .also { repository.saveAll(it) }
     }
 
 }

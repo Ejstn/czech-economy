@@ -14,7 +14,6 @@ class SynchronizeSalaryUseCase(private val api: CNBClient,
 
     fun execute() {
         api.fetchNominalAverageSalaries(from = startingDate, to = LocalDate.now())
-                .filter { it.isValid }
                 .map { it.toEntity() }
                 .toList()
                 .also {

@@ -26,5 +26,6 @@ fun UnemploymentRateDto.toEntity(): UnemploymentRateEntity {
     return UnemploymentRateEntity(
             month = this.date.month.value,
             year = this.date.year,
-            unemploymentRatePercent = this.unemploymentRate!!)
+            unemploymentRatePercent = this.unemploymentRate
+                    ?: throw IllegalStateException("unemployment shouldnt be null at this point but it is!"))
 }

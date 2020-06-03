@@ -1,4 +1,4 @@
-package com.estn.economy.core.domain.date
+package com.estn.economy.core.presentation.date
 
 import java.time.DayOfWeek
 

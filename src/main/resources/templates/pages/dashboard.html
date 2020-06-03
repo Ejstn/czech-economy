@@ -45,14 +45,14 @@
             <div class="column">
 
                 <div th:replace="fragments/components :: simpleBox('Nezaměstnanost',
-                |${dashboard.overview.unemployment.quarter}. čtvrtletí ${dashboard.overview.unemployment.year}|,
-                ${#numbers.formatDecimal(dashboard.overview.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'} )">
+                ${dashboard.overview.unemployment.month},
+                ${#numbers.formatDecimal(dashboard.overview.unemployment.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'} )">
                 </div>
 
             </div>
 
             <!-- average salary -->
-            <div class="column"  th:remove="${dashboard.overview.averageSalary == null} ? all : none">
+            <div class="column">
 
                 <div th:replace="fragments/components :: simpleBox('Průměrná mzda',
                 |${dashboard.overview.averageSalary.quarter}. čtvrtletí ${dashboard.overview.averageSalary.year}|,
@@ -111,28 +111,28 @@
     <!-- real gdp 2010 prices -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_real_gdp',
-    'Graf vývoje reálného HDP v %',
+    'Vývoj reálného HDP v %',
     'HDP',
     ${dashboard.realGdp2010PricesPercentChange})"></div>
 
     <!-- unemployment -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_unemployment',
-    'Graf nezaměstnanosti v %',
+    'Nezaměstnanost v %',
     'Nezaměstnanost',
     ${dashboard.yearlyUnempRates})"></div>
 
     <!-- inflation -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_inflation',
-    'Graf meziročního vývoje inflace v %',
+    'Meziroční vývoj inflace v %',
     'Inflace',
     ${dashboard.yearlyInflationRates})"></div>
 
     <!-- public debt -->
     <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
     'chart_public_debt',
-    'Graf vývoje státního dluhu v běžných cenách',
+    'Vývoj státního dluhu v běžných cenách',
     'Státní dluh',
     ${dashboard.publicDebt}
     )"></div>

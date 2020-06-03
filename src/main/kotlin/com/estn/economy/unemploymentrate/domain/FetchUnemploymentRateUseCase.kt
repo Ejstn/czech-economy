@@ -4,9 +4,8 @@ import com.estn.economy.unemploymentrate.data.database.UnemploymentRateRepositor
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
-@Cacheable("fetch unemp", key = "#root.method")
 @Service
-class FetchUnemploymentRateUseCase (private val repository: UnemploymentRateRepository) {
+class FetchUnemploymentRateUseCase(private val repository: UnemploymentRateRepository) {
 
     @Cacheable("FetchUnemploymentRateUseCase::fetchAllUnempRatesAveragedByYear")
     fun fetchAllUnempRatesAveragedByYear() = repository.getAllYearlyAveragedUnemploymentRates()

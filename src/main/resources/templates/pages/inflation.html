@@ -21,17 +21,52 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
+                <!-- basic overview -->
+                <div class="columns" id="zaklad">
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Aktuální inflace',
+                        ${{current.first}},
+                        |${current.second}%| )">
+                        </div>
+
+                    </div>
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Nejnižší inflace',
+                        ${lowest.first},
+                        |${lowest.second}%| )">
+                        </div>
+
+                    </div>
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Nejvyšší inflace',
+                        ${highest.first},
+                        |${highest.second}%| )">
+                        </div>
+
+                    </div>
+
+                </div>
+
                 <!--  this 12 months vs last 12 months inflation -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'this_vs_last_year_inflation',
-                'Graf meziročního vývoje inflace v %',
+                'Meziroční vývoj inflace v %',
                 'Inflace',
                 ${yearlyInflation})"></div>
 
                 <!--  month vs previous month inflation rates -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'month_vs_month_inflation',
-                'Graf meziměsíčního vývoje inflace v %',
+                'Meziměsíční vývoj inflace v %',
                 'Inflace',
                 ${monthlyInflation})"></div>
 
@@ -43,6 +78,7 @@
                 <aside class="menu is-sticky has-top-padding box">
                     <p class="menu-label"><a href="#">Inflace Čr</a></p>
                     <ul class="menu-list">
+                        <li><a href="#zaklad">Základní hodnoty</a></li>
                         <li><a href="#this_vs_last_year_inflation">Meziroční</a></li>
                         <li><a href="#month_vs_month_inflation">Meziměsíční</a></li>
                     </ul>

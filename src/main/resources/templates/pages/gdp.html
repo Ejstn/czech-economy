@@ -25,14 +25,14 @@
                 <!-- real gdp 2010 prices -->
                 <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
                 'real_gdp_container',
-                'Graf reálného HDP v cenách roku 2010',
+                'Reálný HDP v cenách roku 2010',
                 'HDP',
                 ${realGdp2010Prices})"></div>
 
                 <!--  real gdp 2010 % changes -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'real_gdp_container_changes',
-                'Graf meziročního vývoje reálného HDP v cenách roku 2010',
+                'Meziroční vývoj reálného HDP v cenách roku 2010',
                 'Změna HDP',
                 ${realGdpChanges})"></div>
 
@@ -41,7 +41,7 @@
                 <!--  nominal gdp -->
                 <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
                 'nominal_gdp_container',
-                'Graf nominálního HDP',
+                'Nominální HDP',
                 'HDP',
                 ${nominalGdp})"></div>
 
@@ -49,7 +49,7 @@
                 <!--  nominal gdp % changes -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'nominal_gdp_container_changes',
-                'Graf meziročního vývoje nominálního HDP',
+                'Meziroční vývoj nominálního HDP',
                 'Změna HDP',
                 ${nominalGdpChanges})"></div>
 

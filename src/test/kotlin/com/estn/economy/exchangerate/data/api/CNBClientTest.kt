@@ -1,14 +1,10 @@
 package com.estn.economy.exchangerate.data.api
 
 import com.estn.economy.core.data.api.CNBClient
-import com.estn.economy.core.domain.date.DateFormatter
-import com.estn.economy.utility.any
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
@@ -30,23 +26,17 @@ class CNBClientTest {
     @Autowired
     lateinit var client: CNBClient
 
-    @MockBean
-    lateinit var dateFormatter: DateFormatter
-
     @Test
     fun `client fetches and parses exchange rates for given day`() {
         // given
-        val mockFormattedDate = "17.01.2020"
-        given(dateFormatter.formatDateForCnbApi(any(LocalDate::class.java))).willReturn(mockFormattedDate)
-
         mockRestServer
-                .expect(requestTo("${EXCHANGE_BASE_URL}?date=${mockFormattedDate}"))
+                .expect(requestTo("${EXCHANGE_BASE_URL}?date=17.01.2020"))
                 .andRespond(
                         withSuccess(ClassPathResource("test_exchange_rates.xml", javaClass), MediaType.APPLICATION_XML)
                 )
 
         // when
-        val resultEntity = client.fetchExchangeRateForDay(LocalDate.now())
+        val resultEntity = client.fetchExchangeRateForDay(LocalDate.of(2020, 1, 17))
         val rootDto: ExchangeRateRootDto = resultEntity.body!!
         // then
         assertThat(rootDto.bankName).isEqualTo("CNB")
@@ -87,11 +77,49 @@ class CNBClientTest {
         // then
         assertThat(result.size).isEqualTo(4)
 
-        assertThat(result.first().date).isEqualTo(LocalDate.of(2019,12,31))
-        assertThat(result.first().salaryCrowns).isEqualTo(36144)
+        val first = result.first()
+        assertThat(first.date).isEqualTo(LocalDate.of(2019, 12, 31))
+        assertThat(first.salaryCrowns).isEqualTo(36144)
+        assertThat(first.isValid).isTrue()
 
-        assertThat(result.last().date).isEqualTo(LocalDate.of(2019,3,31))
-        assertThat(result.last().salaryCrowns).isEqualTo(32489)
+        val last = result.last()
+        assertThat(last.date).isEqualTo(LocalDate.of(2019, 3, 31))
+        assertThat(last.salaryCrowns).isEqualTo(32489)
+        assertThat(last.isValid).isTrue()
+    }
+
+    @Test
+    fun `client fetches and parses average unemployment rates for given date range`() {
+        // given
+        val from = LocalDate.of(2019, 1, 1)
+        val to = from.plusYears(1)
+
+        val url = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP?p_period=1&" +
+                "p_sort=2&p_des=50&p_sestuid=21751&p_uka=1&p_strid=ACHAB&p_lang=CS&p_format=2&p_decsep=." +
+                "&p_od=201901&p_do=202001"
+
+        mockRestServer
+                .expect(requestTo(url))
+                .andRespond(
+                        withSuccess(ClassPathResource("test_monthly_unemployment.txt", javaClass),
+                                MediaType.TEXT_PLAIN)
+                )
+
+        // when
+        val result = client.fetchMonthlyUnemploymentRates(from = from, to = to)
+
+        // then
+        assertThat(result.size).isEqualTo(4)
+
+        val first = result.first()
+        assertThat(first.date).isEqualTo(LocalDate.of(2020, 4, 30))
+        assertThat(first.unemploymentRate).isEqualTo(2.3)
+        assertThat(first.isValid).isTrue()
+
+        val last = result.last()
+        assertThat(last.date).isEqualTo(LocalDate.of(2020, 1, 31))
+        assertThat(last.unemploymentRate).isEqualTo(2.1)
+        assertThat(last.isValid).isTrue()
     }
 
 }

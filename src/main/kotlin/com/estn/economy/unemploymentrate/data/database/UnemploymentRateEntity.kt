@@ -9,15 +9,15 @@ import javax.persistence.IdClass
 @Entity(name = "unemployment_rate")
 @IdClass(UnemploymentRateKey::class)
 data class UnemploymentRateEntity(
-        @Column(name = "quarter") @Id var quarter: Int = 0,
+        @Column(name = "month") @Id var month: Int = 0,
         @Column(name = "year") @Id var year: Int = 0,
         @Column(name = "value_percent") var unemploymentRatePercent: Double = 0.0
 )
 
 data class UnemploymentRateKey(
-        var quarter: Int = 0,
+        var month: Int = 0,
         var year: Int = 0
 ) : Serializable
 
 val UnemploymentRateEntity.key
-        get() = UnemploymentRateKey(this.quarter, this.year)
+        get() = UnemploymentRateKey(this.month, this.year)

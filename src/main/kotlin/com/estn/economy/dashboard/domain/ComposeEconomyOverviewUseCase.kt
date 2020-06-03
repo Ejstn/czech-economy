@@ -17,7 +17,6 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.Month
-import java.util.*
 
 @Service
 class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRateRepository,
@@ -27,7 +26,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                                     private val configuration: EconomyOverviewConfiguration,
                                     private val fetchSalaryUseCase: FetchSalaryUseCase) {
 
-    @Cacheable("ComposeEconomyOverviewUseCase::execute", unless = "#result.averageSalary == null")
+    @Cacheable("ComposeEconomyOverviewUseCase::execute", unless = "#result.canBeCached == false")
     fun execute(): EconomyOverview {
 
         val rates = exchangeRepository.findAllRatesFromLastDayWhereCodeLike(configuration.exchangeRates)
@@ -37,7 +36,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         val inflationEntity = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)
         val inflation = InflationOverview(Month.of(inflationEntity.month).translate(true), inflationEntity)
 
-        val unemployment = unemploymentRepository.findFirstByOrderByYearDescQuarterDesc()
+        val unemployment = unemploymentRepository.findFirstByOrderByYearDescMonthDesc()
 
         val averageSalary = fetchSalaryUseCase.fetchLatest()
 
@@ -51,7 +50,11 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                             / second.gdpMillionsCrowns * 100) - 100)
                 }
 
-        return EconomyOverview(ExchangeRatesOverview(date = ratesDate, rates = rates), inflation, latestGdp, unemployment,
+        return EconomyOverview(ExchangeRatesOverview(date = ratesDate, rates = rates),
+                inflation,
+                latestGdp,
+                UnemploymentOverview(month = "${unemployment?.month?.let { Month.of(it).translate() }} ${unemployment?.year}",
+                        unemployment = unemployment),
                 averageSalary)
     }
 
@@ -60,8 +63,14 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
                            val inflation: InflationOverview,
                            val latestGdp: LatestGdp,
-                           val unemployment: UnemploymentRateEntity,
-                           val averageSalary: SalaryEntity?)
+                           val unemployment: UnemploymentOverview?,
+                           val averageSalary: SalaryEntity?) {
+
+    val canBeCached: Boolean
+        get() = unemployment != null
+                && averageSalary != null
+
+}
 
 data class ExchangeRatesOverview(val date: LocalDate,
                                  val rates: Collection<ExchangeRate>)
@@ -72,3 +81,6 @@ data class LatestGdp(val year: Int,
 
 data class InflationOverview(val month: String,
                              val inflation: InflationRateEntity)
+
+data class UnemploymentOverview(val month: String?,
+                                val unemployment: UnemploymentRateEntity?)

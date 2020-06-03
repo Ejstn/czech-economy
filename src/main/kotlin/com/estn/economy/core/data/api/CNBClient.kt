@@ -1,8 +1,8 @@
 package com.estn.economy.core.data.api
 
 import com.estn.economy.core.data.api.converter.CsvHttpMessageConverter
-import com.estn.economy.core.domain.date.formatForCnbArad
-import com.estn.economy.core.domain.date.formatForCnbExchangeApi
+import com.estn.economy.core.presentation.date.formatForCnbArad
+import com.estn.economy.core.presentation.date.formatForCnbExchangeApi
 import com.estn.economy.core.domain.getLogger
 import com.estn.economy.exchangerate.data.api.ExchangeRateRootDto
 import com.estn.economy.salary.data.api.SalaryDto

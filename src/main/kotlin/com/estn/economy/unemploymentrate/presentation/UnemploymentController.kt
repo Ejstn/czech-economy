@@ -1,6 +1,6 @@
 package com.estn.economy.unemploymentrate.presentation
 
-import com.estn.economy.core.domain.date.translate
+import com.estn.economy.core.presentation.date.translate
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.model.Unemployment

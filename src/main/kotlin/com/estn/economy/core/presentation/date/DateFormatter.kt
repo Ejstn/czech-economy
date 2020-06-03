@@ -1,7 +1,7 @@
-package com.estn.economy.core.domain.date
+package com.estn.economy.core.presentation.date
 
-import com.estn.economy.core.domain.date.DateFormatter.cnbArad
-import com.estn.economy.core.domain.date.DateFormatter.cnbExchange
+import com.estn.economy.core.presentation.date.DateFormatter.cnbArad
+import com.estn.economy.core.presentation.date.DateFormatter.cnbExchange
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -10,7 +10,9 @@ import java.time.format.DateTimeFormatter
  */
 object DateFormatter {
 
-    const val CNB_EXCHANGE_RATE_API_PATTERN: String = "dd.MM.yyyy"
+    const val CNB_ARAD_RESPONSE_FORMAT = "d.M.yyyy"
+
+    const val CNB_EXCHANGE_RATE_API_PATTERN = "dd.MM.yyyy"
     val cnbExchange = DateTimeFormatter.ofPattern(CNB_EXCHANGE_RATE_API_PATTERN)
 
     const val CNB_ARAD_API_PATTERN = "yyyyMM"

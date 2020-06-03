@@ -1,6 +1,6 @@
 package com.estn.economy.dashboard.domain
 
-import com.estn.economy.core.domain.date.translate
+import com.estn.economy.core.presentation.date.translate
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toDomain
 import com.estn.economy.exchangerate.domain.ExchangeRate

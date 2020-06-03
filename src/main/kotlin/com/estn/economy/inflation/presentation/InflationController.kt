@@ -1,6 +1,6 @@
 package com.estn.economy.inflation.presentation
 
-import com.estn.economy.core.domain.date.translate
+import com.estn.economy.core.presentation.date.translate
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Inflation
 import com.estn.economy.core.presentation.model.Routing

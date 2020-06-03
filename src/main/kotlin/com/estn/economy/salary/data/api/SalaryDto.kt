@@ -1,6 +1,7 @@
 package com.estn.economy.salary.data.api
 
 import com.estn.economy.core.data.api.converter.CsvRootDto
+import com.estn.economy.core.presentation.date.DateFormatter
 import com.estn.economy.salary.data.database.SalaryEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
@@ -11,7 +12,7 @@ import java.time.temporal.IsoFields
 class SalaryDto {
 
     @JsonDeserialize(using = LocalDateDeserializer::class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d.M.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.CNB_ARAD_RESPONSE_FORMAT)
     var date: LocalDate = LocalDate.now()
 
     var salaryCrowns: Int? = null
@@ -31,5 +32,6 @@ fun SalaryDto.toEntity(): SalaryEntity {
     return SalaryEntity(
             quarter = this.date.get(IsoFields.QUARTER_OF_YEAR),
             year = this.date.year,
-            salaryCrowns = this.salaryCrowns ?: throw IllegalStateException("salary cannot be null at this point but it is null!"))
+            salaryCrowns = this.salaryCrowns
+                    ?: throw IllegalStateException("salary cannot be null at this point but it is null!"))
 }

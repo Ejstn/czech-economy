@@ -3,6 +3,7 @@ package com.estn.economy.core.data.api
 import com.estn.economy.core.data.api.converter.CsvHttpMessageConverter
 import com.estn.economy.core.domain.date.DateFormatter
 import com.estn.economy.core.domain.date.format
+import com.estn.economy.core.domain.getLogger
 import com.estn.economy.exchangerate.data.api.ExchangeRateRootDto
 import com.estn.economy.salary.data.api.SalaryDto
 import com.estn.economy.salary.data.api.SallaryRootDto
@@ -22,7 +23,7 @@ class CNBClient(private val dateFormatter: DateFormatter,
                 restTemplateBuilder: RestTemplateBuilder) {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(CNBClient::class.java)
+        private val LOGGER = getLogger(this::class.java)
 
         const val DAILY_EXCHANGE_RATES_URL: String =
                 "https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.xml"

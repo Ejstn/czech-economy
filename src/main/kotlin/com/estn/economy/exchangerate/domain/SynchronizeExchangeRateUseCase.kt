@@ -1,11 +1,11 @@
 package com.estn.economy.exchangerate.domain
 
 import com.estn.economy.core.data.api.CNBClient
+import com.estn.economy.core.domain.getLogger
 import com.estn.economy.exchangerate.data.api.ExchangeRateRootDto
 import com.estn.economy.exchangerate.data.api.toDomain
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toEntity
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -21,7 +21,7 @@ class SynchronizeExchangeRateUseCase(private val cnbClient: CNBClient,
                                      private val exchangeRepository: ExchangeRateRepository,
                                      private val configuration: ExchangeRateConfiguration) {
 
-    private val LOGGER = LoggerFactory.getLogger(SynchronizeExchangeRateUseCase::class.java)
+    private val LOGGER = getLogger(this::class.java)
 
     fun executeForToday() = executeSynchForDates(listOf(LocalDate.now()))
 

@@ -111,28 +111,28 @@
     <!-- real gdp 2010 prices -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_real_gdp',
-    'Graf vývoje reálného HDP v %',
+    'Vývoj reálného HDP v %',
     'HDP',
     ${dashboard.realGdp2010PricesPercentChange})"></div>
 
     <!-- unemployment -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_unemployment',
-    'Graf nezaměstnanosti v %',
+    'Nezaměstnanost v %',
     'Nezaměstnanost',
     ${dashboard.yearlyUnempRates})"></div>
 
     <!-- inflation -->
     <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
     'chart_inflation',
-    'Graf meziročního vývoje inflace v %',
+    'Meziroční vývoj inflace v %',
     'Inflace',
     ${dashboard.yearlyInflationRates})"></div>
 
     <!-- public debt -->
     <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
     'chart_public_debt',
-    'Graf vývoje státního dluhu v běžných cenách',
+    'Vývoj státního dluhu v běžných cenách',
     'Státní dluh',
     ${dashboard.publicDebt}
     )"></div>

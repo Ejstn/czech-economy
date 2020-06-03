@@ -59,14 +59,14 @@
                 <!--  this 12 months vs last 12 months inflation -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'this_vs_last_year_inflation',
-                'Graf meziročního vývoje inflace v %',
+                'Meziroční vývoj inflace v %',
                 'Inflace',
                 ${yearlyInflation})"></div>
 
                 <!--  month vs previous month inflation rates -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'month_vs_month_inflation',
-                'Graf meziměsíčního vývoje inflace v %',
+                'Meziměsíční vývoj inflace v %',
                 'Inflace',
                 ${monthlyInflation})"></div>
 

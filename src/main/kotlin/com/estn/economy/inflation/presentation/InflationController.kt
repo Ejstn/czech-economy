@@ -1,6 +1,6 @@
 package com.estn.economy.inflation.presentation
 
-import com.estn.economy.core.domain.date.translate
+import com.estn.economy.core.presentation.date.translate
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Inflation
 import com.estn.economy.core.presentation.model.Routing
@@ -25,14 +25,19 @@ class InflationController(private val fetchInflation: FetchInflationRateUseCase)
 
         model.addBreadcrumbs(Home, Inflation)
 
+        val yearlyInflation = fetchInflation.fetchAllYearlyInflationRates()
+                .mapToPairs()
+
+        model.addAttribute("yearlyInflation", yearlyInflation)
+
+        model.addAttribute("current", yearlyInflation.last())
+        model.addAttribute("highest", yearlyInflation.maxBy { it.second as Comparable<Any> })
+        model.addAttribute("lowest", yearlyInflation.minBy { it.second as Comparable<Any> })
+
         model.addAttribute("monthlyInflation", fetchInflation.fetchAllInflationRatesByType(InflationType.THIS_MONTH_VS_PREVIOUS_MONTH)
                 .mapToPairs {
                     Pair("${Month.of(it.month).translate()} ${it.year} ", it.valuePercent)
                 })
-
-        model.addAttribute("yearlyInflation", fetchInflation.fetchAllYearlyInflationRates()
-                .mapToPairs())
-
 
         return template
     }

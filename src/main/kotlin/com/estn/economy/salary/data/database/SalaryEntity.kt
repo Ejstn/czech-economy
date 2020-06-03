@@ -1,8 +1,6 @@
 package com.estn.economy.salary.data.database
 
-import com.estn.economy.salary.data.api.SalaryDto
 import java.io.Serializable
-import java.time.temporal.IsoFields
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -21,10 +19,3 @@ data class SalaryKey(val quarter: Int = 0,
 
 val SalaryEntity.key
     get() = SalaryKey(quarter, year)
-
-fun SalaryDto.toEntity(): SalaryEntity {
-    return SalaryEntity(
-            quarter = this.date.get(IsoFields.QUARTER_OF_YEAR),
-            year = this.date.year,
-            salaryCrowns = this.salaryCrowns)
-}

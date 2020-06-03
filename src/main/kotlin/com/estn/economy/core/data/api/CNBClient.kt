@@ -1,8 +1,8 @@
 package com.estn.economy.core.data.api
 
 import com.estn.economy.core.data.api.converter.CsvHttpMessageConverter
-import com.estn.economy.core.domain.date.DateFormatter
-import com.estn.economy.core.domain.date.format
+import com.estn.economy.core.domain.date.formatForCnbArad
+import com.estn.economy.core.domain.date.formatForCnbExchangeApi
 import com.estn.economy.core.domain.getLogger
 import com.estn.economy.exchangerate.data.api.ExchangeRateRootDto
 import com.estn.economy.salary.data.api.SalaryDto
@@ -20,8 +20,7 @@ import java.time.LocalDate
  * Written by estn on 13.01.2020.
  */
 @Component
-class CNBClient(private val dateFormatter: DateFormatter,
-                restTemplateBuilder: RestTemplateBuilder) {
+class CNBClient(restTemplateBuilder: RestTemplateBuilder) {
 
     private val LOGGER = getLogger(this::class.java)
 
@@ -33,8 +32,6 @@ class CNBClient(private val dateFormatter: DateFormatter,
     val FROM_QUERY = "p_od"
     val TO_QUERY = "p_do"
 
-    val ARAD_API_FROM_TO_DATE_QUERY_PATTERN = "yyyyMM"
-
     private val restTemplate: RestTemplate = restTemplateBuilder
             .additionalMessageConverters(
                     object : CsvHttpMessageConverter<SalaryDto, SallaryRootDto>() {},
@@ -42,23 +39,22 @@ class CNBClient(private val dateFormatter: DateFormatter,
             .build()
 
     fun fetchExchangeRateForDay(date: LocalDate = LocalDate.now()): ResponseEntity<ExchangeRateRootDto> {
-        val formattedDate = dateFormatter.formatDateForCnbApi(date)
         val url = UriComponentsBuilder.fromHttpUrl(DAILY_EXCHANGE_RATES_URL)
-                .queryParam(DATE_QUERY, formattedDate)
+                .queryParam(DATE_QUERY, date.formatForCnbExchangeApi())
                 .build()
                 .toUri()
 
         val entity = restTemplate.getForEntity(url, ExchangeRateRootDto::class.java)
 
-        LOGGER.info("fetching exchange rates for date: ${formattedDate}, http: ${entity.statusCodeValue}")
+        LOGGER.info("fetching exchange rates for date: ${date}, http: ${entity.statusCodeValue}")
 
         return entity
     }
 
     fun fetchNominalAverageSalaries(from: LocalDate, to: LocalDate): List<SalaryDto> {
         val url = UriComponentsBuilder.fromHttpUrl(NOMINAL_AVERAGE_QUARTERLY_SALARIES_URL)
-                .queryParam(FROM_QUERY, from.formatForArad())
-                .queryParam(TO_QUERY, to.formatForArad())
+                .queryParam(FROM_QUERY, from.formatForCnbArad())
+                .queryParam(TO_QUERY, to.formatForCnbArad())
                 .build()
                 .toUri()
 
@@ -72,8 +68,8 @@ class CNBClient(private val dateFormatter: DateFormatter,
 
     fun fetchMonthlyUnemploymentRates(from: LocalDate, to: LocalDate): List<UnemploymentRateDto> {
         val url = UriComponentsBuilder.fromHttpUrl(MONTHLY_UNEMPLOYMENT_URL)
-                .queryParam(FROM_QUERY, from.formatForArad())
-                .queryParam(TO_QUERY, to.formatForArad())
+                .queryParam(FROM_QUERY, from.formatForCnbArad())
+                .queryParam(TO_QUERY, to.formatForCnbArad())
                 .build()
                 .toUri()
 
@@ -85,7 +81,5 @@ class CNBClient(private val dateFormatter: DateFormatter,
                 ?: throw IllegalStateException("Employment rates list is null but it shouldnt be!")
 
     }
-
-    fun LocalDate.formatForArad(): String = this.format(ARAD_API_FROM_TO_DATE_QUERY_PATTERN)
 
 }

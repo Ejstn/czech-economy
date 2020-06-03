@@ -12,10 +12,6 @@ import javax.validation.constraints.NotEmpty
 @ConfigurationProperties(prefix = "date.format")
 class DateFormatConfiguration {
 
-    @NotBlank
-    @NotEmpty
-    var frontEndExchangeRateDateFormat: String = "dd.MM.yyyy"
-
     @NotEmpty
     @NotBlank
     var cnbExchangeRateApiDateFormat: String = "dd.MM.yyyy"

@@ -1,14 +1,10 @@
 package com.estn.economy.exchangerate.data.api
 
 import com.estn.economy.core.data.api.CNBClient
-import com.estn.economy.core.domain.date.DateFormatter
-import com.estn.economy.utility.any
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
@@ -30,23 +26,17 @@ class CNBClientTest {
     @Autowired
     lateinit var client: CNBClient
 
-    @MockBean
-    lateinit var dateFormatter: DateFormatter
-
     @Test
     fun `client fetches and parses exchange rates for given day`() {
         // given
-        val mockFormattedDate = "17.01.2020"
-        given(dateFormatter.formatDateForCnbApi(any(LocalDate::class.java))).willReturn(mockFormattedDate)
-
         mockRestServer
-                .expect(requestTo("${EXCHANGE_BASE_URL}?date=${mockFormattedDate}"))
+                .expect(requestTo("${EXCHANGE_BASE_URL}?date=17.01.2020"))
                 .andRespond(
                         withSuccess(ClassPathResource("test_exchange_rates.xml", javaClass), MediaType.APPLICATION_XML)
                 )
 
         // when
-        val resultEntity = client.fetchExchangeRateForDay(LocalDate.now())
+        val resultEntity = client.fetchExchangeRateForDay(LocalDate.of(2020, 1, 17))
         val rootDto: ExchangeRateRootDto = resultEntity.body!!
         // then
         assertThat(rootDto.bankName).isEqualTo("CNB")
@@ -88,12 +78,12 @@ class CNBClientTest {
         assertThat(result.size).isEqualTo(4)
 
         val first = result.first()
-        assertThat(first.date).isEqualTo(LocalDate.of(2019,12,31))
+        assertThat(first.date).isEqualTo(LocalDate.of(2019, 12, 31))
         assertThat(first.salaryCrowns).isEqualTo(36144)
         assertThat(first.isValid).isTrue()
 
         val last = result.last()
-        assertThat(last.date).isEqualTo(LocalDate.of(2019,3,31))
+        assertThat(last.date).isEqualTo(LocalDate.of(2019, 3, 31))
         assertThat(last.salaryCrowns).isEqualTo(32489)
         assertThat(last.isValid).isTrue()
     }
@@ -122,12 +112,12 @@ class CNBClientTest {
         assertThat(result.size).isEqualTo(4)
 
         val first = result.first()
-        assertThat(first.date).isEqualTo(LocalDate.of(2020,4,30))
+        assertThat(first.date).isEqualTo(LocalDate.of(2020, 4, 30))
         assertThat(first.unemploymentRate).isEqualTo(2.3)
         assertThat(first.isValid).isTrue()
 
         val last = result.last()
-        assertThat(last.date).isEqualTo(LocalDate.of(2020,1,31))
+        assertThat(last.date).isEqualTo(LocalDate.of(2020, 1, 31))
         assertThat(last.unemploymentRate).isEqualTo(2.1)
         assertThat(last.isValid).isTrue()
     }

@@ -1,23 +1,29 @@
 package com.estn.economy.core.domain.date
 
-import org.springframework.stereotype.Component
+import com.estn.economy.core.domain.date.DateFormatter.cnbArad
+import com.estn.economy.core.domain.date.DateFormatter.cnbExchange
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 /**
  * Written by estn on 15.01.2020.
  */
-@Component
-class DateFormatter(dateFormatConfiguration: DateFormatConfiguration) {
+object DateFormatter {
 
-    private val frontEndFormat = DateTimeFormatter.ofPattern(dateFormatConfiguration.frontEndExchangeRateDateFormat)
-    private val cnbApiFormat = DateTimeFormatter.ofPattern(dateFormatConfiguration.cnbExchangeRateApiDateFormat)
+    const val CNB_EXCHANGE_RATE_API_PATTERN: String = "dd.MM.yyyy"
+    val cnbExchange = DateTimeFormatter.ofPattern(CNB_EXCHANGE_RATE_API_PATTERN)
 
-    fun formatDateForFrontEnd(date: LocalDate): String = frontEndFormat.format(date)
-    fun formatDateForCnbApi(date: LocalDate): String = cnbApiFormat.format(date)
+    const val CNB_ARAD_API_PATTERN = "yyyyMM"
+    val cnbArad = DateTimeFormatter.ofPattern(CNB_ARAD_API_PATTERN)
 
 }
 
-fun LocalDate.format(pattern: String): String {
-    return DateTimeFormatter.ofPattern(pattern).format(this)
+fun LocalDate.formatForCnbExchangeApi(): String {
+    return cnbExchange.format(this)
 }
+
+fun LocalDate.formatForCnbArad(): String {
+    return cnbArad.format(this)
+}
+
+

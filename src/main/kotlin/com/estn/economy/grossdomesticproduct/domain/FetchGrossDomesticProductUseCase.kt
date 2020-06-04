@@ -14,14 +14,26 @@ class FetchGrossDomesticProductUseCase (private val repository: GrossDomesticPro
 
     @Cacheable("FetchGrossDomesticProductUseCase::fetchGdp")
     fun fetchGdp(type: GrossDomesticProductType) = repository
-            .getAllByTypeEqualsOrderByYearAsc(type)
+            .getAllByTypeEquals(type)
 
     @Cacheable("FetchGrossDomesticProductUseCase::fetchPercentChangesPerYear")
     fun fetchPercentChangesPerYear(type: GrossDomesticProductType) : List<OutputPercentageData> {
-        return fetchGdp(type)
-                .map { InputData(it.year.toLong(), it.gdpMillionsCrowns) }
+        return repository.getAllSummedByYearHavingAllFourQuarters(type)
+                .map { InputData(it.year.toLong(), it.gdpMillions) }
                 .let { calculateChanges.calculatePercentageChanges(it)  }
     }
+
+    @Cacheable("FetchGrossDomesticProductUseCase::fetchPercentChangesPerQuarter")
+    fun fetchPercentChangesPerQuarter(type: GrossDomesticProductType) : List<OutputPercentageData> {
+        return repository.getAllByTypeEquals(type)
+                .mapIndexed { index, gdp -> Pair(index, gdp) }
+                .map { InputData(it.first.toLong(), it.second.gdpMillionsCrowns) }
+                .let { calculateChanges.calculatePercentageChanges(it)  }
+    }
+
+
+
+
 
 
 }

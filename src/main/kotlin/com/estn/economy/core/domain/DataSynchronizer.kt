@@ -46,7 +46,6 @@ class DataSynchronizer(private val syncExchange: SynchronizeExchangeRateUseCase,
     @Scheduled(cron = EVERYDAY_AT_MIDNIGHT)
     fun dailyRealGdpSync() = syncRealGdp.execute().also { evictCache() }
 
-
     private fun evictCache() = evictCache.execute()
 
 

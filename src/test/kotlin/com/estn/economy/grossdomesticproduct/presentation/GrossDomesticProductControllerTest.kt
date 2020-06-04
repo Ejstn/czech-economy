@@ -5,8 +5,10 @@ import com.estn.economy.core.presentation.model.Gdp
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.mapToPairs
+import com.estn.economy.core.presentation.utility.quarterToRoman
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType.*
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.utility.breadcrumbs
 import org.junit.jupiter.api.BeforeEach
@@ -31,8 +33,9 @@ class GrossDomesticProductControllerTest {
 
     val realGdp = listOf(GrossDomesticProductEntity(
             year = 2020,
-            type = GrossDomesticProductType.REAL_2010_PRICES,
-            gdpMillionsCrowns = 464654
+            type = REAL_2010_PRICES,
+            gdpMillionsCrowns = 464654,
+            quarter = 3
     ))
 
     val realChanges = listOf(
@@ -42,11 +45,11 @@ class GrossDomesticProductControllerTest {
     @BeforeEach
     fun setUp() {
 
-        given(fetchGdp.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES))
+        given(fetchGdp.fetchGdp(REAL_2010_PRICES))
                 .willReturn(realGdp)
 
 
-        given(fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES))
+        given(fetchGdp.fetchPercentChangesPerQuarter(REAL_2010_PRICES))
                 .willReturn(realChanges)
 
     }
@@ -73,7 +76,8 @@ class GrossDomesticProductControllerTest {
         mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
-                                model().attribute("realGdp2010Prices", realGdp.mapToPairs()),
+                                model().attribute("realGdp2010Prices", realGdp
+                                        .mapToPairs { Pair("${it.quarter.quarterToRoman()} ${it.year}", it.gdpMillionsCrowns) }),
                                 model().attribute("realGdpChanges", realChanges.mapToPairs())
                         ))
 

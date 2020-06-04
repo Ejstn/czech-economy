@@ -29,37 +29,22 @@ class GrossDomesticProductControllerTest {
     @MockBean
     lateinit var fetchGdp: FetchGrossDomesticProductUseCase
 
-    val nominalGdp = listOf(GrossDomesticProductEntity(
-            year = 2015,
-            type = GrossDomesticProductType.NOMINAL,
-            gdpMillionsCrowns = 1515151))
-
     val realGdp = listOf(GrossDomesticProductEntity(
             year = 2020,
             type = GrossDomesticProductType.REAL_2010_PRICES,
             gdpMillionsCrowns = 464654
     ))
 
-    val nominalChanges = listOf(
-            OutputPercentageData(2015, 5.0)
-    )
-
     val realChanges = listOf(
             OutputPercentageData(2015, 4.0)
     )
 
-
-
     @BeforeEach
     fun setUp() {
-        given(fetchGdp.fetchGdp(GrossDomesticProductType.NOMINAL))
-                .willReturn(nominalGdp)
 
         given(fetchGdp.fetchGdp(GrossDomesticProductType.REAL_2010_PRICES))
                 .willReturn(realGdp)
 
-        given(fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.NOMINAL))
-                .willReturn(nominalChanges)
 
         given(fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES))
                 .willReturn(realChanges)
@@ -88,9 +73,7 @@ class GrossDomesticProductControllerTest {
         mvc.perform(get(Routing.GDP))
                 .andExpect(
                         matchAll(
-                                model().attribute("nominalGdp", nominalGdp.mapToPairs()),
                                 model().attribute("realGdp2010Prices", realGdp.mapToPairs()),
-                                model().attribute("nominalGdpChanges", nominalChanges.mapToPairs()),
                                 model().attribute("realGdpChanges", realChanges.mapToPairs())
                         ))
 

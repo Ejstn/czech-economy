@@ -4,6 +4,7 @@ import com.estn.economy.core.presentation.date.DateFormatter.cnbArad
 import com.estn.economy.core.presentation.date.DateFormatter.cnbExchange
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.IsoFields
 
 /**
  * Written by estn on 15.01.2020.
@@ -27,5 +28,7 @@ fun LocalDate.formatForCnbExchangeApi(): String {
 fun LocalDate.formatForCnbArad(): String {
     return cnbArad.format(this)
 }
+
+fun LocalDate.getQuarter(): Int = this.get(IsoFields.QUARTER_OF_YEAR)
 
 

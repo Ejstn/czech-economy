@@ -27,10 +27,16 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
         model.addAttribute("realGdp2010Prices", fetchGdpUseCase.fetchGdp(REAL_2010_PRICES)
                 .mapToPairs { Pair("${it.quarter.quarterToRoman()} ${it.year}", it.gdpMillionsCrowns) })
 
-        model.addAttribute("realGdpChanges", fetchGdpUseCase.fetchPercentChangesPerQuarter(REAL_2010_PRICES)
+        val gdpChanges = fetchGdpUseCase.fetchPercentChangesPerQuarter(REAL_2010_PRICES)
                 .mapToPairs {
                     Pair("${it.dataPoint.quarter.quarterToRoman()} ${it.dataPoint.year}", it.value)
-                })
+                }
+
+        model.addAttribute("current", gdpChanges.last())
+        model.addAttribute("lowest", gdpChanges.minBy { it.second as Comparable<Any> })
+        model.addAttribute("highest", gdpChanges.maxBy { it.second as Comparable<Any> })
+
+        model.addAttribute("realGdpChanges", gdpChanges)
 
 
         return template

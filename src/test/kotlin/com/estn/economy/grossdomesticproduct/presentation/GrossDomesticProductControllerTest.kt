@@ -39,7 +39,8 @@ class GrossDomesticProductControllerTest {
     ))
 
     val realChanges = listOf(
-            OutputPercentageData(2015, 4.0)
+            OutputPercentageData(2015, 4.0, GrossDomesticProductEntity(
+                    year = 2015, quarter = 4, gdpMillionsCrowns = 54564, type = REAL_2010_PRICES))
     )
 
     @BeforeEach
@@ -78,7 +79,9 @@ class GrossDomesticProductControllerTest {
                         matchAll(
                                 model().attribute("realGdp2010Prices", realGdp
                                         .mapToPairs { Pair("${it.quarter.quarterToRoman()} ${it.year}", it.gdpMillionsCrowns) }),
-                                model().attribute("realGdpChanges", realChanges.mapToPairs())
+                                model().attribute("realGdpChanges", realChanges.mapToPairs {
+                                    Pair("${it.dataPoint.quarter.quarterToRoman()} ${it.dataPoint.year}", it.value)
+                                })
                         ))
 
     }

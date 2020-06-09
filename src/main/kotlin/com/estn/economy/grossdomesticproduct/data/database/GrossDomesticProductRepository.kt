@@ -1,6 +1,6 @@
 package com.estn.economy.grossdomesticproduct.data.database
 
-import com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductByYear
+import com.estn.economy.grossdomesticproduct.domain.model.GrossDomesticProductByYear
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -13,7 +13,7 @@ interface GrossDomesticProductRepository : JpaRepository<GrossDomesticProductEnt
 
     fun getAllByTypeEqualsOrderByYearDesc(type: GrossDomesticProductType) : List<GrossDomesticProductEntity>
 
-    @Query("select new com.estn.economy.grossdomesticproduct.domain.GrossDomesticProductByYear " +
+    @Query("select new com.estn.economy.grossdomesticproduct.domain.model.GrossDomesticProductByYear " +
             "(year, sum(gdpMillionsCrowns)) from gross_domestic_product where type = ?1 " +
             "group by year having count(year) = 4")
     fun getAllSummedByYearHavingAllFourQuarters(@Param("type") type: GrossDomesticProductType)

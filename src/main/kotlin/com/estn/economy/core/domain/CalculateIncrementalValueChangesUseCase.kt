@@ -6,16 +6,17 @@ import org.springframework.stereotype.Service
 @Service
 class CalculateIncrementalValueChangesUseCase {
 
-    fun calculatePercentageChanges(input: Collection<InputData>): List<OutputPercentageData> {
+    fun <T> calculatePercentageChanges(input: Collection<InputData<T>>): List<OutputPercentageData<T>> {
         return input.sortedBy { it.order }
                 .windowed(size = 2, step = 1)
-                .map {
-                    Pair(it[0], it[1])
-                }
+                .map { Pair(it[0], it[1]) }
                 .map {
                     val first = it.first
                     val second = it.second
-                    OutputPercentageData(second.order, ((second.value.toDouble() / first.value) - 1) * 100)
+                    OutputPercentageData(
+                            order = second.order,
+                            value = ((second.value.toDouble() / first.value) - 1) * 100,
+                            dataPoint =it.second.dataPoint)
                 }
 
     }
@@ -23,11 +24,13 @@ class CalculateIncrementalValueChangesUseCase {
 
 }
 
-data class InputData(val order: Long,
-                     val value: Long)
+data class InputData<T>(val order: Long,
+                        val value: Long,
+                        val dataPoint: T)
 
-data class OutputPercentageData(val order: Long,
-                                val value: Double) : PairConvertable {
+data class OutputPercentageData<T>(val order: Long,
+                                   val value: Double,
+                                   val dataPoint: T) : PairConvertable {
 
     override fun convertToPair() = Pair(order, value)
 }

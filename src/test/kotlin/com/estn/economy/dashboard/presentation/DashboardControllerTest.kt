@@ -35,7 +35,7 @@ class DashboardControllerTest {
     @MockBean
     lateinit var composeDashboard: ComposeDashboardUseCase
 
-    val gdp = listOf(OutputPercentageData(order = 2015, value = 5.5))
+    val gdp = listOf(OutputPercentageData(order = 2015, value = 5.5, dataPoint = 0))
     val unemp = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     val inflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,

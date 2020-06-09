@@ -1,7 +1,7 @@
 package com.estn.economy.unemploymentrate.data.database
 
 import com.estn.economy.DatabaseTest
-import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
+import com.estn.economy.unemploymentrate.domain.model.UnemploymentRatePerYearAvg
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

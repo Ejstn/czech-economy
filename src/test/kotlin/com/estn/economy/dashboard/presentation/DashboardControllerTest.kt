@@ -8,7 +8,7 @@ import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.nationalbudget.data.PublicDebtEntity
 import com.estn.economy.salary.data.database.SalaryEntity
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
-import com.estn.economy.unemploymentrate.domain.UnemploymentRatePerYearAvg
+import com.estn.economy.unemploymentrate.domain.model.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
 import org.junit.jupiter.api.Test
@@ -35,7 +35,7 @@ class DashboardControllerTest {
     @MockBean
     lateinit var composeDashboard: ComposeDashboardUseCase
 
-    val gdp = listOf(OutputPercentageData(order = 2015, value = 5.5))
+    val gdp = listOf(OutputPercentageData(order = 2015, value = 5.5, dataPoint = 0))
     val unemp = listOf(UnemploymentRatePerYearAvg(2015, unemploymentRatePercent = 5.7))
 
     val inflation = listOf(InflationRateEntity(month = 12, year = 2015, type = InflationType.THIS_YEAR_VS_LAST_YEAR,
@@ -46,7 +46,7 @@ class DashboardControllerTest {
     val overview = EconomyOverview(exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
             inflation = InflationOverview("Leden",
                     InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
-            latestGdp = LatestGdp(2019, 2.6),
+            latestGdp = LatestGdp("I 2019", 2.6),
             unemployment = UnemploymentOverview("Leden 2015", UnemploymentRateEntity(month = 1, year = 2015, unemploymentRatePercent = 5.0)),
             averageSalary = SalaryEntity(quarter = 4, year = 2015, salaryCrowns = 28750))
 

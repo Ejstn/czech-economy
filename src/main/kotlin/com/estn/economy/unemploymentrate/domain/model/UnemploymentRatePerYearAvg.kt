@@ -1,4 +1,4 @@
-package com.estn.economy.unemploymentrate.domain
+package com.estn.economy.unemploymentrate.domain.model
 
 import com.estn.economy.core.presentation.utility.PairConvertable
 

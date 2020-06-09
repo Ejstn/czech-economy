@@ -8,6 +8,7 @@ import javax.persistence.*
 @IdClass(GrossDomesticProductKey::class)
 data class GrossDomesticProductEntity(
         @Column(name = "year") @Id var year: Int = 0,
+        @Column(name = "quarter") @Id var quarter: Int = 0,
         @Column(name = "type") @Id @Enumerated(EnumType.STRING)
         var type: GrossDomesticProductType = GrossDomesticProductType.NOMINAL,
         @Column(name = "value_millions_crowns") var gdpMillionsCrowns: Long = 0
@@ -24,8 +25,9 @@ enum class GrossDomesticProductType {
 
 data class GrossDomesticProductKey(
         var year: Int = 0,
+        var quarter: Int = 0,
         var type: GrossDomesticProductType = GrossDomesticProductType.NOMINAL
 ) : Serializable
 
 val GrossDomesticProductEntity.key
-    get() = GrossDomesticProductKey(this.year, this.type)
+    get() = GrossDomesticProductKey(this.year, this.quarter, this.type)

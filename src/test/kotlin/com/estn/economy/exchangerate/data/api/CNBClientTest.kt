@@ -122,4 +122,39 @@ class CNBClientTest {
         assertThat(last.isValid).isTrue()
     }
 
+    @Test
+    fun `client fetches and parses quarterly real gdp for given date range`() {
+        // given
+        val from = LocalDate.of(2019, 1, 1)
+        val to = from.plusYears(1)
+
+        val url = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP?p_period=3&p_sort=2&p_des=3&p_sestuid=29930&p_uka=1" +
+                "&p_strid=ACL&p_lang=CS&p_format=2&p_decsep=." +
+                "&p_od=201901&p_do=202001"
+
+        mockRestServer
+                .expect(requestTo(url))
+                .andRespond(
+                        withSuccess(ClassPathResource("test_real_quarterly_gdp_2010_prices.txt", javaClass),
+                                MediaType.TEXT_PLAIN)
+                )
+
+        // when
+        val result = client.fetchQuarterlyRealGdp2010Prices(from = from, to = to)
+
+        // then
+        assertThat(result.size).isEqualTo(4)
+
+        val first = result.first()
+        assertThat(first.date).isEqualTo(LocalDate.of(2020, 3, 31))
+        assertThat(first.gdpBillionsCrowns).isEqualTo(1182.352)
+        assertThat(first.isValid).isTrue()
+
+        val last = result.last()
+        assertThat(last.date).isEqualTo(LocalDate.of(2019, 6, 30))
+        assertThat(last.gdpBillionsCrowns).isEqualTo(1212.254)
+        assertThat(last.isValid).isTrue()
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.estn.economy.dashboard.domain
 
 import com.estn.economy.core.presentation.date.translate
+import com.estn.economy.core.presentation.utility.quarterToRoman
 import com.estn.economy.exchangerate.data.database.ExchangeRateRepository
 import com.estn.economy.exchangerate.data.database.toDomain
 import com.estn.economy.exchangerate.domain.ExchangeRate
@@ -43,10 +44,9 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         val latestGdp = gdpRepository.getAllByTypeEqualsOrderByYearDesc(GrossDomesticProductType.REAL_2010_PRICES)
                 .take(2)
                 .let {
-
                     val first = it.first()
                     val second = it[1]
-                    LatestGdp(first.year, (first.gdpMillionsCrowns.toDouble()
+                    LatestGdp("${first.quarter.quarterToRoman()} ${first.year}", (first.gdpMillionsCrowns.toDouble()
                             / second.gdpMillionsCrowns * 100) - 100)
                 }
 
@@ -75,7 +75,7 @@ data class ExchangeRatesOverview(val date: LocalDate,
                                  val rates: Collection<ExchangeRate>)
 
 
-data class LatestGdp(val year: Int,
+data class LatestGdp(val title: String,
                      val percentChange: Double)
 
 data class InflationOverview(val month: String,

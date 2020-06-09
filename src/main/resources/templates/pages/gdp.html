@@ -21,6 +21,43 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
+                <div class="columns" id="zaklad">
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Aktuální HDP'
+                        ,${{current.first}},
+                        ${#numbers.formatDecimal(current.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
+                        </div>
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Největší propad HDP',${{lowest.first}},
+                        ${#numbers.formatDecimal(lowest.second, 0, 'COMMA', 1, 'POINT')+ '%'} )">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="column">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Nejvyšší růst HDP',
+                        ${{highest.first}},
+                        ${#numbers.formatDecimal(highest.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
 
                 <!-- real gdp 2010 prices -->
                 <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
@@ -32,26 +69,12 @@
                 <!--  real gdp 2010 % changes -->
                 <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
                 'real_gdp_container_changes',
-                'Meziroční vývoj reálného HDP v cenách roku 2010',
+                'Vývoj reálného HDP v cenách roku 2010',
                 'Změna HDP',
                 ${realGdpChanges})"></div>
 
                 <br>
 
-                <!--  nominal gdp -->
-                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
-                'nominal_gdp_container',
-                'Nominální HDP',
-                'HDP',
-                ${nominalGdp})"></div>
-
-
-                <!--  nominal gdp % changes -->
-                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
-                'nominal_gdp_container_changes',
-                'Meziroční vývoj nominálního HDP',
-                'Změna HDP',
-                ${nominalGdpChanges})"></div>
 
             </div>
 
@@ -62,13 +85,9 @@
                     <p class="menu-label"><a href="#">HDP Čr</a></p>
                     <p class="menu-label">Reálný HDP</p>
                     <ul class="menu-list">
+                        <li><a href="#zaklad">Základní údaje</a></li>
                         <li><a href="#real_gdp_container">Absolutní hodnoty</a></li>
-                        <li><a href="#real_gdp_container_changes">Meziroční vývoj</a></li>
-                    </ul>
-                    <p class="menu-label">Nominální HDP</p>
-                    <ul class="menu-list">
-                        <li><a href="#nominal_gdp_container">Absolutní hodnoty</a></li>
-                        <li><a href="#nominal_gdp_container_changes">Meziroční vývoj</a></li>
+                        <li><a href="#real_gdp_container_changes">Čtvrtletní vývoj</a></li>
                     </ul>
 
                 </aside>

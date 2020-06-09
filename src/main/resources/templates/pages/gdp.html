@@ -23,41 +23,38 @@
 
                 <div class="columns" id="zaklad">
 
-                    <div class="column">
+                    <div class="column" data-th-object="${current}">
 
                         <div th:replace="fragments/components :: simpleBox(
-                        'Aktuální HDP'
-                        ,${{current.first}},
-                        ${#numbers.formatDecimal(current.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
+                        'Aktuální HDP',
+                        *{first},
+                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
+                        </div>
+
+                    </div>
+
+                    <div class="column" data-th-object="${lowest}">
+
+                        <div th:replace="fragments/components :: simpleBox(
+                        'Největší propad HDP',
+                        *{first},
+                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'} )">
                         </div>
 
                     </div>
 
 
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Největší propad HDP',${{lowest.first}},
-                        ${#numbers.formatDecimal(lowest.second, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="column">
+                    <div class="column" data-th-object="${highest}">
 
                         <div th:replace="fragments/components :: simpleBox(
                         'Nejvyšší růst HDP',
-                        ${{highest.first}},
-                        ${#numbers.formatDecimal(highest.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
+                        *{first},
+                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
                         </div>
 
                     </div>
 
-
                 </div>
-
 
                 <!-- real gdp 2010 prices -->
                 <div th:replace="fragments/charts :: yearToMillionsSimpleChart(

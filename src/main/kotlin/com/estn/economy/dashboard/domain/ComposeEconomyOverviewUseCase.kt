@@ -27,7 +27,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                                     private val configuration: EconomyOverviewConfiguration,
                                     private val fetchSalaryUseCase: FetchSalaryUseCase) {
 
-    @Cacheable("ComposeEconomyOverviewUseCase::execute", unless = "#result.canBeCached == false")
+    @Cacheable("ComposeEconomyOverviewUseCase::execute")
     fun execute(): EconomyOverview {
 
         val rates = exchangeRepository.findAllRatesFromLastDayWhereCodeLike(configuration.exchangeRates)
@@ -50,12 +50,14 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                             / second.gdpMillionsCrowns * 100) - 100)
                 }
 
-        return EconomyOverview(ExchangeRatesOverview(date = ratesDate, rates = rates),
-                inflation,
-                latestGdp,
-                UnemploymentOverview(month = "${Month.of(unemployment.month).translate()} ${unemployment.year}",
+        return EconomyOverview(
+                exchangeRate = ExchangeRatesOverview(date = ratesDate, rates = rates),
+                inflation = inflation,
+                latestGdp = latestGdp,
+                unemployment = UnemploymentOverview(
+                        month = "${Month.of(unemployment.month).translate()} ${unemployment.year}",
                         unemployment = unemployment),
-                averageSalary)
+                averageSalary = averageSalary)
     }
 
 }
@@ -64,12 +66,7 @@ data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
                            val inflation: InflationOverview,
                            val latestGdp: LatestGdp,
                            val unemployment: UnemploymentOverview,
-                           val averageSalary: SalaryEntity) {
-
-    val canBeCached: Boolean
-        get() = true
-
-}
+                           val averageSalary: SalaryEntity)
 
 data class ExchangeRatesOverview(val date: LocalDate,
                                  val rates: Collection<ExchangeRate>)

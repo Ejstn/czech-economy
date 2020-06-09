@@ -24,7 +24,7 @@
             <div class="column">
 
                 <div th:replace="fragments/components :: simpleBox('Reálný HDP',
-                ${dashboard.overview.latestGdp.year},
+                ${dashboard.overview.latestGdp.title},
                 ${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'} )">
                 </div>
 

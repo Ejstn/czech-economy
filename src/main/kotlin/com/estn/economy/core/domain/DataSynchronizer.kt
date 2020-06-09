@@ -1,6 +1,7 @@
 package com.estn.economy.core.domain
 
 import com.estn.economy.exchangerate.domain.SynchronizeExchangeRateUseCase
+import com.estn.economy.grossdomesticproduct.domain.SynchronizeRealGrossDomesticProduct
 import com.estn.economy.salary.domain.SynchronizeSalaryUseCase
 import com.estn.economy.unemploymentrate.domain.SynchronizeUnemploymentRateUseCase
 import org.springframework.context.annotation.Profile
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component
 class DataSynchronizer(private val syncExchange: SynchronizeExchangeRateUseCase,
                        private val syncSalary: SynchronizeSalaryUseCase,
                        private val syncUnemployment: SynchronizeUnemploymentRateUseCase,
+                       private val syncRealGdp: SynchronizeRealGrossDomesticProduct,
                        private val evictCache: EvictAllCacheUseCase) {
 
     companion object {
@@ -39,6 +41,10 @@ class DataSynchronizer(private val syncExchange: SynchronizeExchangeRateUseCase,
     @ExecuteAfterStart
     @Scheduled(cron = EVERYDAY_AT_MIDNIGHT)
     fun dailyUnemploymentRateSync() = syncUnemployment.execute().also { evictCache() }
+
+    @ExecuteAfterStart
+    @Scheduled(cron = EVERYDAY_AT_MIDNIGHT)
+    fun dailyRealGdpSync() = syncRealGdp.execute().also { evictCache() }
 
     private fun evictCache() = evictCache.execute()
 

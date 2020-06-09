@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.time.LocalDate
 
+
 /**
  * Written by estn on 13.01.2020.
  */
@@ -27,13 +28,19 @@ class CNBClient(restTemplateBuilder: RestTemplateBuilder) {
     private val LOGGER = getLogger(this::class.java)
 
     val DAILY_EXCHANGE_RATES_URL = "https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.xml"
-    val NOMINAL_AVERAGE_QUARTERLY_SALARIES_URL = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP?p_period=3&p_sort=2&p_des=50&p_sestuid=21737&p_uka=1&p_strid=ACFA&p_lang=CS&p_format=2&p_decsep=."
-    val MONTHLY_UNEMPLOYMENT_URL = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP?p_period=1&p_sort=2&p_des=50&p_sestuid=21751&p_uka=1&p_strid=ACHAB&p_lang=CS&p_format=2&p_decsep=."
-    val QUARTERLY_REAL_GDP_2010_PRICES = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP?p_period=3&p_sort=2&p_des=3&p_sestuid=29930&p_uka=1&p_strid=ACL&p_lang=CS&p_format=2&p_decsep=."
+
+    final val ARAD_BASE_URL = "https://www.cnb.cz/cnb/STAT.ARADY_PKG.VYSTUP"
+
+    val NOMINAL_AVERAGE_QUARTERLY_SALARIES_URL = "$ARAD_BASE_URL?p_period=3&p_sort=2&p_des=50&p_sestuid=21737&p_uka=1&p_strid=ACFA"
+    val MONTHLY_UNEMPLOYMENT_URL = "$ARAD_BASE_URL?p_period=1&p_sort=2&p_des=50&p_sestuid=21751&p_uka=1&p_strid=ACHAB"
+    val QUARTERLY_REAL_GDP_2010_PRICES = "$ARAD_BASE_URL?p_period=3&p_sort=2&p_des=3&p_sestuid=29930&p_uka=1&p_strid=ACL"
 
     val DATE_QUERY = "date"
     val FROM_QUERY = "p_od"
     val TO_QUERY = "p_do"
+    val LANG_QUERY = "p_lang"
+    val FORMAT_QUERY = "p_format"
+    val DECIMAL_SEPARATOR_QUERY = "p_decsep"
 
     private val restTemplate: RestTemplate = restTemplateBuilder
             .additionalMessageConverters(
@@ -95,11 +102,18 @@ class CNBClient(restTemplateBuilder: RestTemplateBuilder) {
         return result.body?.list?.filter { it.isValid }
                 ?: throw IllegalStateException("Real gdp list is null but it shouldnt be!")
     }
-
+    
     private fun basicFromToCnbAradUriBuilder(url: String, from: LocalDate, to: LocalDate = LocalDate.now()): UriComponentsBuilder {
         return UriComponentsBuilder.fromHttpUrl(url)
+                .addBaseAradQueries()
                 .queryParam(FROM_QUERY, from.formatForCnbArad())
                 .queryParam(TO_QUERY, to.formatForCnbArad())
+    }
+    
+    fun UriComponentsBuilder.addBaseAradQueries() : UriComponentsBuilder {
+        return this.queryParam(LANG_QUERY, "CS")
+                .queryParam(FORMAT_QUERY, "2")
+                .queryParam(DECIMAL_SEPARATOR_QUERY, ".")
     }
 
 }

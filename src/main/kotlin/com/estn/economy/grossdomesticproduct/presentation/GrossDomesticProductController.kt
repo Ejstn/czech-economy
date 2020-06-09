@@ -3,6 +3,7 @@ package com.estn.economy.grossdomesticproduct.presentation
 import com.estn.economy.core.domain.OutputPercentageData
 import com.estn.economy.core.presentation.formatting.Percentage
 import com.estn.economy.core.presentation.formatting.QuarterAndYear
+import com.estn.economy.core.presentation.formatting.percentage
 import com.estn.economy.core.presentation.model.Gdp
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Routing
@@ -54,7 +55,8 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
                 Triple(
                         title,
                         QuarterAndYear(data.dataPoint.quarter, data.dataPoint.year),
-                        Percentage(data.value)))
+                        data.value.percentage)
+        )
     }
 
 

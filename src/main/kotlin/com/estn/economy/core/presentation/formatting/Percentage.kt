@@ -16,3 +16,9 @@ class PercentageConverter : Converter<Percentage, String> {
         return "${numberFormat.format(input.value)}%"
     }
 }
+
+val Float.percentage: Percentage
+    get() = Percentage(this.toDouble())
+
+val Double.percentage: Percentage
+    get() = Percentage(this)

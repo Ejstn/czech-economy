@@ -1,6 +1,7 @@
 package com.estn.economy.dashboard.presentation
 
 import com.estn.economy.core.domain.OutputPercentageData
+import com.estn.economy.core.presentation.formatting.*
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.dashboard.domain.*
 import com.estn.economy.inflation.data.InflationRateEntity
@@ -44,11 +45,11 @@ class DashboardControllerTest {
     val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
 
     val overview = EconomyOverview(exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
-            inflation = InflationOverview("Leden",
-                    InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
-            latestGdp = LatestGdp("I 2019", 2.6),
-            unemployment = UnemploymentOverview("Leden 2015", UnemploymentRateEntity(month = 1, year = 2015, unemploymentRatePercent = 5.0)),
-            averageSalary = SalaryEntity(quarter = 4, year = 2015, salaryCrowns = 28750))
+            inflation = Triple("Meziroční inflace",
+            MonthAndYear(3, 2015), Percentage(3.0)),
+            latestGdp = Triple("Reálný hdp", "hi", "hello"),
+            unemployment = Triple("Nezaměstnanost", MonthAndYear(5, 2015), 5.0.percentage),
+            averageSalary = Triple("Průmerná mzda", QuarterAndYear(3, 2019), 28795.czechCrowns))
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

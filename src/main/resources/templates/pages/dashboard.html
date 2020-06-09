@@ -21,47 +21,20 @@
         <div class="columns is-centered">
 
             <!-- gdp -->
-            <div class="column" th:object="${dashboard.overview.latestGdp}">
-
-                <div th:replace="fragments/components :: simpleBox(
-                'Reálný HDP',
-                *{title},
-                ${#numbers.formatDecimal(#object.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                </div>
-
+            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.latestGdp})">
             </div>
 
             <!-- inflation -->
-            <div class="column" th:object="${dashboard.overview.inflation}">
-
-                <div th:replace="fragments/components :: simpleBox(
-                'Meziroční inflace',
-                |*{month} *{inflation.year}|,
-                ${#numbers.formatDecimal(#object.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'} )">
-                </div>
-
+            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.inflation})">
             </div>
 
             <!-- unemployment -->
-            <div class="column" th:object="${dashboard.overview.unemployment}">
-
-                <div th:replace="fragments/components :: simpleBox(
-                'Nezaměstnanost',
-                *{month},
-                ${#numbers.formatDecimal(#object.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                </div>
-
+            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.unemployment})">
             </div>
 
             <!-- average salary -->
-            <div class="column" data-th-object="${dashboard.overview.averageSalary}">
-
-                <div th:replace="fragments/components :: simpleBox(
-                'Průměrná mzda',
-                |*{quarter}. čtvrtletí *{year}|,
-                |*{salaryCrowns} Kč| )">
-                </div>
-
+            <div class="column"
+                 th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.averageSalary})">
             </div>
 
         </div>

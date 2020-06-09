@@ -12,6 +12,14 @@
 
 </div>
 
+<div class="box has-text-centered" th:fragment="simpleBoxTriple(triple)">
+
+    <h1 class="title is-6" data-th-text="${{triple.first}}"></h1>
+    <h1 class="title is-6" data-th-text="${{triple.second}}"></h1>
+    <h1 class="title is-4" data-th-text="${{triple.third}}"></h1>
+
+</div>
+
 </body>
 
 </html>

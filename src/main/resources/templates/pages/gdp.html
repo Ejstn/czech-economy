@@ -23,35 +23,13 @@
 
                 <div class="columns" id="zaklad">
 
-                    <div class="column" data-th-object="${current}">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Aktuální HDP',
-                        *{first},
-                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
-                        </div>
-
+                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${current})">
                     </div>
 
-                    <div class="column" data-th-object="${lowest}">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Největší propad HDP',
-                        *{first},
-                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                        </div>
-
+                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${lowest})">
                     </div>
 
-
-                    <div class="column" data-th-object="${highest}">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Nejvyšší růst HDP',
-                        *{first},
-                        ${#numbers.formatDecimal(#object.second, 0, 'COMMA', 1, 'POINT')+ '%'})">
-                        </div>
-
+                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${highest})">
                     </div>
 
                 </div>

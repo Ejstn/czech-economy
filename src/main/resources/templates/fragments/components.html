@@ -12,6 +12,22 @@
 
 </div>
 
+<div class="box has-text-centered" th:fragment="simpleBoxTriple(triple)">
+
+    <h1 class="title is-6" data-th-text="${{triple.first}}"></h1>
+    <h1 class="title is-6" data-th-text="${{triple.second}}"></h1>
+    <h1 class="title is-4" data-th-text="${{triple.third}}"></h1>
+
+</div>
+
+<div data-th-id="${id}" th:remove="${#lists.isEmpty(items) ? all : none}" class="columns" th:fragment="horizontalBoxes(items, id)">
+
+    <div class="column" data-th-each="entry : ${items}">
+        <div th:replace=" :: simpleBoxTriple(${entry})"></div>
+    </div>
+
+</div>
+
 </body>
 
 </html>

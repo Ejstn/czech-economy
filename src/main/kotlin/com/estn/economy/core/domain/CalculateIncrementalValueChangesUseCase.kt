@@ -16,7 +16,7 @@ class CalculateIncrementalValueChangesUseCase {
                     OutputPercentageData(
                             order = second.order,
                             value = ((second.value.toDouble() / first.value) - 1) * 100,
-                            dataPoint =it.second.dataPoint)
+                            dataPoint = it.second.dataPoint)
                 }
 
     }

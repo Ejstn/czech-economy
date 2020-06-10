@@ -1,12 +1,15 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
+import com.estn.economy.core.domain.OutputPercentageData
+import com.estn.economy.core.presentation.formatting.QuarterAndYear
+import com.estn.economy.core.presentation.formatting.percentage
 import com.estn.economy.core.presentation.model.Gdp
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.core.presentation.utility.quarterToRoman
-import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductEntity
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType.REAL_2010_PRICES
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import org.springframework.stereotype.Controller
@@ -28,18 +31,29 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
                 .mapToPairs { Pair("${it.quarter.quarterToRoman()} ${it.year}", it.gdpMillionsCrowns) })
 
         val gdpChanges = fetchGdpUseCase.fetchPercentChangesPerQuarter(REAL_2010_PRICES)
-                .mapToPairs {
-                    Pair("${it.dataPoint.quarter.quarterToRoman()} ${it.dataPoint.year}", it.value)
-                }
+        model.addAttribute("realGdpChanges", gdpChanges.mapToPairs {
+            Pair("${it.dataPoint.quarter.quarterToRoman()} ${it.dataPoint.year}", it.value)
+        })
 
-        model.addAttribute("current", gdpChanges.last())
-        model.addAttribute("lowest", gdpChanges.minBy { it.second as Comparable<Any> })
-        model.addAttribute("highest", gdpChanges.maxBy { it.second as Comparable<Any> })
+        val current = gdpChanges.last()
+        val currentTriple = getTriple("Aktuální HDP", current)
 
-        model.addAttribute("realGdpChanges", gdpChanges)
+        val lowest = gdpChanges.minBy { it.value } ?: throw IllegalStateException("lowest cannot be null but it is !")
+        val lowestTriple = getTriple("Největší propad HDP", lowest)
 
+        val highest = gdpChanges.maxBy { it.value } ?: throw IllegalStateException("highest cannot be null but it is!")
+        val highestTriple = getTriple("Nejvyšší růst HDP", highest)
+
+        model.addAttribute("overviewItems", listOf(currentTriple, lowestTriple, highestTriple))
 
         return template
+    }
+
+    private fun getTriple(title: String, data: OutputPercentageData<GrossDomesticProductEntity>): Triple<*, *, *> {
+        return Triple(
+                title,
+                QuarterAndYear(data.dataPoint.quarter, data.dataPoint.year),
+                data.value.percentage)
     }
 
 

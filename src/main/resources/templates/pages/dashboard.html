@@ -18,89 +18,40 @@
 
         <h1 class="title is-4 is-centered">Základní přehled</h1>
 
-        <div class="columns is-centered">
-
-            <!-- gdp -->
-            <div class="column">
-
-                <div th:replace="fragments/components :: simpleBox('Reálný HDP',
-                ${dashboard.overview.latestGdp.title},
-                ${#numbers.formatDecimal(dashboard.overview.latestGdp.percentChange, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                </div>
-
-            </div>
-
-            <!-- inflation -->
-            <div class="column">
-
-                <div th:replace="fragments/components :: simpleBox('Meziroční inflace',
-                |${dashboard.overview.inflation.month} ${dashboard.overview.inflation.inflation.year}|,
-                ${#numbers.formatDecimal(dashboard.overview.inflation.inflation.valuePercent, 0, 'COMMA', 1, 'POINT') + '%'} )">
-                </div>
-
-
-            </div>
-
-            <!-- unemployment -->
-            <div class="column">
-
-                <div th:replace="fragments/components :: simpleBox('Nezaměstnanost',
-                ${dashboard.overview.unemployment.month},
-                ${#numbers.formatDecimal(dashboard.overview.unemployment.unemployment.unemploymentRatePercent, 0, 'COMMA', 1, 'POINT')+ '%'} )">
-                </div>
-
-            </div>
-
-            <!-- average salary -->
-            <div class="column">
-
-                <div th:replace="fragments/components :: simpleBox('Průměrná mzda',
-                |${dashboard.overview.averageSalary.quarter}. čtvrtletí ${dashboard.overview.averageSalary.year}|,
-                ${dashboard.overview.averageSalary.salaryCrowns} + ' Kč' )">
-                </div>
-
-            </div>
-
+        <!-- horizontal boxes -->
+        <div th:replace="fragments/components :: horizontalBoxes(${dashboard.overview.firstOverviewItems}, 'first_row')">
+        </div>
+        <div th:replace="fragments/components :: horizontalBoxes(${dashboard.overview.secondOverviewItems}, 'second_row')">
         </div>
 
-        <div class="columns is-centered">
 
-            <!-- exchange rate -->
-            <div class="column">
+        <!-- exchange rate -->
+        <div class="box">
 
-                <div class="box">
+            <h1 class="title is-6">Kurzy koruny pro <span
+                    data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
+            </h1>
 
-                    <h1 class="title is-6">Kurzy koruny pro <span data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
-                    </h1>
+            <table class="table is-hoverable is-striped is-fullwidth">
 
+                <thead class="title is-6">
+                <tr>
+                    <th>Kód</th>
+                    <th>Množsví</th>
+                    <th>Kurz</th>
+                </tr>
+                </thead>
 
-                    <table class="table is-hoverable is-striped is-fullwidth">
+                <tbody>
+                <tr id="clickableRow" data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
+                    <td>[[${entry.currencyCode}]]</td>
+                    <td>[[${entry.amount}]]</td>
+                    <td>[[${entry.exchangeRate}]] <a
+                            data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
+                </tr>
+                </tbody>
 
-                        <thead class="title is-6">
-                        <tr>
-                            <th>Kód</th>
-                            <th>Množsví</th>
-                            <th>Kurz</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <tr id="clickableRow" data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
-                            <td>[[${entry.currencyCode}]]</td>
-                            <td>[[${entry.amount}]]</td>
-                            <td>[[${entry.exchangeRate}]] <a
-                                    data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
-                        </tr>
-
-                        </tbody>
-
-
-                    </table>
-
-
-                </div>
-
-            </div>
+            </table>
 
         </div>
 
@@ -134,8 +85,7 @@
     'chart_public_debt',
     'Vývoj státního dluhu v běžných cenách',
     'Státní dluh',
-    ${dashboard.publicDebt}
-    )"></div>
+    ${dashboard.publicDebt})"></div>
 
 </section>
 

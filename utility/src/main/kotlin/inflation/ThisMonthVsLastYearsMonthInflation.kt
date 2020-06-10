@@ -1,15 +1,17 @@
+import inflation.InflationInsertGenerator
+
 fun main() {
+    ThisMonthVsLastYearsMonthInflation.generate()
+}
+
+object ThisMonthVsLastYearsMonthInflation {
 
     val startingYear = 1997
-
-    val result = StringBuilder()
-
     val type = "THIS_MONTH_VS_PREVIOUS_YEARS_MONTH"
 
-    result.append("DELETE FROM inflation_rate WHERE type = '$type'; \n")
-    result.append("INSERT INTO inflation_rate (month, year, type, value_percent) VALUES \n")
+    // https://www.czso.cz/csu/czso/mira_inflace druhý bod
 
-    val values = listOf(
+    val data = listOf(
             7.4, 7.3, 6.8, 6.7, 6.3, 6.8, 9.4, 9.9, 10.3, 10.2, 10.1, 10.0,
             13.1, 13.4, 13.4, 13.1, 13.0, 12.0, 10.4, 9.4, 8.8, 8.2, 7.5, 6.8,
             3.5, 2.8, 2.5, 2.5, 2.4, 2.2, 1.1, 1.4, 1.2, 1.4, 1.9, 2.5,
@@ -33,37 +35,9 @@ fun main() {
             2.2, 2.5, 2.6, 2.0, 2.4, 2.3, 2.5, 2.5, 2.7, 2.9, 2.6, 2.4,
             2.2, 1.8, 1.7, 1.9, 2.2, 2.6, 2.3, 2.5, 2.3, 2.2, 2.0, 2.0,
             2.5, 2.7, 3.0, 2.8, 2.9, 2.7, 2.9, 2.9, 2.7, 2.7, 3.1, 3.2,
-            3.6, 3.7, 3.4
+            3.6, 3.7, 3.4, 3.2, 2.9
     )
 
-    var currentYear = startingYear
-    var currentMonth = 1
-
-    print("\n\n\n")
-
-    values.forEachIndexed { index, value ->
-
-        result.append("($currentMonth, $currentYear, '$type',$value)")
-
-        if (values.lastIndex != index) {
-            result.append(",")
-        } else {
-            result.append(";")
-        }
-
-        result.append("\n")
-
-        currentMonth++
-
-        if (currentMonth >= 13) {
-            currentMonth = 1
-            currentYear++
-        }
-
-    }
-
-    println(result)
-
-    print("\n\n\n")
+    fun generate(): String = InflationInsertGenerator.generate(data, type, startingYear)
 
 }

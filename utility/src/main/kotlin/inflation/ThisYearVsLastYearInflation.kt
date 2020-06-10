@@ -1,18 +1,17 @@
 package inflation
 
-import java.io.File
-
 fun main() {
+    ThisYearVsLastYearInflation.generate()
+}
 
+object ThisYearVsLastYearInflation {
+
+    val type = "THIS_YEAR_VS_LAST_YEAR"
     val startingYear = 2000
 
-    var result = StringBuilder()
-    var type = "THIS_YEAR_VS_LAST_YEAR"
+    // https://www.czso.cz/csu/czso/mira_inflace první bod
 
-    result.append("DELETE from inflation_rate WHERE type = '$type'; \n")
-    result.append("INSERT INTO inflation_rate (month, year, type, value_percent) VALUES \n")
-
-    val values = listOf(
+    val data = listOf(
             2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.9, 3.1, 3.3, 3.6, 3.8, 3.9,
             4.0, 4.0, 4.0, 4.1, 4.2, 4.3, 4.5, 4.6, 4.7, 4.7, 4.7, 4.7,
             4.6, 4.6, 4.6, 4.5, 4.3, 3.9, 3.5, 3.1, 2.7, 2.4, 2.1, 1.8,
@@ -36,38 +35,7 @@ fun main() {
             2.9, 3.0, 3.1, 3.1, 3.1
     )
 
-    var currentYear = startingYear
-    var currentMonth = 1
-
-    print("\n\n\n")
-
-    values.forEachIndexed { index, value ->
-
-        result.append("($currentMonth, $currentYear, '$type',$value)")
-
-        if (values.lastIndex != index) {
-            result.append(",")
-        } else {
-            result.append(";")
-        }
-
-        result.append("\n")
-
-        currentMonth++
-
-        if (currentMonth >= 13) {
-            currentMonth = 1
-            currentYear++
-        }
-
-    }
-
-    File("../../src/main/resources/db/migration/result.sql").printWriter().use { out ->
-        out.write(result.toString())
-    }
-
-    println(result)
-
-    print("\n\n\n")
+    fun generate() = InflationInsertGenerator
+            .generate(data, type, startingYear)
 
 }

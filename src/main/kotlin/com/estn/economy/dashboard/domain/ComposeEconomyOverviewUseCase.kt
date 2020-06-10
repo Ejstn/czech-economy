@@ -8,6 +8,7 @@ import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductT
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.data.InflationRateRepository
 import com.estn.economy.inflation.data.InflationType
+import com.estn.economy.nationalbudget.domain.FetchNationalBudgetUseCase
 import com.estn.economy.salary.domain.FetchSalaryUseCase
 import com.estn.economy.unemploymentrate.data.database.UnemploymentRateRepository
 import org.springframework.cache.annotation.Cacheable
@@ -20,6 +21,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                                     private val unemploymentRepository: UnemploymentRateRepository,
                                     private val fetchGdp: FetchGrossDomesticProductUseCase,
                                     private val configuration: EconomyOverviewConfiguration,
+                                    private val fetchNationalBudget: FetchNationalBudgetUseCase,
                                     private val fetchSalaryUseCase: FetchSalaryUseCase) {
 
     @Cacheable("ComposeEconomyOverviewUseCase::execute")
@@ -31,14 +33,36 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 
         return EconomyOverview(
                 exchangeRate = ExchangeRatesOverview(date = ratesDate, rates = rates),
-                overviewItems = listOf(
+                firstOverviewItems = listOf(
                         getInflation(),
                         getGdp(),
-                        getUnemp(),
-                        getSalary()))
+                        getUnemp()),
+                secondOverviewItems = listOf(
+                        getSalary(),
+                        getPublicDebt(),
+                        getBudgetBalance())
+        )
     }
 
-    private fun getGdp(): Triple<String, QuarterAndYear, Percentage> {
+    private fun getBudgetBalance(): Triple<*, *, *> {
+        val budgetBalance = fetchNationalBudget.fetchCurrentBudgetBalance()
+        return Triple(
+                "Saldo rozpočtu",
+                budgetBalance.year,
+                budgetBalance.millionsCrowns.millionsCzechCrowns
+        )
+    }
+
+    private fun getPublicDebt(): Triple<*, *, *> {
+        val publicDebt = fetchNationalBudget.findCurrentPublicDebt()
+        return Triple(
+                "Státní dluh",
+                publicDebt.year,
+                publicDebt.millionsCrowns.millionsCzechCrowns
+        )
+    }
+
+    private fun getGdp(): Triple<*, *, *> {
         val latestGdp = fetchGdp.fetchPercentChangesPerQuarter(REAL_2010_PRICES).last()
         return Triple(
                 "Reálný HDP",
@@ -46,7 +70,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
                 latestGdp.value.percentage)
     }
 
-    private fun getSalary(): Triple<String, QuarterAndYear, CzechCrowns> {
+    private fun getSalary(): Triple<*, *, *> {
         val averageSalary = fetchSalaryUseCase.fetchLatest()
         return Triple(
                 "Průměrná mzda",
@@ -55,7 +79,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         )
     }
 
-    private fun getUnemp(): Triple<String, MonthAndYear, Percentage> {
+    private fun getUnemp(): Triple<*, *, *> {
         val unemployment = unemploymentRepository.findFirstByOrderByYearDescMonthDesc()
         return Triple(
                 "Nezaměstnanost",
@@ -64,7 +88,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
         )
     }
 
-    private fun getInflation(): Triple<String, MonthAndYear, Percentage> {
+    private fun getInflation(): Triple<*, *, *> {
         val inflation = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)
         return Triple(
                 "Meziroční inflace",
@@ -76,7 +100,8 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 }
 
 data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
-                           val overviewItems: List<Triple<*,*,*>>
+                           val firstOverviewItems: List<Triple<*, *, *>>,
+                           val secondOverviewItems: List<Triple<*, *, *>>
 )
 
 data class ExchangeRatesOverview(val date: LocalDate,

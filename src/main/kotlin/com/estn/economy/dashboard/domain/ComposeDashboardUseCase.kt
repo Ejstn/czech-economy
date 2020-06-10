@@ -2,6 +2,7 @@ package com.estn.economy.dashboard.domain
 
 import com.estn.economy.core.presentation.utility.mapToPairs
 import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType
+import com.estn.economy.grossdomesticproduct.data.database.GrossDomesticProductType.*
 import com.estn.economy.grossdomesticproduct.domain.FetchGrossDomesticProductUseCase
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.nationalbudget.data.PublicDebtRepository
@@ -25,7 +26,7 @@ class ComposeDashboardUseCase(private val fetchGdp: FetchGrossDomesticProductUse
         val inflation = fetchInflation.fetchAllYearlyInflationRates()
         val publicDebt = fetchNationalBudget.fetchPublicDebt()
         val overview = composeOverview.execute()
-        val gdp = fetchGdp.fetchPercentChangesPerYear(GrossDomesticProductType.REAL_2010_PRICES)
+        val gdp = fetchGdp.fetchPercentChangesPerYear(REAL_2010_PRICES)
 
         return EconomyDashboard(
                 overview = overview,

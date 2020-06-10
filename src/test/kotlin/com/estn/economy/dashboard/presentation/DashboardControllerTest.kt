@@ -43,7 +43,8 @@ class DashboardControllerTest {
 
     val overview = EconomyOverview(
             exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
-          overviewItems = listOf())
+            firstOverviewItems = listOf(),
+            secondOverviewItems = listOf())
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

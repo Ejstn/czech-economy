@@ -4,6 +4,7 @@ import com.estn.economy.exchangerate.domain.SynchronizeExchangeRateUseCase
 import com.estn.economy.grossdomesticproduct.domain.SynchronizeRealGrossDomesticProduct
 import com.estn.economy.salary.domain.SynchronizeSalaryUseCase
 import com.estn.economy.unemploymentrate.domain.SynchronizeUnemploymentRateUseCase
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

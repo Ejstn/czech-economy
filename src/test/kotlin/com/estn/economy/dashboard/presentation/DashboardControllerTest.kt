@@ -6,8 +6,6 @@ import com.estn.economy.dashboard.domain.*
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
 import com.estn.economy.nationalbudget.data.PublicDebtEntity
-import com.estn.economy.salary.data.database.SalaryEntity
-import com.estn.economy.unemploymentrate.data.database.UnemploymentRateEntity
 import com.estn.economy.unemploymentrate.domain.model.UnemploymentRatePerYearAvg
 import com.estn.economy.utility.exampleRate
 import com.estn.economy.utility.mockDashboard
@@ -43,12 +41,9 @@ class DashboardControllerTest {
 
     val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
 
-    val overview = EconomyOverview(exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
-            inflation = InflationOverview("Leden",
-                    InflationRateEntity(10, 2015, InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH, 5.0f)),
-            latestGdp = LatestGdp("I 2019", 2.6),
-            unemployment = UnemploymentOverview("Leden 2015", UnemploymentRateEntity(month = 1, year = 2015, unemploymentRatePercent = 5.0)),
-            averageSalary = SalaryEntity(quarter = 4, year = 2015, salaryCrowns = 28750))
+    val overview = EconomyOverview(
+            exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
+          overviewItems = listOf())
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

@@ -15,11 +15,11 @@ class FetchGrossDomesticProductUseCase(private val repository: GrossDomesticProd
                                        private val calculateChanges: CalculateIncrementalValueChangesUseCase) {
 
     @Cacheable("FetchGrossDomesticProductUseCase::fetchGdp")
-    fun fetchGdp(type: GrossDomesticProductType) = repository
+    fun fetchGdp(type: GrossDomesticProductType = GrossDomesticProductType.REAL_2010_PRICES) = repository
             .getAllByTypeEquals(type)
 
     @Cacheable("FetchGrossDomesticProductUseCase::fetchPercentChangesPerYear")
-    fun fetchPercentChangesPerYear(type: GrossDomesticProductType)
+    fun fetchPercentChangesPerYear(type: GrossDomesticProductType = GrossDomesticProductType.REAL_2010_PRICES)
             : List<OutputPercentageData<GrossDomesticProductByYear>> {
         return repository.getAllSummedByYearHavingAllFourQuarters(type)
                 .map { InputData(it.year.toLong(), it.gdpMillions, it) }
@@ -27,7 +27,7 @@ class FetchGrossDomesticProductUseCase(private val repository: GrossDomesticProd
     }
 
     @Cacheable("FetchGrossDomesticProductUseCase::fetchPercentChangesPerQuarter")
-    fun fetchPercentChangesPerQuarter(type: GrossDomesticProductType)
+    fun fetchPercentChangesPerQuarter(type: GrossDomesticProductType = GrossDomesticProductType.REAL_2010_PRICES)
             : List<OutputPercentageData<GrossDomesticProductEntity>> {
         return repository.getAllByTypeEquals(type)
                 .mapIndexed { index, gdp -> Pair(index, gdp) }

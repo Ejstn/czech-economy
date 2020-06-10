@@ -19,7 +19,7 @@
         <h1 class="title is-4 is-centered">Základní přehled</h1>
 
         <!-- horizontal boxes -->
-        <div th:replace="fragments/components :: horizontalBoxes(${dashboard.overview.firstRow}, 'first_row')">
+        <div th:replace="fragments/components :: horizontalBoxes(${dashboard.overview.overviewItems}, 'first_row')">
         </div>
 
         <!-- exchange rate -->

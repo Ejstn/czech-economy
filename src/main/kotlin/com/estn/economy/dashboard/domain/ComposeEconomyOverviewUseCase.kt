@@ -31,7 +31,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 
         return EconomyOverview(
                 exchangeRate = ExchangeRatesOverview(date = ratesDate, rates = rates),
-                firstRow = listOf(
+                overviewItems = listOf(
                         getInflation(),
                         getGdp(),
                         getUnemp(),
@@ -76,7 +76,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 }
 
 data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
-                           val firstRow: List<Triple<*,*,*>>
+                           val overviewItems: List<Triple<*,*,*>>
 )
 
 data class ExchangeRatesOverview(val date: LocalDate,

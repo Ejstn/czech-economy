@@ -21,16 +21,7 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
-                <div class="columns" id="zaklad">
-
-                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${current})">
-                    </div>
-
-                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${lowest})">
-                    </div>
-
-                    <div class="column" th:insert="fragments/components :: simpleBoxTriple(${highest})">
-                    </div>
+                <div th:replace="fragments/components :: horizontalBoxes(${overviewItems}, 'zaklad')">
 
                 </div>
 

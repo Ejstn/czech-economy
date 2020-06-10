@@ -31,10 +31,11 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 
         return EconomyOverview(
                 exchangeRate = ExchangeRatesOverview(date = ratesDate, rates = rates),
-                inflation = getInflation(),
-                latestGdp = getGdp(),
-                unemployment = getUnemp(),
-                averageSalary = getSalary())
+                firstRow = listOf(
+                        getInflation(),
+                        getGdp(),
+                        getUnemp(),
+                        getSalary()))
     }
 
     private fun getGdp(): Triple<String, QuarterAndYear, Percentage> {
@@ -75,10 +76,8 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
 }
 
 data class EconomyOverview(val exchangeRate: ExchangeRatesOverview,
-                           val inflation: Triple<*, *, *>,
-                           val latestGdp: Triple<Any, Any, Any>,
-                           val unemployment: Triple<*, *, *>,
-                           val averageSalary: Triple<*, *, *>)
+                           val firstRow: List<Triple<*,*,*>>
+)
 
 data class ExchangeRatesOverview(val date: LocalDate,
                                  val rates: Collection<ExchangeRate>)

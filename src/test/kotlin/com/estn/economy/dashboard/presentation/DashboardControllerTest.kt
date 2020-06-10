@@ -44,12 +44,9 @@ class DashboardControllerTest {
 
     val publicDebt = listOf(PublicDebtEntity(year = 2015, millionsCrowns = 1564654))
 
-    val overview = EconomyOverview(exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
-            inflation = Triple("Meziroční inflace",
-            MonthAndYear(3, 2015), Percentage(3.0)),
-            latestGdp = Triple("Reálný hdp", "hi", "hello"),
-            unemployment = Triple("Nezaměstnanost", MonthAndYear(5, 2015), 5.0.percentage),
-            averageSalary = Triple("Průmerná mzda", QuarterAndYear(3, 2019), 28795.czechCrowns))
+    val overview = EconomyOverview(
+            exchangeRate = ExchangeRatesOverview(LocalDate.now(), listOf(exampleRate)),
+          firstRow = listOf())
 
     val expectedDashboard = ComposeDashboardUseCase.EconomyDashboard(
             overview = overview,

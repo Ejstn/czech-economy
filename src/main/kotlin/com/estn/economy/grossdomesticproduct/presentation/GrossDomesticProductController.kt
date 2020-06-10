@@ -1,7 +1,6 @@
 package com.estn.economy.grossdomesticproduct.presentation
 
 import com.estn.economy.core.domain.OutputPercentageData
-import com.estn.economy.core.presentation.formatting.Percentage
 import com.estn.economy.core.presentation.formatting.QuarterAndYear
 import com.estn.economy.core.presentation.formatting.percentage
 import com.estn.economy.core.presentation.model.Gdp
@@ -37,26 +36,24 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
         })
 
         val current = gdpChanges.last()
-        model.addTriple("current", "Aktuální HDP", current)
+        val currentTriple = getTriple("Aktuální HDP", current)
 
         val lowest = gdpChanges.minBy { it.value } ?: throw IllegalStateException("lowest cannot be null but it is !")
-        model.addTriple("lowest", "Největší propad HDP", lowest)
+        val lowestTriple = getTriple("Největší propad HDP", lowest)
 
         val highest = gdpChanges.maxBy { it.value } ?: throw IllegalStateException("highest cannot be null but it is!")
-        model.addTriple("highest", "Nejvyšší růst HDP", highest)
+        val highestTriple = getTriple("Nejvyšší růst HDP", highest)
+
+        model.addAttribute("overviewItems", listOf(currentTriple, lowestTriple, highestTriple))
 
         return template
     }
 
-    private fun Model.addTriple(attributeName: String,
-                                title: String,
-                                data: OutputPercentageData<GrossDomesticProductEntity>) {
-        this.addAttribute(attributeName,
-                Triple(
-                        title,
-                        QuarterAndYear(data.dataPoint.quarter, data.dataPoint.year),
-                        data.value.percentage)
-        )
+    private fun getTriple(title: String, data: OutputPercentageData<GrossDomesticProductEntity>): Triple<*, *, *> {
+        return Triple(
+                title,
+                QuarterAndYear(data.dataPoint.quarter, data.dataPoint.year),
+                data.value.percentage)
     }
 
 

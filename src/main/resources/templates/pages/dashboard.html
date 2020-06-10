@@ -18,65 +18,37 @@
 
         <h1 class="title is-4 is-centered">Základní přehled</h1>
 
-        <div class="columns is-centered">
-
-            <!-- gdp -->
-            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.latestGdp})">
-            </div>
-
-            <!-- inflation -->
-            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.inflation})">
-            </div>
-
-            <!-- unemployment -->
-            <div class="column" th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.unemployment})">
-            </div>
-
-            <!-- average salary -->
-            <div class="column"
-                 th:insert="fragments/components :: simpleBoxTriple(${dashboard.overview.averageSalary})">
-            </div>
-
+        <!-- horizontal boxes -->
+        <div th:replace="fragments/components :: horizontalBoxes(${dashboard.overview.firstRow}, 'first_row')">
         </div>
 
-        <div class="columns is-centered">
+        <!-- exchange rate -->
+        <div class="box">
 
-            <!-- exchange rate -->
-            <div class="column">
+            <h1 class="title is-6">Kurzy koruny pro <span
+                    data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
+            </h1>
 
-                <div class="box">
+            <table class="table is-hoverable is-striped is-fullwidth">
 
-                    <h1 class="title is-6">Kurzy koruny pro <span
-                            data-th-text="${{dashboard.overview.exchangeRate.date}}"></span>
-                    </h1>
+                <thead class="title is-6">
+                <tr>
+                    <th>Kód</th>
+                    <th>Množsví</th>
+                    <th>Kurz</th>
+                </tr>
+                </thead>
 
-                    <table class="table is-hoverable is-striped is-fullwidth">
+                <tbody>
+                <tr id="clickableRow" data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
+                    <td>[[${entry.currencyCode}]]</td>
+                    <td>[[${entry.amount}]]</td>
+                    <td>[[${entry.exchangeRate}]] <a
+                            data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
+                </tr>
+                </tbody>
 
-                        <thead class="title is-6">
-                        <tr>
-                            <th>Kód</th>
-                            <th>Množsví</th>
-                            <th>Kurz</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <tr id="clickableRow" data-th-each="entry : ${dashboard.overview.exchangeRate.rates}">
-                            <td>[[${entry.currencyCode}]]</td>
-                            <td>[[${entry.amount}]]</td>
-                            <td>[[${entry.exchangeRate}]] <a
-                                    data-th-href="@{/kurzy/{path}(path=${entry.currencyCode})}"></a></td>
-                        </tr>
-
-                        </tbody>
-
-
-                    </table>
-
-
-                </div>
-
-            </div>
+            </table>
 
         </div>
 

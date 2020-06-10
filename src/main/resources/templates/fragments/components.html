@@ -20,6 +20,14 @@
 
 </div>
 
+<div data-th-id="${id}" class="columns" th:fragment="horizontalBoxes(items, id)">
+
+    <div class="column" data-th-each="entry : ${items}">
+        <div th:replace=" :: simpleBoxTriple(${entry})"></div>
+    </div>
+
+</div>
+
 </body>
 
 </html>

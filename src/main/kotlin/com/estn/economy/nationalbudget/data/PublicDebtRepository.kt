@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PublicDebtRepository : JpaRepository<PublicDebtEntity, Int> {
+
+    fun findFirstByOrderByYearDesc(): PublicDebtEntity
+
 }

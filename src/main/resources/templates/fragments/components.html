@@ -20,7 +20,7 @@
 
 </div>
 
-<div data-th-id="${id}" class="columns" th:fragment="horizontalBoxes(items, id)">
+<div data-th-id="${id}" th:remove="${#lists.isEmpty(items) ? all : none}" class="columns" th:fragment="horizontalBoxes(items, id)">
 
     <div class="column" data-th-each="entry : ${items}">
         <div th:replace=" :: simpleBoxTriple(${entry})"></div>

@@ -90,6 +90,7 @@ configure<com.google.cloud.tools.gradle.appengine.appyaml.AppEngineAppYamlExtens
 
 tasks {
     "asciidoctor"(org.asciidoctor.gradle.jvm.AsciidoctorTask::class) {
+        options(mapOf("doctype" to "book"))
         sourceDir(file("./src/main/asciidoc"))
         attributes(mutableMapOf("snippets" to File("${project.buildDir.path}/snippets")))
         setOutputDir(file("${project.buildDir.path}/resources/main/static/api/dokumentace"))

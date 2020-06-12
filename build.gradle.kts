@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
 
 buildscript {
     repositories {
@@ -29,7 +30,16 @@ plugins {
 apply(plugin = "com.google.cloud.tools.appengine")
 
 group = "com.estn"
-version = "0.0.1-SNAPSHOT"
+
+val majorVersion = 0
+val minorVersion = 0
+val patchVersion = 1
+val gitCommitSha = getGitHash()
+
+version = "$majorVersion.$minorVersion.$patchVersion.$gitCommitSha"
+
+println("current version: $version")
+
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -113,3 +123,12 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.findByName("test")?.finalizedBy("asciidoctor")
+
+fun getGitHash() : String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine ("git", "rev-parse", "--short", "HEAD")
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}

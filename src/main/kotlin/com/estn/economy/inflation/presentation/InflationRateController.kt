@@ -16,7 +16,7 @@ import java.time.Month
 
 @Controller
 @RequestMapping(Routing.INFLATION)
-class InflationController(private val fetchInflation: FetchInflationRateUseCase) {
+class InflationRateController(private val fetchInflation: FetchInflationRateUseCase) {
 
     val template = "pages/inflation"
 

@@ -10,7 +10,6 @@ import com.estn.economy.utility.breadcrumbs
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -20,8 +19,8 @@ import org.springframework.test.web.servlet.ResultMatcher.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@WebMvcTest(controllers = [InflationController::class])
-class InflationControllerTest {
+@WebMvcTest(controllers = [InflationRateController::class])
+class InflationRateControllerTest {
 
     @Autowired
     lateinit var mvc: MockMvc

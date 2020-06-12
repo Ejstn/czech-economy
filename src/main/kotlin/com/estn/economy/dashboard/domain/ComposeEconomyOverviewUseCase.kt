@@ -65,7 +65,7 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
     private fun getGdp(): Triple<*, *, *> {
         val latestGdp = fetchGdp.fetchPercentChangesPerQuarter(REAL_2010_PRICES).last()
         return Triple(
-                "Reálný HDP",
+                "HDP",
                 QuarterAndYear(latestGdp.dataPoint.quarter, latestGdp.dataPoint.year),
                 latestGdp.value.percentage)
     }

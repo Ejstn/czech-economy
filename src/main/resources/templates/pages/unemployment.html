@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head"></head>
 
-<body >
+<body>
 
 <!-- header -->
 <div th:replace="fragments/common :: header"></div>
@@ -22,41 +22,8 @@
             <div class="column is-10 is-12-mobile">
 
                 <!-- basic overview -->
-                <div class="columns" id="zaklad">
-
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Aktuální nezaměstnanost',
-                        ${{current.first}},
-                        |${current.second}%| )">
-                        </div>
-
-                    </div>
-
-
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Nejnižší nezaměstnanost',
-                        ${lowest.first},
-                        |${lowest.second}%| )">
-                        </div>
-
-                    </div>
-
-
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Nejvyšší nezaměstanost',
-                        ${highest.first},
-                        |${highest.second}%| )">
-                        </div>
-
-                    </div>
-
-
+                <div th:replace="fragments/components :: horizontalBoxes(
+                    ${unemployment.overview}, 'zaklad')">
                 </div>
 
                 <!--  quarterly inflation rates -->
@@ -64,8 +31,7 @@
                 'graf',
                 'Měsíční vývoj nezaměstnanosti v %',
                 'Nezaměstnanost',
-                ${unempGraph})"></div>
-
+                ${unemployment.graph})"></div>
 
             </div>
 

@@ -5,6 +5,7 @@ import com.estn.economy.core.presentation.model.Inflation
 import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.inflation.data.InflationRateEntity
 import com.estn.economy.inflation.data.InflationType
+import com.estn.economy.inflation.data.InflationType.*
 import com.estn.economy.inflation.domain.FetchInflationRateUseCase
 import com.estn.economy.utility.breadcrumbs
 import org.junit.jupiter.api.BeforeEach
@@ -31,15 +32,20 @@ class InflationRateControllerTest {
     val inflation = InflationRateEntity(
             month = 12,
             year = 2015,
-            type = InflationType.THIS_YEAR_VS_LAST_YEAR,
+            type = THIS_YEAR_VS_LAST_YEAR,
             valuePercent = 5.5f)
 
     @BeforeEach
     fun setUp() {
-        given(fetchInflation.fetchAllYearlyInflationRates()).willReturn(listOf(inflation))
 
-        given(fetchInflation.fetchAllInflationRatesByType(InflationType.THIS_MONTH_VS_PREVIOUS_MONTH))
-                .willReturn(listOf(inflation.copy(type = InflationType.THIS_MONTH_VS_PREVIOUS_MONTH)))
+        given(fetchInflation.fetchAllInflationRatesByType(THIS_MONTH_VS_PREVIOUS_MONTH))
+                .willReturn(listOf(inflation.copy(type = THIS_MONTH_VS_PREVIOUS_MONTH)))
+
+        given(fetchInflation.fetchAllInflationRatesByType(THIS_YEAR_VS_LAST_YEAR))
+                .willReturn(listOf(inflation.copy(type = THIS_YEAR_VS_LAST_YEAR)))
+
+        given(fetchInflation.fetchAllInflationRatesByType(THIS_MONTH_VS_PREVIOUS_YEARS_MONTH))
+                .willReturn(listOf(inflation.copy(type = THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)))
 
     }
 

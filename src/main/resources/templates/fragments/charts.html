@@ -5,12 +5,10 @@
 <body>
 
 <!-- year to millions crowns chart (ie gdp by year, public debt by year) -->
-<div th:fragment="yearToMillionsSimpleChart(chartname, title,  seriesName, data)">
-
-    <div data-th-id="${chartname}" class="container has-echart box echart"></div>
+<div th:fragment="valueToMillionsSimpleChart(chartname, title,  seriesName, data)"
+     data-th-id="${chartname}" class="container has-echart box echart">
 
     <script data-th-inline="javascript">
-
         var chartName = /*[[${chartname}]]*/ '';
         var seriesName = /*[[${seriesName}]]*/ '';
 
@@ -82,9 +80,8 @@
 </div>
 
 <!-- year to percentage chart (ie unemployment by year, inlflation by year) -->
-<div th:fragment="yearToPercentageSimpleChart(chartname, title,  seriesName, data)">
-
-    <div data-th-id="${chartname}" class="container has-echart box echart echart"></div>
+<div th:fragment="valueToPercentageSimpleChart(chartname, title,  seriesName, data)"
+     data-th-id="${chartname}" class="container has-echart box echart echart">
 
     <script data-th-inline="javascript">
 
@@ -154,14 +151,9 @@
 
         myChart.setOption(option);
 
-        window.onresize = function () {
-            myChart.resize();
-        };
-
     </script>
 
 </div>
-
 
 </body>
 

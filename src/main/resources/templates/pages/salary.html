@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head"></head>
+
+<body>
+
+<!-- header -->
+<div th:replace="fragments/common :: header"></div>
+
+<!-- content -->
+<section class="section">
+
+    <div class="container">
+
+        <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
+
+        <h1 class="title is-4 is-centered">České mzdy</h1>
+
+        <div class="columns">
+
+            <!-- content column -->
+            <div class="column is-10 is-12-mobile">
+
+                <!-- basic overview -->
+                <div th:replace="fragments/components :: horizontalBoxes(
+                    ${salary.overview}, 'zaklad')">
+                </div>
+
+                <!--  quarterly inflation rates -->
+                <div th:replace="fragments/charts :: valueToCrownsSimpleChart(
+                'graf',
+                'Průměrná nominální mzda',
+                'Mzda',
+                ${salary.graph})"></div>
+
+            </div>
+
+            <!-- menu column -->
+            <div class="column is-2 is-hidden-mobile">
+
+                <aside class="menu is-sticky has-top-padding box">
+                    <p class="menu-label"><a href="#">Mzdy</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zaklad">Základní údaje</a></li>
+                        <li><a href="#graf">Graf</a></li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- footer -->
+<div th:replace="fragments/common :: footer"></div>
+
+</body>
+</html>

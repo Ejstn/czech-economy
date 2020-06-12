@@ -89,9 +89,9 @@ class ComposeEconomyOverviewUseCase(private val exchangeRepository: ExchangeRate
     }
 
     private fun getInflation(): Triple<*, *, *> {
-        val inflation = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_MONTH_VS_PREVIOUS_YEARS_MONTH)
+        val inflation = inflationRepository.findFirstByTypeOrderByYearDescMonthDesc(InflationType.THIS_YEAR_VS_LAST_YEAR)
         return Triple(
-                "Meziroční inflace",
+                "Inflace",
                 MonthAndYear(inflation.month, inflation.year),
                 inflation.valuePercent.percentage
         )

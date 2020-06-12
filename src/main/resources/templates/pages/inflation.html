@@ -21,54 +21,80 @@
             <!-- content column -->
             <div class="column is-10 is-12-mobile">
 
-                <!-- basic overview -->
-                <div class="columns" id="zaklad">
+                <!-- average inflation 12 month average vs pervious 12 month average -->
+                <div>
 
-                    <div class="column">
+                    <h1 id="prumerna" class="title is-5">Průměrná inflace</h1>
 
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Aktuální inflace',
-                        ${{current.first}},
-                        |${current.second}%| )">
-                        </div>
+                    <p class="box">
+                        Průměrná inflace vyjadřuje procentní změnu průměrné cenové hladiny za 12 posledních měsíců proti
+                        průměru 12 předchozích měsíců.
+                    </p>
 
+                    <!-- basic overview -->
+                    <div th:replace="fragments/components :: horizontalBoxes(
+                    ${averageYearlyInflation.overview},
+                   'zaklad_prumerna')">
                     </div>
 
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Nejnižší inflace',
-                        ${lowest.first},
-                        |${lowest.second}%| )">
-                        </div>
-
-                    </div>
-
-                    <div class="column">
-
-                        <div th:replace="fragments/components :: simpleBox(
-                        'Nejvyšší inflace',
-                        ${highest.first},
-                        |${highest.second}%| )">
-                        </div>
-
-                    </div>
+                    <!--  this 12 months vs last 12 months inflation -->
+                    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                   'this_vs_last_year_inflation',
+                   'Meziroční vývoj inflace v %',
+                   'Inflace',
+                  ${averageYearlyInflation.graph})"></div>
 
                 </div>
 
-                <!--  this 12 months vs last 12 months inflation -->
-                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
-                'this_vs_last_year_inflation',
-                'Meziroční vývoj inflace v %',
-                'Inflace',
-                ${yearlyInflation})"></div>
+                <!-- this months vs prev years month inflation -->
+                <div>
 
-                <!--  month vs previous month inflation rates -->
-                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
-                'month_vs_month_inflation',
-                'Meziměsíční vývoj inflace v %',
-                'Inflace',
-                ${monthlyInflation})"></div>
+                    <h1 id="mezirocni" class="title is-5">Meziroční inflace</h1>
+
+                    <p class="box">
+                        Meziroční inflace vyjadřuje procentní změnu cenové hladiny ve vykazovaném měsíci
+                        daného roku proti stejnému měsíci předchozího roku.
+                    </p>
+
+                    <div th:replace="fragments/components :: horizontalBoxes(
+                    ${thisMonthVsPrevYearsMonthsInflation.overview},
+                    'zaklad_mezirocni')">
+                    </div>
+
+                    <!--  month vs previous month inflation rates -->
+                    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                    'month_vs_prev_years_month',
+                    'Meziměsíční vývoj inflace v %',
+                    'Inflace',
+                    ${thisMonthVsPrevYearsMonthsInflation.graph})"></div>
+
+                </div>
+
+                <!-- monthly inflation - month vs previous month -->
+                <div>
+
+                    <h1 id="mezimesicni" class="title is-5">Meziměsíční inflace</h1>
+
+                    <p class="box">
+                        Meziměsíční inflace vyjadřuje procentní změnu cenové hladiny sledovaného měsíce proti
+                        předchozímu
+                        měsíci.
+                    </p>
+
+                    <div th:replace="fragments/components :: horizontalBoxes(
+                   ${monthlyInflation.overview},
+                      'zaklad_mezimesicni')">
+                    </div>
+
+                    <!--  month vs previous month inflation rates -->
+                    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                    'month_vs_month_inflation',
+                    'Meziměsíční vývoj inflace v %',
+                    'Inflace',
+                    ${monthlyInflation.graph})"></div>
+
+                </div>
+
 
             </div>
 
@@ -77,10 +103,20 @@
 
                 <aside class="menu is-sticky has-top-padding box">
                     <p class="menu-label"><a href="#">Inflace Čr</a></p>
+                    <p class="menu-label"><a href="#prumerna">Průměrná inflace</a></p>
                     <ul class="menu-list">
-                        <li><a href="#zaklad">Základní údaje</a></li>
-                        <li><a href="#this_vs_last_year_inflation">Meziroční</a></li>
-                        <li><a href="#month_vs_month_inflation">Meziměsíční</a></li>
+                        <li><a href="#zaklad_prumerna">Základní údaje</a></li>
+                        <li><a href="#this_vs_last_year_inflation">Graf</a></li>
+                    </ul>
+                    <p class="menu-label"><a href="#mezirocni">Meziroční inflace</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zaklad_mezirocni">Základní údaje</a></li>
+                        <li><a href="#month_vs_prev_years_month">Graf</a></li>
+                    </ul>
+                    <p class="menu-label"><a href="#mezimesicni">Meziměsíční inflace</a></p>
+                    <ul class="menu-list">
+                        <li><a href="#zaklad_mezimesicni">Základní údaje</a></li>
+                        <li><a href="#month_vs_month_inflation">Graf</a></li>
                     </ul>
 
                 </aside>

@@ -10,7 +10,7 @@ data class Percentage (val value: Double)
 @Component
 class PercentageConverter : Converter<Percentage, String> {
 
-    val numberFormat: NumberFormat = DecimalFormat(".0")
+    private val numberFormat: NumberFormat = DecimalFormat("0.#")
 
     override fun convert(input: Percentage): String? {
         return "${numberFormat.format(input.value)}%"

@@ -89,9 +89,10 @@ dependencies {
 }
 
 configure<com.google.cloud.tools.gradle.appengine.appyaml.AppEngineAppYamlExtension> {
+    val version = project.version.toString()
     deploy {
         projectId = "GCLOUD_CONFIG"
-        version = version
+        setVersion(version)
     }
 }
 

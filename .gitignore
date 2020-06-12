@@ -4,6 +4,11 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+# Gradle #
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
 ### STS ###
 .apt_generated
 .classpath

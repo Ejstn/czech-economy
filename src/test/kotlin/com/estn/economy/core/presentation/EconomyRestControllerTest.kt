@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @WebMvcTest(controllers = [EconomyRestController::class])
-@AutoConfigureRestDocs(outputDir = "target/snippets", uriHost = "ekonastenka.cz", uriScheme = "https", uriPort = 443)
+@AutoConfigureRestDocs(outputDir = "build/snippets", uriHost = "ekonastenka.cz", uriScheme = "https", uriPort = 443)
 class EconomyRestControllerTest {
 
     @Autowired

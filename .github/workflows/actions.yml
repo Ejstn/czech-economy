@@ -26,11 +26,11 @@ jobs:
           mysql user: 'root'
           mysql password: 'password'
 
-      - name: add rights to mvnw
-        run: chmod +x ./mvnw
+      - name: add rights to gradlew
+        run: chmod +x ./gradlew
 
       - name: unit test
-        run: ./mvnw clean && ./mvnw test
+        run: ./gradlew clean && ./gradlew test
 
   test-and-deploy:
     if: github.ref == 'refs/heads/master'
@@ -104,11 +104,11 @@ jobs:
           mysql user: 'root'
           mysql password: 'password'
 
-      - name: add rights to mvnw
-        run: chmod +x mvnw
+      - name: add rights to gradlew
+        run: chmod +x gradlew
 
       - name: package
-        run: ./mvnw clean package
+        run: ./gradlew clean && ./gradlew build
 
       - name: deploy
-        run: ./mvnw appengine:deploy
+        run: ./gradlew appengineDeploy

@@ -10,10 +10,7 @@ buildscript {
     }
 }
 
-repositories {   // repositories for Jar's you access in your code
-//    maven {
-//        url = "https://oss.sonatype.org/content/repositories/snapshots" // SNAPSHOT repository (if needed)
-//    }
+repositories {
     mavenCentral()
     jcenter()
 }
@@ -21,7 +18,7 @@ repositories {   // repositories for Jar's you access in your code
 extra["springCloudVersion"] = "Hoxton.SR5"
 
 plugins {
-    id("org.springframework.boot") version "2.3.0.RELEASE"
+    id("org.springframework.boot") version "2.3.1.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"

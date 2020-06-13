@@ -14,7 +14,9 @@
 
         <div th:replace="fragments/breadcrumb :: breadCrumbs(${breadcrumbs})"></div>
 
-        <h1 class="title is-4 is-centered">Nezaměstnanost Česka</h1>
+        <h1 class="title is-4 is-centered">České mzdy</h1>
+
+        <h1 id="nominalni" class="title is-5 is-centered">Nominální mzdy</h1>
 
         <div class="columns">
 
@@ -23,15 +25,15 @@
 
                 <!-- basic overview -->
                 <div th:replace="fragments/components :: horizontalBoxes(
-                    ${unemployment.overview}, 'zaklad')">
+                    ${salary.overview}, 'zaklad')">
                 </div>
 
                 <!--  quarterly inflation rates -->
-                <div th:replace="fragments/charts :: valueToPercentageSimpleChart(
+                <div th:replace="fragments/charts :: valueToCrownsSimpleChart(
                 'graf',
-                'Měsíční vývoj nezaměstnanosti v %',
-                'Nezaměstnanost',
-                ${unemployment.graph})"></div>
+                'Průměrná nominální mzda',
+                'Mzda',
+                ${salary.graph})"></div>
 
             </div>
 
@@ -39,10 +41,11 @@
             <div class="column is-2 is-hidden-mobile">
 
                 <aside class="menu is-sticky has-top-padding box">
-                    <p class="menu-label"><a href="#">Nezaměstanost ČR</a></p>
+                    <p class="menu-label"><a href="#">Mzdy</a></p>
+                    <p class="menu-label"><a href="#nominalni">Nominální mzdy</a></p>
                     <ul class="menu-list">
                         <li><a href="#zaklad">Základní údaje</a></li>
-                        <li><a href="#graf">Měsíční graf</a></li>
+                        <li><a href="#graf">Graf</a></li>
                     </ul>
 
                 </aside>

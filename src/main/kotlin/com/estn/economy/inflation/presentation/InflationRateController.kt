@@ -6,6 +6,7 @@ import com.estn.economy.core.presentation.formatting.Percentage
 import com.estn.economy.core.presentation.formatting.percentage
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Inflation
+import com.estn.economy.core.presentation.model.OverviewAndGraph
 import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import com.estn.economy.core.presentation.utility.mapToPairs
@@ -56,13 +57,11 @@ class InflationRateController(private val fetchInflation: FetchInflationRateUseC
         )
     }
 
-    private fun triple(title: String, highestMonthly: InflationRateEntity): Triple<String, MonthAndYear, Percentage> {
+    private fun triple(title: String, inflationRate: InflationRateEntity): Triple<*, *, *> {
         return Triple(title,
-                MonthAndYear(highestMonthly.month, highestMonthly.year),
-                highestMonthly.valuePercent.percentage
+                MonthAndYear(inflationRate.month, inflationRate.year),
+                inflationRate.valuePercent.percentage
         )
     }
 
-    data class OverviewAndGraph(val overview: List<Triple<*, *, *>>,
-                                val graph: List<Pair<*, *>>)
 }

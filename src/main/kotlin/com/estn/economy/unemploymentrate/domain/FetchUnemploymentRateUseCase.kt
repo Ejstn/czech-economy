@@ -10,7 +10,7 @@ class FetchUnemploymentRateUseCase(private val repository: UnemploymentRateRepos
     @Cacheable("FetchUnemploymentRateUseCase::fetchAllUnempRatesAveragedByYear")
     fun fetchAllUnempRatesAveragedByYear() = repository.getAllYearlyAveragedUnemploymentRates()
 
-    @Cacheable("FetchUnemploymentRateUseCase::fetchAllQuarteryUnempRates")
-    fun fetchAllQuarteryUnempRates() = repository.findAll()
+    @Cacheable("FetchUnemploymentRateUseCase::fetchAllMonthlyUnempRates")
+    fun fetchAllMonthlyUnempRates() = repository.findAll()
 
 }

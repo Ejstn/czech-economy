@@ -17,4 +17,6 @@ object Unemployment : BreadcrumbItem("Nezaměstnanost", Routing.EXCHANGE_RATE)
 
 object NationalBudget : BreadcrumbItem("Státní rozpočet", Routing.NATIONAL_BUDGET)
 
+object Salary : BreadcrumbItem("Mzdy", Routing.SALARY)
+
 object About : BreadcrumbItem("O aplikaci", Routing.ABOUT)

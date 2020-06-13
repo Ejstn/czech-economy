@@ -9,31 +9,13 @@
      data-th-id="${chartname}" class="container has-echart box echart">
 
     <script data-th-inline="javascript">
-        var chartName = /*[[${chartname}]]*/ '';
+        var chartContainerId = /*[[${chartname}]]*/ '';
         var seriesName = /*[[${seriesName}]]*/ '';
-
-        var myChart = echarts.init(document.getElementById(chartName), 'dark');
 
         var data = /*[[${data}]]*/ {};
         var title = /*[[${title}]]*/ '';
 
-        option = {
-            tooltip: {},
-            title: {
-                text: title,
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '3%',
-                bottom: '3%',
-                containLabel: true
-            },
+        buildFromBasicOptions(chartContainerId, title, {
             xAxis: {
                 data: data.map(function (it) {
                     return it.first;
@@ -47,33 +29,16 @@
                     }
                 },
             },
-            dataZoom: [{
-                type: 'inside',
-                start: 0,
-                end: 100
-            },],
-            series: [
-                {
-                    name: seriesName,
-                    type: 'line',
-                    sampling: 'average',
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#5e92f3'
-                        }, {
-                            offset: 1,
-                            color: '#003c8f'
-                        }])
-                    },
-                    data: data.map(function (it) {
-                        return Math.round(it.second / 1000);
-                    })
-                }
-            ]
-        };
-
-        myChart.setOption(option);
+            series: [{
+                name: seriesName,
+                type: 'line',
+                sampling: 'average',
+                areaStyle: getAreaGradientStyle(),
+                data: data.map(function (it) {
+                    return Math.round(it.second / 1000);
+                })
+            }]
+        })
 
     </script>
 
@@ -84,31 +49,12 @@
      data-th-id="${chartname}" class="container has-echart box echart">
 
     <script data-th-inline="javascript">
-        var chartName = /*[[${chartname}]]*/ '';
+        var chartContainerId = /*[[${chartname}]]*/ '';
         var seriesName = /*[[${seriesName}]]*/ '';
-
-        var myChart = echarts.init(document.getElementById(chartName), 'dark');
-
         var data = /*[[${data}]]*/ {};
         var title = /*[[${title}]]*/ '';
 
-        option = {
-            tooltip: {},
-            title: {
-                text: title,
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '3%',
-                bottom: '3%',
-                containLabel: true
-            },
+        buildFromBasicOptions(chartContainerId, title, {
             xAxis: {
                 data: data.map(function (it) {
                     return it.first;
@@ -122,34 +68,16 @@
                     }
                 },
             },
-            dataZoom: [{
-                type: 'inside',
-                start: 0,
-                end: 100
-            },],
-            series: [
-                {
-                    name: seriesName,
-                    type: 'line',
-                    sampling: 'average',
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#5e92f3'
-                        }, {
-                            offset: 1,
-                            color: '#003c8f'
-                        }])
-                    },
-                    data: data.map(function (it) {
-                        return Math.round(it.second);
-                    })
-                }
-            ]
-        };
-
-        myChart.setOption(option);
-
+            series: [{
+                name: seriesName,
+                type: 'line',
+                sampling: 'average',
+                areaStyle: getAreaGradientStyle(),
+                data: data.map(function (it) {
+                    return Math.round(it.second);
+                })
+            }]
+        })
     </script>
 
 </div>
@@ -159,37 +87,12 @@
      data-th-id="${chartname}" class="container has-echart box echart echart">
 
     <script data-th-inline="javascript">
-
-        var chartName = /*[[${chartname}]]*/ '';
+        var chartContainerId = /*[[${chartname}]]*/ '';
         var seriesName = /*[[${seriesName}]]*/ '';
-
-        var myChart = echarts.init(document.getElementById(chartName), 'dark');
-
         var data = /*[[${data}]]*/ {};
         var title = /*[[${title}]]*/ '';
 
-        option = {
-            tooltip: {},
-            title: {
-                text: title,
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                data: data.map(function (it) {
-                    return it.first;
-                })
-            },
-            grid: {
-                left: '3%',
-                right: '3%',
-                bottom: '3%',
-                containLabel: true
-            },
+        buildFromBasicOptions(chartContainerId, title, {
             yAxis: {
                 type: 'value',
                 axisLabel: {
@@ -198,33 +101,21 @@
                     }
                 },
             },
-            dataZoom: [{
-                type: 'inside',
-                start: 0,
-                end: 100
-            },],
-            series: [
-                {
-                    name: seriesName,
-                    type: 'line',
-                    sampling: 'average',
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#5e92f3'
-                        }, {
-                            offset: 1,
-                            color: '#003c8f'
-                        }])
-                    },
-                    data: data.map(function (it) {
-                        return it.second.toFixed(1);
-                    })
-                }
-            ]
-        };
-
-        myChart.setOption(option);
+            xAxis: {
+                data: data.map(function (it) {
+                    return it.first;
+                })
+            },
+            series: [{
+                name: seriesName,
+                type: 'line',
+                sampling: 'average',
+                areaStyle: getAreaGradientStyle(),
+                data: data.map(function (it) {
+                    return it.second.toFixed(1);
+                })
+            }]
+        })
 
     </script>
 

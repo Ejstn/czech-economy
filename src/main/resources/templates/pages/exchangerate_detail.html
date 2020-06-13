@@ -64,9 +64,6 @@
                 <!-- chart -->
                 <div class="container has-echart box echart" id="graf"></div>
                 <script data-th-inline="javascript">
-
-                    var myChart = echarts.init(document.getElementById('graf'), 'dark');
-
                     var rates = /*[[${rates}]]*/ {};
                     var currencyCode =  /*[[${currencyCode}]]*/ {};
                     var czechCurrencyCode = "CZK";
@@ -74,17 +71,9 @@
                     var title = "Kurz ".concat(currencyAmount.toString(), " ", currencyCode, "/", czechCurrencyCode);
                     var tooltipText = currencyCode.concat("/", czechCurrencyCode);
 
-                    option = {
-                        tooltip: {},
-                        title: {
-                            text: title,
-                        },
-                        toolbox: {
-                            feature: {
-                                restore: {},
-                                saveAsImage: {}
-                            }
-                        },
+                    buildFromBasicOptions('graf', title, {
+                        grid: getGridWithoutBottom(),
+                        dataZoom: getDataZoomWithScrubber(),
                         xAxis: {
                             data: rates.map(function (rate) {
                                 return moment(rate.date, 'YYYY-MM-DD').format("D.M.YYYY");
@@ -94,34 +83,17 @@
                             type: 'value',
                             name: 'Kurz',
                         },
-                        dataZoom: [{
-                            type: 'inside',
-                            start: 0,
-                            end: 100
-                        }, {}
-                        ],
-                        series: [
-                            {
-                                name: tooltipText,
-                                type: 'line',
-                                sampling: 'average',
-                                areaStyle: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: '#5e92f3'
-                                    }, {
-                                        offset: 1,
-                                        color: '#003c8f'
-                                    }])
-                                },
-                                data: rates.map(function (rate) {
-                                    return rate.exchangeRate;
-                                })
-                            }
-                        ]
-                    };
+                        series: [{
+                            name: tooltipText,
+                            type: 'line',
+                            sampling: 'average',
+                            areaStyle: getAreaGradientStyle(),
+                            data: rates.map(function (rate) {
+                                return rate.exchangeRate;
+                            })
+                        }]
+                    })
 
-                    myChart.setOption(option);
                 </script>
 
             </div>

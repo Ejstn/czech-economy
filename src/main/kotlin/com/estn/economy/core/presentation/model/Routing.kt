@@ -13,5 +13,8 @@ object Routing {
     const val ABOUT = "/o-aplikaci"
 
 
+    fun collectAll() =
+        listOf(DASHBOARD, INFLATION, EXCHANGE_RATE, GDP, UNEMPLOYMENT, NATIONAL_BUDGET, SALARY, ABOUT)
+
 
 }

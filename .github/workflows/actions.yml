@@ -29,9 +29,6 @@ jobs:
       - name: add rights to gradlew
         run: chmod +x ./gradlew
 
-      - name: echo CI variable
-        run: echo "$CI"
-
       - name: unit test
         run: ./gradlew clean && ./gradlew test --info
 

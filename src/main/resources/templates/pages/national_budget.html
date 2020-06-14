@@ -62,7 +62,7 @@
                 </div>
 
                 <!-- public debt -->
-                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                <div th:replace="fragments/charts :: valueToMillionsSimpleChart(
                 'graf_statni_dluh',
                 'Vývoj státního dluhu v běžných cenách',
                 'Státní dluh',
@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- budget balance -->
-                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                <div th:replace="fragments/charts :: valueToMillionsSimpleChart(
                 'graf_saldo_rozpoctu',
                 'Saldo rozpočku v běžných cenách',
                 'Saldo rozpočtu',

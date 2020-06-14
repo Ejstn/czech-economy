@@ -30,7 +30,7 @@ class UnemploymentControllerTest {
 
     @BeforeEach
     fun setUp() {
-        given(fetchUnemp.fetchAllQuarteryUnempRates())
+        given(fetchUnemp.fetchAllMonthlyUnempRates())
                 .willReturn(quarterlyUnemployment)
     }
 

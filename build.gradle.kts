@@ -77,7 +77,7 @@ dependencies {
     // config
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     // frontend
-    implementation("org.webjars:echarts:4.7.0")
+    implementation("org.webjars:echarts:4.8.0")
     implementation("org.webjars:momentjs:2.24.0")
     runtimeOnly("org.webjars:font-awesome:5.12.0")
     runtimeOnly("org.webjars:jquery:3.5.1")

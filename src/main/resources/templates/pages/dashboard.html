@@ -60,28 +60,28 @@
     <br>
 
     <!-- real gdp 2010 prices -->
-    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    <div th:replace="fragments/charts :: valueToPercentageSimpleChart(
     'chart_real_gdp',
     'Vývoj reálného HDP v %',
     'HDP',
     ${dashboard.realGdp2010PricesPercentChange})"></div>
 
     <!-- unemployment -->
-    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    <div th:replace="fragments/charts :: valueToPercentageSimpleChart(
     'chart_unemployment',
     'Nezaměstnanost v %',
     'Nezaměstnanost',
     ${dashboard.yearlyUnempRates})"></div>
 
     <!-- inflation -->
-    <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+    <div th:replace="fragments/charts :: valueToPercentageSimpleChart(
     'chart_inflation',
     'Meziroční vývoj inflace v %',
     'Inflace',
     ${dashboard.yearlyInflationRates})"></div>
 
     <!-- public debt -->
-    <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+    <div th:replace="fragments/charts :: valueToMillionsSimpleChart(
     'chart_public_debt',
     'Vývoj státního dluhu v běžných cenách',
     'Státní dluh',

@@ -26,21 +26,20 @@
                 </div>
 
                 <!-- real gdp 2010 prices -->
-                <div th:replace="fragments/charts :: yearToMillionsSimpleChart(
+                <div th:replace="fragments/charts :: valueToMillionsSimpleChart(
                 'real_gdp_container',
                 'Reálný HDP v cenách roku 2010',
                 'HDP',
                 ${realGdp2010Prices})"></div>
 
                 <!--  real gdp 2010 % changes -->
-                <div th:replace="fragments/charts :: yearToPercentageSimpleChart(
+                <div th:replace="fragments/charts :: valueToPercentageSimpleChart(
                 'real_gdp_container_changes',
                 'Vývoj reálného HDP v cenách roku 2010',
                 'Změna HDP',
                 ${realGdpChanges})"></div>
 
                 <br>
-
 
             </div>
 

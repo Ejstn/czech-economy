@@ -23,34 +23,25 @@
 
                 <div class="box container">
 
-                    <ul id="zdroje_dat">
-                        <li>
-                            Kurzy: <a target="_blank" rel="noopener noreferrer"
-                                      href="https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/">ČNB</a>
-                        </li>
+                    <table class="table is-hoverable is-striped is-fullwidth">
 
-                        <li>
-                            HDP: <a target="_blank" rel="noopener noreferrer"
-                                    href="https://www.czso.cz/csu/czso/hdp_narodni_ucty">ČSÚ</a>
-                        </li>
+                        <thead class="title is-6">
+                        <tr>
+                            <th>Data</th>
+                            <th>Zdroj</th>
+                        </tr>
+                        </thead>
 
+                        <tbody>
+                        <tr data-th-each="entry : ${dataSources}">
+                            <td>[[${entry.dataPointName}]]</td>
+                            <td><a target="_blank" rel="noopener noreferrer"
+                                   data-th-href="${entry.url}">
+                                [[${entry.sourceName}]] </a></td>
+                        </tr>
+                        </tbody>
 
-                        <li>
-                            Míra nezaměstnanosti: <a target="_blank" rel="noopener noreferrer"
-                                                     href="https://vdb.czso.cz/vdbvo2/faces/cs/index.jsf?page=vystup-objekt&z=T&f=TABULKA&skupId=426&katalog=30853&pvo=ZAM01-C&pvo=ZAM01-C&u=v413__VUZEMI__97__19#w=">ČSÚ</a>
-                        </li>
-
-                        <li>
-                            Inflace: <a target="_blank" rel="noopener noreferrer"
-                                        href="https://www.czso.cz/csu/czso/mira_inflace">ČSÚ</a>
-                        </li>
-
-                        <li>
-                            Státní dluh: <a target="_blank" rel="noopener noreferrer"
-                                            href="https://www.czso.cz/csu/czso/hmu_cr">ČSÚ</a>
-                        </li>
-
-                    </ul>
+                    </table>
 
                 </div>
 

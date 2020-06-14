@@ -10,7 +10,7 @@ data class QuarterAndYear(val quarter: Int,
 @Component
 class QuarterAndYearConverter : Converter<QuarterAndYear, String> {
 
-    override fun convert(input: QuarterAndYear): String? {
+    override fun convert(input: QuarterAndYear): String {
         return "${input.quarter.quarterToRoman()} ${input.year}"
     }
 

@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootTest
 @TestProfile
-@DisabledIf(expression = "#{systemProperties['CI']}")
+@DisabledIf(expression = "#{systemProperties['CI'] == 'true'}")
 class EconomyApplicationEndpointsIntegrationTest {
 
     @Autowired

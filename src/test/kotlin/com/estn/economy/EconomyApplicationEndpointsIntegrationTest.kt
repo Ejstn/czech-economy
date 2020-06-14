@@ -4,6 +4,7 @@ import com.estn.economy.core.presentation.model.Routing
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -17,7 +18,7 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootTest
 @TestProfile
-@DisabledIf(expression = "#{systemProperties['CI'] == 'true'}")
+@DisabledIf(expression = "#{systemProperties['CI'] == true}")
 class EconomyApplicationEndpointsIntegrationTest {
 
     @Autowired

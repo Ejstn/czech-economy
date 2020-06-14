@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,7 +19,7 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootTest
 @TestProfile
-@DisabledIf(expression = "#{systemProperties['CI'] == true}")
+@DisabledIfEnvironmentVariable(named = "CI", matches = "true")
 class EconomyApplicationEndpointsIntegrationTest {
 
     @Autowired

@@ -34,14 +34,10 @@ class EconomyApplicationIntegrationTest {
         // given
         // when
         // then
-        `test endpoint returns 200`(Routing.DASHBOARD)
-        `test endpoint returns 200`(Routing.GDP)
-        `test endpoint returns 200`(Routing.INFLATION)
-        `test endpoint returns 200`(Routing.UNEMPLOYMENT)
-        `test endpoint returns 200`(Routing.NATIONAL_BUDGET)
-        `test endpoint returns 200`(Routing.SALARY)
-        `test endpoint returns 200`(Routing.EXCHANGE_RATE)
-        `test endpoint returns 200`(Routing.ABOUT)
+        Routing.collectAll()
+                .forEach {
+                    `test endpoint returns 200`(it)
+                }
     }
 
     private fun `test endpoint returns 200`(endpoint: String) {

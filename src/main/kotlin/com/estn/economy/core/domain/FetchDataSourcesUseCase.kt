@@ -1,11 +1,13 @@
 package com.estn.economy.core.domain
 
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
 class FetchDataSourcesUseCase {
 
-    fun execute() : List<DataSource> {
+    @Cacheable("FetchDataSourcesUseCase::execute")
+    fun execute(): List<DataSource> {
         return listOf(
                 RealGdp,
                 Inflation,
@@ -54,13 +56,13 @@ object BudgetBalance : DataSource(
         "https://www.czso.cz/documents/10180/123502863/chmucr040120.xlsx/d8083bc3-fe32-47ff-a389-8e156439d320?version=1.1"
 )
 
-object Salary: DataSource (
+object Salary : DataSource(
         "nominální průmerné mzdy",
         cnb,
         "https://www.cnb.cz/cnb/STAT.ARADY_PKG.PARAMETRY_SESTAVY?p_sestuid=21737&p_strid=ACFA&p_lang=CS"
 )
 
-object ExchangeRates: DataSource (
+object ExchangeRates : DataSource(
         "kurzy koruny",
         cnb,
         "https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.xml"

@@ -2,6 +2,6 @@ package com.estn.economy
 
 import org.springframework.test.context.junit.jupiter.DisabledIf
 
-@DisabledIf(expression = "#{systemProperties['CI'] == true}")
+@DisabledIf(expression = "#{systemProperties['CI']}")
 @Retention(AnnotationRetention.RUNTIME)
 annotation class DisabledInCI

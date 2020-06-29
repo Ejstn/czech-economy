@@ -24,6 +24,7 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
+    kotlin("kapt") version "1.3.72"
     id("org.asciidoctor.jvm.convert") version "3.1.0"
 }
 
@@ -81,7 +82,7 @@ dependencies {
     // tools
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     // config
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
     // frontend
     implementation("org.webjars:echarts:$echarts")
     implementation("org.webjars:momentjs:$momentJs")

@@ -7,6 +7,7 @@ import com.estn.economy.core.presentation.model.Routing
 import com.estn.economy.core.presentation.utility.addBreadcrumbs
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -18,7 +19,7 @@ class AboutController(private val fetchDataSources: FetchDataSourcesUseCase) {
     fun getDataSources(model: Model): String {
         model.addBreadcrumbs(Home, About)
 
-        model.addAttribute("dataSources", fetchDataSources.execute())
+        model["dataSources"] = fetchDataSources.execute()
 
         return "pages/about"
     }

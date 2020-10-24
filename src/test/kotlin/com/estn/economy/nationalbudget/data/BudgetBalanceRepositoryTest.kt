@@ -12,10 +12,7 @@ import org.springframework.orm.jpa.JpaSystemException
 
 
 @DatabaseTest
-class BudgetBalanceRepositoryTest {
-
-    @Autowired
-    lateinit var repository: BudgetBalanceRepository
+class BudgetBalanceRepositoryTest @Autowired constructor(val repository: BudgetBalanceRepository) {
 
     @BeforeEach
     fun setUp() {

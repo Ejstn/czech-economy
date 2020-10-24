@@ -19,7 +19,7 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.SR5"
 
 plugins {
-    id("org.springframework.boot") version "2.3.1.RELEASE"
+    id("org.springframework.boot") version "2.3.4.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
@@ -50,7 +50,7 @@ configurations {
 }
 
 val kotlin = "1.3.72"
-val echarts = "4.8.0"
+val echarts = "4.9.0"
 val fontAwesome = "5.12.0"
 val momentJs = "2.24.0"
 val jQuery = "3.5.1"

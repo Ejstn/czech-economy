@@ -11,15 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.DisabledIf
 import org.springframework.test.context.junit.jupiter.EnabledIf
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.getForEntity
 
-@SpringBootTest
-@TestProfile
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisabledIfEnvironmentVariable(named = "CI", matches = "true")
+@DevProfile
 class EconomyApplicationEndpointsIntegrationTest {
 
     @Autowired
@@ -27,7 +30,7 @@ class EconomyApplicationEndpointsIntegrationTest {
 
     lateinit var restTemplate: RestTemplate
 
-    @Value(value = "\${server.port}")
+    @LocalServerPort
     var serverPort : Int = 0
 
     val host = "http://localhost"
@@ -41,22 +44,21 @@ class EconomyApplicationEndpointsIntegrationTest {
     }
 
     @Test
-    fun fullSpringContextLoads() {
-    }
-
-    @Test
     fun `endpoints return 200`() {
         // given
         // when
         // then
         Routing.collectAll()
                 .forEach {
+                    println(it)
                     `test endpoint returns 200`(it)
                 }
     }
 
     private fun `test endpoint returns 200`(endpoint: String) {
-        val entity = restTemplate.getForEntity("$baseUrl$endpoint", String::class.java)
+        val url = "$baseUrl$endpoint"
+        println("testing: $url what the fuck")
+        val entity = restTemplate.getForEntity<String>(url)
         assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
     }
 

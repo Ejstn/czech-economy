@@ -19,11 +19,12 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.SR5"
 
 plugins {
-    id("org.springframework.boot") version "2.3.1.RELEASE"
+    id("org.springframework.boot") version "2.3.4.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
+    kotlin("kapt") version "1.3.72"
     id("org.asciidoctor.jvm.convert") version "3.1.0"
 }
 
@@ -48,6 +49,12 @@ configurations {
     }
 }
 
+val kotlin = "1.3.72"
+val echarts = "4.9.0"
+val fontAwesome = "5.12.0"
+val momentJs = "2.24.0"
+val jQuery = "3.5.1"
+
 dependencies {
     // starters
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -67,20 +74,20 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
     // kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.72")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin")
     // database
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("mysql:mysql-connector-java")
     // tools
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     // config
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
     // frontend
-    implementation("org.webjars:echarts:4.8.0")
-    implementation("org.webjars:momentjs:2.24.0")
-    runtimeOnly("org.webjars:font-awesome:5.12.0")
-    runtimeOnly("org.webjars:jquery:3.5.1")
+    implementation("org.webjars:echarts:$echarts")
+    implementation("org.webjars:momentjs:$momentJs")
+    runtimeOnly("org.webjars:font-awesome:$fontAwesome")
+    runtimeOnly("org.webjars:jquery:$jQuery")
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -90,7 +97,7 @@ dependencies {
 
 configure<com.google.cloud.tools.gradle.appengine.appyaml.AppEngineAppYamlExtension> {
     val version = project.version.toString()
-            .replace('.','-')
+            .replace('.', '-')
     deploy {
         projectId = "GCLOUD_CONFIG"
         setVersion(version)
@@ -103,7 +110,7 @@ tasks {
         sourceDir(file("./src/main/asciidoc"))
         attributes(mutableMapOf("snippets" to File("${project.buildDir.path}/snippets")))
         setOutputDir(file("${project.buildDir.path}/resources/main/static/api/dokumentace"))
-        mustRunAfter ("test")
+        mustRunAfter("test")
     }
 }
 
@@ -126,10 +133,10 @@ tasks.withType<KotlinCompile> {
 
 tasks.findByName("test")?.finalizedBy("asciidoctor")
 
-fun getGitHash() : String {
+fun getGitHash(): String {
     val stdout = ByteArrayOutputStream()
     exec {
-        commandLine ("git", "rev-parse", "--short", "HEAD")
+        commandLine("git", "rev-parse", "--short", "HEAD")
         standardOutput = stdout
     }
     return stdout.toString().trim()

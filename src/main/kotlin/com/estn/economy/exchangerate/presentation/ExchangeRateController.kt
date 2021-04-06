@@ -45,8 +45,8 @@ class ExchangeRateController(private val fetchExchange: FetchExchangeRateUseCase
         model.addAttribute("currencyAmount", ratesList.first().amount)
 
         model.addAttribute("current", ratesList.last())
-        model.addAttribute("lowest", ratesList.minByOrNull { it.exchangeRate })
-        model.addAttribute("highest", ratesList.maxByOrNull { it.exchangeRate })
+        model.addAttribute("lowest", ratesList.minBy { it.exchangeRate })
+        model.addAttribute("highest", ratesList.maxBy { it.exchangeRate })
 
         model.addAttribute("monthAgo", ratesList.first { it.date.isAfter(LocalDate.now().minusMonths(1)) })
         model.addAttribute("halfYearAgo", ratesList.first { it.date.isAfter(LocalDate.now().minusMonths(6)) })

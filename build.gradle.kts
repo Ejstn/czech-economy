@@ -19,12 +19,12 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.SR5"
 
 plugins {
-    id("org.springframework.boot") version "2.4.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.4.31"
-    kotlin("plugin.spring") version "1.4.31"
-    kotlin("plugin.jpa") version "1.4.31"
-    kotlin("kapt") version "1.4.31"
+    id("org.springframework.boot") version "2.3.4.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    kotlin("jvm") version "1.3.72"
+    kotlin("plugin.spring") version "1.3.72"
+    kotlin("plugin.jpa") version "1.3.72"
+    kotlin("kapt") version "1.3.72"
     id("org.asciidoctor.jvm.convert") version "3.1.0"
 }
 
@@ -49,11 +49,11 @@ configurations {
     }
 }
 
-val kotlin = "1.4.31"
-val echarts = "5.0.2"
+val kotlin = "1.3.72"
+val echarts = "4.9.0"
 val fontAwesome = "5.12.0"
-val momentJs = "2.29.1"
-val jQuery = "3.6.0"
+val momentJs = "2.24.0"
+val jQuery = "3.5.1"
 
 dependencies {
     // starters
@@ -120,15 +120,15 @@ dependencyManagement {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 tasks.findByName("test")?.finalizedBy("asciidoctor")

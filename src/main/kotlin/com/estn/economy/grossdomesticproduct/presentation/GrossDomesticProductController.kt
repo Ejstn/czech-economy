@@ -38,10 +38,10 @@ class GrossDomesticProductController(private val fetchGdpUseCase: FetchGrossDome
         val current = gdpChanges.last()
         val currentTriple = getTriple("Aktuální HDP", current)
 
-        val lowest = gdpChanges.minByOrNull { it.value } ?: throw IllegalStateException("lowest cannot be null but it is !")
+        val lowest = gdpChanges.minBy { it.value } ?: throw IllegalStateException("lowest cannot be null but it is !")
         val lowestTriple = getTriple("Největší propad HDP", lowest)
 
-        val highest = gdpChanges.maxByOrNull { it.value } ?: throw IllegalStateException("highest cannot be null but it is!")
+        val highest = gdpChanges.maxBy { it.value } ?: throw IllegalStateException("highest cannot be null but it is!")
         val highestTriple = getTriple("Nejvyšší růst HDP", highest)
 
         model.addAttribute("overviewItems", listOf(currentTriple, lowestTriple, highestTriple))

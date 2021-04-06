@@ -1,5 +1,6 @@
 package com.estn.economy.salary.presentation
 
+import com.estn.economy.core.presentation.formatting.MonthAndYear
 import com.estn.economy.core.presentation.formatting.QuarterAndYear
 import com.estn.economy.core.presentation.formatting.QuarterAndYearConverter
 import com.estn.economy.core.presentation.formatting.czechCrowns
@@ -43,8 +44,8 @@ class SalaryController(private val fetchSalary: FetchSalaryUseCase,
     private fun overview(input: List<SalaryEntity>): List<Triple<*, *, *>> {
         return listOf(
                 triple("Aktuální", input.last()),
-                triple("Nejnižší", input.minByOrNull { it.salaryCrowns }!!),
-                triple("Nejvyšší", input.maxByOrNull { it.salaryCrowns }!!)
+                triple("Nejnižší", input.minBy { it.salaryCrowns }!!),
+                triple("Nejvyšší", input.maxBy { it.salaryCrowns }!!)
         )
     }
 

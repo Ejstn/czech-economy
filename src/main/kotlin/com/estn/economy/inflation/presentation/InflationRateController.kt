@@ -2,7 +2,6 @@ package com.estn.economy.inflation.presentation
 
 import com.estn.economy.core.presentation.formatting.MonthAndYear
 import com.estn.economy.core.presentation.formatting.MonthAndYearConverter
-import com.estn.economy.core.presentation.formatting.Percentage
 import com.estn.economy.core.presentation.formatting.percentage
 import com.estn.economy.core.presentation.model.Home
 import com.estn.economy.core.presentation.model.Inflation
@@ -52,8 +51,8 @@ class InflationRateController(private val fetchInflation: FetchInflationRateUseC
     private fun overview(input: List<InflationRateEntity>): List<Triple<*, *, *>> {
         return listOf(
                 triple("Aktuální", input.last()),
-                triple("Nejnižší", input.minBy { it.valuePercent }!!),
-                triple("Nejvyšší", input.maxBy { it.valuePercent }!!)
+                triple("Nejnižší", input.minByOrNull { it.valuePercent }!!),
+                triple("Nejvyšší", input.maxByOrNull { it.valuePercent }!!)
         )
     }
 

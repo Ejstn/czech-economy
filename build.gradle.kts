@@ -50,10 +50,10 @@ configurations {
 }
 
 val kotlin = "1.4.31"
-val echarts = "4.9.0"
+val echarts = "5.0.2"
 val fontAwesome = "5.12.0"
-val momentJs = "2.24.0"
-val jQuery = "3.5.1"
+val momentJs = "2.29.1"
+val jQuery = "3.6.0"
 
 dependencies {
     // starters

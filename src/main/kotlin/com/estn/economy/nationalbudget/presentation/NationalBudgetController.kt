@@ -24,14 +24,14 @@ class NationalBudgetController(private val fetchBudget: FetchNationalBudgetUseCa
         val publicDebt = fetchBudget.fetchPublicDebt().mapToPairs()
         model.addAttribute("publicDebtGraph", publicDebt)
         model.addAttribute("currentDebt", publicDebt.last())
-        model.addAttribute("highestDebt", publicDebt.maxBy { it.second as Comparable<Any> })
-        model.addAttribute("lowestDebt", publicDebt.minBy { it.second as Comparable<Any> })
+        model.addAttribute("highestDebt", publicDebt.maxByOrNull { it.second as Comparable<Any> })
+        model.addAttribute("lowestDebt", publicDebt.minByOrNull { it.second as Comparable<Any> })
 
         val budgetBalance = fetchBudget.fetchBudgetBalance().mapToPairs()
         model.addAttribute("budgetBalanceGraph", budgetBalance)
         model.addAttribute("currentBalance", budgetBalance.last())
-        model.addAttribute("highestBalance", budgetBalance.maxBy { it.second as Comparable<Any> })
-        model.addAttribute("lowestBalance", budgetBalance.minBy { it.second as Comparable<Any> })
+        model.addAttribute("highestBalance", budgetBalance.maxByOrNull { it.second as Comparable<Any> })
+        model.addAttribute("lowestBalance", budgetBalance.minByOrNull { it.second as Comparable<Any> })
 
         return template
     }

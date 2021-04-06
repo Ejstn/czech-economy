@@ -43,8 +43,8 @@ class UnemploymentController(private val fetchUnemp: FetchUnemploymentRateUseCas
     private fun overview(input: List<UnemploymentRateEntity>): List<Triple<*, *, *>> {
         return listOf(
                 triple("Aktuální", input.last()),
-                triple("Nejnižší", input.minBy { it.unemploymentRatePercent }!!),
-                triple("Nejvyšší", input.maxBy { it.unemploymentRatePercent }!!)
+                triple("Nejnižší", input.minByOrNull { it.unemploymentRatePercent }!!),
+                triple("Nejvyšší", input.maxByOrNull { it.unemploymentRatePercent }!!)
         )
     }
 
